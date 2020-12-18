@@ -8,15 +8,15 @@ import jwt from "jsonwebtoken";
 
 const prisma = new PrismaClient();
 
-export const fetchBooks = async () => {
-  return await prisma.book.findMany({
+export const fetchBooks = () => {
+  return prisma.book.findMany({
     include: { UserBookRate: true, BookTag: true },
     orderBy: { id: "asc" }
   });
 };
 
-export const fetchBook = async (slug: string) => {
-  return await prisma.book.findFirst({
+export const fetchBook = (slug: string) => {
+  return prisma.book.findFirst({
     where: {
       slug
     },
@@ -24,16 +24,16 @@ export const fetchBook = async (slug: string) => {
   });
 };
 
-export const fetchBooksBySeries = async (series: string) => {
-  return await prisma.book.findMany({
+export const fetchBooksBySeries = (series: string) => {
+  return prisma.book.findMany({
     where: {
       series
     },
     include: { UserBookRate: true, BookTag: true }
   });
 };
-export const fetchBooksByQuery = async (query: string) => {
-  return await prisma.book.findMany({
+export const fetchBooksByQuery = (query: string) => {
+  return prisma.book.findMany({
     where: {
       OR: [
         {
@@ -60,14 +60,14 @@ export const fetchBooksByQuery = async (query: string) => {
   });
 };
 
-export const fetchBooksByFilters = async (filters: object) => {
-  return await prisma.book.findMany({
+export const fetchBooksByFilters = (filters: object) => {
+  return prisma.book.findMany({
     where: { ...filters },
     include: { UserBookRate: true, BookTag: true }
   });
 };
 
-export const advancedFetchBooks = async (query: {
+export const advancedFetchBooks = (query: {
   name?: string;
   author?: string;
   tags: string[];
@@ -76,7 +76,7 @@ export const advancedFetchBooks = async (query: {
     Object.entries(query).filter(item => item[1] && item[0] != "tags")
   );
   if (query.tags) {
-    return await prisma.book.findMany({
+    return prisma.book.findMany({
       where: {
         AND: [
           { BookTag: { some: { tagName: { in: query.tags } } } },
@@ -86,18 +86,18 @@ export const advancedFetchBooks = async (query: {
       include: { UserBookRate: true, BookTag: true }
     });
   }
-  return await prisma.book.findMany({
+  return prisma.book.findMany({
     where: { ...filters },
     include: { UserBookRate: true, BookTag: true }
   });
 };
 
-export const updateBookRates = async (
+export const updateBookRates = (
   userId: number,
   bookId: number,
   rate: number
 ) => {
-  await prisma.userBookRate.create({
+  return prisma.userBookRate.create({
     data: {
       rate,
       Book: { connect: { id: bookId } },
@@ -124,11 +124,11 @@ export const insertBook = async (data: Request, res: Response) => {
         )
     );
 
-    if (await fetchBook(slug)) {
+    if (fetchBook(slug)) {
       return res.status(400).json({ message: "Książka już istnieje." });
     }
 
-    await cloudinary.v2.uploader.upload(
+    cloudinary.v2.uploader.upload(
       files.file.path,
       {
         folder: "book_searcher",
@@ -171,7 +171,7 @@ export const insertBook = async (data: Request, res: Response) => {
           });
         }
 
-        res.status(200).send(book);
+        res.status(200).json(book);
       }
     );
   });

@@ -8,7 +8,7 @@ export const validateToken = (
 ) => {
   const cookie = req.headers.cookie;
   if (!cookie) {
-    return res.status(401).send({ message: "Brak dostępu. Zaloguj się!" });
+    return res.status(401).json({ message: "Brak dostępu. Zaloguj się!" });
   }
 
   const token = cookie.slice(cookie.indexOf("=") + 1);
