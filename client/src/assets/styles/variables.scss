@@ -1,0 +1,10 @@
+$main-color: #2524e9;
+$inactive-color: #9c9bf0;
+$shadow-color: #bebebe;
+$warning-color: #e5383b;
+$second-color: #f59b66;
+@mixin flex($jus: center, $ali: center) {
+  display: flex;
+  justify-content: $jus;
+  align-items: $ali;
+}
