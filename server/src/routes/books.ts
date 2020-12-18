@@ -1,6 +1,14 @@
 import express from "express";
 import { catchAsync } from "../middlewares/errors";
-import booksController from "../controllers/booksController";
+import {
+  searchBooks,
+  getBooks,
+  getBook,
+  searchBySeries,
+  advancedSearch,
+  createBook,
+  rateBook
+} from "../controllers/booksController";
 import { validateToken } from "../middlewares/validateToken";
 import {
   validateUser,
@@ -10,18 +18,18 @@ import {
 
 const router = express.Router();
 
-router.get("/search", catchAsync(booksController.searchBooks));
-router.get("/", catchAsync(booksController.getBooks));
-router.get("/book/:slug", catchAsync(booksController.getBook));
-router.get("/:series", catchAsync(booksController.searchBySeries));
-router.post("/advancedSearch", catchAsync(booksController.advancedSearch));
-router.post("/", validateToken, catchAsync(booksController.createBook));
+router.get("/search", catchAsync(searchBooks));
+router.get("/", catchAsync(getBooks));
+router.get("/book/:slug", catchAsync(getBook));
+router.get("/:series", catchAsync(searchBySeries));
+router.post("/advancedSearch", catchAsync(advancedSearch));
+router.post("/", validateToken, catchAsync(createBook));
 router.put(
   "/rate",
   validateToken,
   catchAsync(validateUser),
   catchAsync(validateRates),
-  catchAsync(booksController.rateBook)
+  catchAsync(rateBook)
 );
 
 router.put(
