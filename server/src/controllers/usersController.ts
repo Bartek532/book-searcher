@@ -8,7 +8,9 @@ import {
   findUserByToken,
   activateUser,
   createUser,
-  addUserToken
+  addUserToken,
+  getUserBooks,
+  deleteBookFromUserLibrary
 } from "../services/users";
 import { sendMail } from "../middlewares/sendEmail";
 
@@ -107,4 +109,14 @@ export const activateAccount = async (req: Request, res: Response) => {
 
 export const logout = (req: Request, res: Response) => {
   res.status(200).clearCookie("token").json({ message: "Wylogowano!" });
+};
+
+export const getUserLibrary = async (req: Request, res: Response) => {
+  res.status(200).json(await getUserBooks(req.user!.id));
+};
+
+export const deleteFromUserLibrary = async (req: Request, res: Response) => {
+  res
+    .status(200)
+    .json(await deleteBookFromUserLibrary(req.user!.id, req.body.id));
 };

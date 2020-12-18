@@ -1,6 +1,7 @@
 <template>
   <div>
-    <SearchInput />
+    <SearchInput v-if="!library" />
+    <div class="page-title" v-else><span>Moje książki</span></div>
     <div
       class="books"
       v-if="!$store.state.loading && $store.state.results.length"
@@ -215,12 +216,13 @@
 </template>
 
 <script>
-import gsap, { Power4, Power2, Power3 } from "gsap";
+import emptyResultsAnimation from "../animations/emptyResultsAnimation";
 import SearchInput from "../components/inputs/SearchInput.vue";
 import Result from "../components/Result.vue";
 import Loader from "../components/Loader.vue";
-import { onUpdated } from "vue";
+import { onUpdated, computed } from "vue";
 import { useStore } from "vuex";
+import { useRoute } from "vue-router";
 export default {
   components: {
     SearchInput,
@@ -229,78 +231,17 @@ export default {
   },
   setup() {
     const store = useStore();
+    const route = useRoute();
+
     onUpdated(() => {
       if (!store.state.results.length) {
-        const tl = gsap.timeline();
-
-        tl.from("#sun", {
-          duration: 0.3,
-          scale: 0,
-          transformOrigin: "center center"
-        })
-          .addLabel("start")
-          .from(
-            "#holes path",
-            {
-              duration: 0.4,
-              scale: 0,
-              transformOrigin: "center center",
-              stagger: 0.15,
-              ease: Power4.easeOut
-            },
-            "start"
-          )
-          .from(
-            "#leafs g",
-            {
-              duration: 0.4,
-              opacity: 0,
-              y: -250,
-              stagger: 0.15,
-              ease: Power4.easeOut
-            },
-            "start"
-          )
-          .from(
-            "#trees g",
-            {
-              duration: 0.4,
-              scaleY: 0,
-              transformOrigin: "50% 100%",
-              ease: Power2.easeInOut,
-              stagger: 0.1
-            },
-            "start"
-          )
-          .from("#people g", {
-            duration: 0.5,
-            opacity: 0,
-            x: 50,
-            stagger: 0.15
-          })
-          .fromTo(
-            "#hats path",
-            {
-              duration: 0.1,
-              opacity: 0,
-              rotate: "-45deg",
-              x: -30
-            },
-            {
-              rotate: 0,
-              opacity: 1,
-              x: 0,
-              ease: Power3.easeOut
-            }
-          )
-          .from(".label", {
-            opacity: 0,
-            duration: 0.4,
-            y: -100,
-            ease: Power3.easeIn
-          });
+        emptyResultsAnimation();
       }
     });
+
+    const library = computed(() => route.path === "/dashboard/library");
+
+    return { library };
   }
 };
 </script>
@@ -318,6 +259,22 @@ export default {
   padding: 20px 20px 70px 20px;
   @include flex;
   flex-wrap: wrap;
+}
+
+.page-title {
+  text-align: center;
+  transform: translateY(50px);
+
+  span {
+    font-size: 2.1rem;
+    text-transform: uppercase;
+    padding-bottom: 2px;
+    border-bottom: 4px solid $main-color;
+
+    @media all and (min-width: 1000px) {
+      font-size: 2.5rem;
+    }
+  }
 }
 
 .result__not-found {

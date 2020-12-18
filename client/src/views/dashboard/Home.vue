@@ -22,7 +22,7 @@
         <div class="option__label">Dodaj książkę</div>
       </button>
       <button
-        @click="$router.push({ path: '/dashboard/add-book' })"
+        @click="$router.push({ path: '/dashboard/library' })"
         class="option"
       >
         <div class="option__icon">
@@ -46,7 +46,7 @@
         <div class="option__label">Moje książki</div>
       </button>
       <button
-        @click="$router.push({ path: '/dashboard/add-book' })"
+        @click="$router.push({ path: '/dashboard/delete-book' })"
         class="option"
       >
         <div class="option__icon">
@@ -66,7 +66,7 @@
         <div class="option__label">Usuń książkę</div>
       </button>
       <button
-        @click="$router.push({ path: '/dashboard/add-book' })"
+        @click="$router.push({ path: '/dashboard/account' })"
         class="option"
       >
         <div class="option__icon">

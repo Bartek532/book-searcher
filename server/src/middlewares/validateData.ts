@@ -60,7 +60,7 @@ export const validateLibrary = async (
     }
   });
 
-  res.status(200).json({ message: "Dodano do biblioteki." });
+  res.status(200).json({ message: "Dodano książkę do biblioteki." });
 };
 
 export const validateFilters = ({ query }: Request) => {

@@ -41,3 +41,26 @@ export const addUserToken = (userId: number, token: string) => {
     }
   });
 };
+
+export const getUserBooks = async (id: number) => {
+  const user = await prisma.user.findUnique({
+    where: { id },
+    include: { UserBookLibrary: true }
+  });
+
+  const books = user!.UserBookLibrary.map(item => item.bookId);
+
+  return await prisma.book.findMany({
+    where: { id: { in: books } },
+    include: { UserBookRate: true, BookTag: true }
+  });
+};
+
+export const deleteBookFromUserLibrary = async (
+  userId: number,
+  bookId: number
+) => {
+  return await prisma.userBookLibrary.delete({
+    where: { bookId_userId: { bookId, userId } }
+  });
+};

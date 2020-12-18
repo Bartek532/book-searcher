@@ -145,6 +145,18 @@ const store = createStore({
         commit(types.SET_ERRORS, err.response.data.message);
         commit(types.SET_LOGIN_STATUS, false);
       }
+    },
+    async getUserBooks({ commit }) {
+      commit(types.SET_LOADING_STATUS, true);
+      try {
+        const { data } = await axios.get("/api/users/library");
+        commit(types.UPDATE_RESULTS, data);
+        commit(types.SET_ERRORS, "");
+      } catch (err) {
+        commit(types.SET_ERRORS, err.response.data.message);
+      } finally {
+        commit(types.SET_LOADING_STATUS, false);
+      }
     }
   }
 });

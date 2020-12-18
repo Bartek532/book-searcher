@@ -13,7 +13,7 @@
             'result__bookmark',
             { 'result__bookmark--active': activeBookmark }
           ]"
-          @click="addBookToLibrary"
+          @click="manageUserLibrary"
         >
           <path
             d="M7.74275 11.5713L3.5 14.1169V3C3.5 2.60218 3.65804 2.22064 3.93934 1.93934C4.22064 1.65804 4.60218 1.5 5 1.5H11C11.3978 1.5 11.7794 1.65804 12.0607 1.93934C12.342 2.22064 12.5 2.60218 12.5 3V14.1169L8.25725 11.5713L8 11.4169L7.74275 11.5713Z"
@@ -166,7 +166,7 @@ import RateModal from "../components/modals/RateModal.vue";
 import LoadingModal from "../components/modals/LoadingModal.vue";
 import Modal from "../components/modals/MainModal.vue";
 import { useStore } from "vuex";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import { ref, defineComponent, onMounted, reactive } from "vue";
 import { polishTranslate } from "../data";
 export default defineComponent({
@@ -201,6 +201,7 @@ export default defineComponent({
     let data = reactive({} as Book);
 
     const router = useRouter();
+    const route = useRoute();
 
     const store = useStore();
     const rateModal = ref(false);
@@ -241,19 +242,28 @@ export default defineComponent({
     }
 
     //Bookmark book
-    const activeBookmark = ref(false);
-    async function addBookToLibrary() {
+    const activeBookmark = ref(route.path.startsWith("/dashboard/library"));
+    async function manageUserLibrary() {
+      const requestData = {
+        url: "/api/books/bookmark",
+        message: "Dodano książkę do biblioteki."
+      };
+      if (activeBookmark.value) {
+        requestData.url = "/api/users/deleteFromLibrary";
+        requestData.message = "Usunięto książkę z biblioteki.";
+      }
+
       loading.value = true;
       try {
-        await axios.put("/api/books/bookmark", {
+        await axios.put(requestData.url, {
           id: data.id
         });
         store.dispatch("setModal", {
           show: true,
           error: false,
-          message: "Dodano książkę do biblioteki."
+          message: requestData.message
         });
-        activeBookmark.value = true;
+        activeBookmark.value = requestData.message.startsWith("Dodano") && true;
       } catch (err) {
         store.dispatch("setModal", {
           show: true,
@@ -291,7 +301,7 @@ export default defineComponent({
       capitalize,
       rateModal,
       rateBook,
-      addBookToLibrary,
+      manageUserLibrary,
       activeBookmark,
       searchByTag,
       searchBySeries,
@@ -423,6 +433,7 @@ export default defineComponent({
         font-size: 0.8rem;
         color: #000;
         letter-spacing: 0.7px;
+        transform: translateY(-2px);
       }
     }
   }

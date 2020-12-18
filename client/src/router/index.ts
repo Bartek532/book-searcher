@@ -66,7 +66,9 @@ const routes: Array<RouteRecordRaw> = [
     component: Dashboard,
     children: [
       { path: "start", component: dashboardHome },
-      { path: "add-book", component: createBook }
+      { path: "add-book", component: createBook },
+      { path: "library", component: Results },
+      { path: "library/:slug", component: Result, props: true }
     ]
   },
   {
