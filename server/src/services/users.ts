@@ -56,11 +56,27 @@ export const getUserBooks = async (id: number) => {
   });
 };
 
-export const deleteBookFromUserLibrary = async (
-  userId: number,
-  bookId: number
-) => {
-  return await prisma.userBookLibrary.delete({
+export const deleteBookFromUserLibrary = (userId: number, bookId: number) => {
+  return prisma.userBookLibrary.delete({
     where: { bookId_userId: { bookId, userId } }
+  });
+};
+
+export const updateUserInfo = (
+  id: number,
+  name: string,
+  email: string,
+  password?: string
+) => {
+  if (password) {
+    return prisma.user.update({
+      where: { id },
+      data: { name, password, email }
+    });
+  }
+
+  return prisma.user.update({
+    where: { id },
+    data: { name, email }
   });
 };

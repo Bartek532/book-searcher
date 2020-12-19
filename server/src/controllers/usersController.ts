@@ -1,5 +1,10 @@
 import e, { Request, Response } from "express";
-import { validateLogin, validateRegister } from "../validation";
+import {
+  validateLogin,
+  validateRegister,
+  modifyUserWithPassword,
+  modifyUserWithoutPassword
+} from "../validation";
 import bcrypt from "bcrypt";
 import crypto from "crypto";
 import jwt from "jsonwebtoken";
@@ -9,6 +14,7 @@ import {
   activateUser,
   createUser,
   addUserToken,
+  updateUserInfo,
   getUserBooks,
   deleteBookFromUserLibrary
 } from "../services/users";
@@ -91,7 +97,55 @@ export const register = async (req: Request, res: Response) => {
 
 export const getUser = async (req: Request, res: Response) => {
   res.status(200).json(await findUserByEmail(req.user!.email));
-}
+};
+
+export const modifyUserData = async (req: Request, res: Response) => {
+  if (!req.body.newPassword || !req.body.oldPassword) {
+    const { error } = modifyUserWithoutPassword(req.body);
+    if (error) {
+      return res.status(400).json({ message: error.details[0].message });
+    }
+
+    return res
+      .status(200)
+      .json(await updateUserInfo(req.user!.id, req.body.name, req.body.email));
+  }
+
+  const { error } = modifyUserWithPassword(req.body);
+  if (error) {
+    return res.status(400).json({ message: error.details[0].message });
+  }
+
+  const user = await findUserByEmail(req.user!.email);
+
+  if (!passwordRegex.test(req.body.newPassword)) {
+    return res.status(400).json({
+      message: "Hasło nie spełnia wymagań."
+    });
+  }
+
+  const validPassword = await bcrypt.compare(
+    req.body.oldPassword,
+    user!.password
+  );
+  if (!validPassword) {
+    return res.status(401).json({ message: "Błędne hasło." });
+  }
+
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(req.body.newPassword, salt);
+
+  res
+    .status(200)
+    .json(
+      await updateUserInfo(
+        req.user!.id,
+        req.body.name,
+        req.body.email,
+        hashedPassword
+      )
+    );
+};
 
 export const activateAccount = async (req: Request, res: Response) => {
   const user = await findUserByToken(req.body.token);

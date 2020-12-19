@@ -6,12 +6,11 @@
           'input__label--active': inputFocused || modelValue.length > 0
         }"
         :style="{ color: inputColor }"
-        >Hasło</span
+        >{{ placeholder }}</span
       >
       <input
         type="password"
         name="password"
-        id="password__input"
         @focus="inputFocused = true"
         @blur="inputFocused = false"
         class="password__input"
@@ -32,6 +31,10 @@ export default defineComponent({
     modelValue: {
       type: String,
       required: true
+    },
+    placeholder: {
+      type: String,
+      default: "Hasło"
     }
   },
   setup(prp, ctx) {

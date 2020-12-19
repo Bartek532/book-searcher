@@ -20,6 +20,28 @@ export const validateRegister = (data: Request) => {
   return schema.validate(data);
 };
 
+export const modifyUserWithoutPassword = (data: Request) => {
+  const schema = Joi.object({
+    name: Joi.string().min(3).required(),
+    email: Joi.string().min(6).required().email(),
+    newPassword: Joi.string().min(8),
+    oldPassword: Joi.string().min(8)
+  });
+
+  return schema.validate(data);
+};
+
+export const modifyUserWithPassword = (data: Request) => {
+  const schema = Joi.object({
+    name: Joi.string().min(3).required(),
+    email: Joi.string().min(6).required().email(),
+    oldPassword: Joi.string().min(8).required(),
+    newPassword: Joi.string().min(8).required()
+  });
+
+  return schema.validate(data);
+};
+
 export const validateBook = (data: object) => {
   const schema = Joi.object({
     room: Joi.string().min(6).required(),

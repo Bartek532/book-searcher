@@ -4,6 +4,7 @@ import {
   register,
   activateAccount,
   getUser,
+  modifyUserData,
   logout,
   getUserLibrary,
   deleteFromUserLibrary
@@ -17,7 +18,20 @@ const router = express.Router();
 router.post("/login", catchAsync(login));
 router.post("/register", catchAsync(register));
 router.post("/activate", catchAsync(activateAccount));
-router.get('/user/info', validateToken, catchAsync(validateUser), catchAsync(getUser));
+router.get(
+  "/user/info",
+  validateToken,
+  catchAsync(validateUser),
+  catchAsync(getUser)
+);
+
+router.post(
+  "/user/modify",
+  validateToken,
+  validateUser,
+  catchAsync(modifyUserData)
+);
+
 router.get("/logout", logout);
 router.get("/islogin", validateToken);
 
