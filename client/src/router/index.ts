@@ -22,6 +22,7 @@ import Activate from "../views/auth/Activate.vue";
 import Dashboard from "../views/dashboard/Dashboard.vue";
 import dashboardHome from "../views/dashboard/Home.vue";
 import createBook from "../views/dashboard/CreateBook.vue";
+import User from "../views/dashboard/User.vue";
 
 //404 page
 import notFound from "../views/NotFound.vue";
@@ -68,7 +69,8 @@ const routes: Array<RouteRecordRaw> = [
       { path: "start", component: dashboardHome },
       { path: "add-book", component: createBook },
       { path: "library", component: Results },
-      { path: "library/:slug", component: Result, props: true }
+      { path: "library/:slug", component: Result, props: true },
+      { path: "account", component: User }
     ]
   },
   {

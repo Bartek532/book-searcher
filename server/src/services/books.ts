@@ -124,7 +124,7 @@ export const insertBook = async (data: Request, res: Response) => {
         )
     );
 
-    if (fetchBook(slug)) {
+    if (await fetchBook(slug)) {
       return res.status(400).json({ message: "Książka już istnieje." });
     }
 

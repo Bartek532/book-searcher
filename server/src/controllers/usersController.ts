@@ -89,6 +89,10 @@ export const register = async (req: Request, res: Response) => {
   }
 };
 
+export const getUser = async (req: Request, res: Response) => {
+  res.status(200).json(await findUserByEmail(req.user!.email));
+}
+
 export const activateAccount = async (req: Request, res: Response) => {
   const user = await findUserByToken(req.body.token);
 
