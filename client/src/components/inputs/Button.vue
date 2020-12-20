@@ -24,17 +24,29 @@ button {
   font-weight: 600;
   letter-spacing: 1.2px;
   border-radius: 30px;
-  box-shadow: 0 4px 7px 0 rgba($main-color, 0.65);
   margin-top: 30px;
   transition: 0.3s;
   font-size: 1rem;
   cursor: pointer;
+  position: relative;
+
+  &::after {
+    @include pseudo;
+    border-radius: 30px;
+    box-shadow: 0 4px 7px 0 rgba($main-color, 0.65);
+    opacity: 1;
+    transition: opacity 0.3s;
+  }
 
   &:focus,
   &:hover {
-    box-shadow: none;
     transform: translateY(3px);
-    transition: 0.3s;
+    transition: transform 0.3s;
+
+    &::after {
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
   }
 }
 

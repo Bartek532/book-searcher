@@ -69,8 +69,7 @@ export default defineComponent({
   flex: 1 1 150px;
   @include flex(center, flex-start);
   flex-flow: column wrap;
-  box-shadow: rgba(0, 0, 0, 0.08) 0px 0px 2px 1px,
-    rgba(0, 0, 0, 0.11) 0px 4px 8px 0px;
+  box-shadow: $box-shadow;
   border-radius: 10px;
   margin: 7px;
   cursor: pointer;

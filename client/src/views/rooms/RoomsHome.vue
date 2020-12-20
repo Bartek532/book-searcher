@@ -40,7 +40,7 @@ export default {
 <style lang="scss" scoped>
 .choose__rooms {
   min-height: 100vh;
-  padding: 70px 0;
+  padding: 80px 0;
   @include flex;
   flex-flow: column wrap;
 
@@ -51,7 +51,6 @@ export default {
   .rooms {
     flex-wrap: wrap;
     @include flex;
-    padding-bottom: 30px;
   }
 }
 

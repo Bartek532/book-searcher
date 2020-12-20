@@ -8,7 +8,7 @@
       @touchend="activateRoute"
     >
       <router-link to="/">
-        <li class="tab__item tab__item--active">
+        <li class="tab__item">
           <svg
             width="34"
             height="34"
@@ -170,7 +170,7 @@ export default defineComponent({
     transition: fill 0.5s ease-in-out;
   }
 
-  .router-link-active svg path {
+  .router-link-exact-active svg path {
     fill: #fff;
   }
 }
@@ -236,6 +236,15 @@ export default defineComponent({
         transform: scaleX(0);
       }
     }
+  }
+
+  .router-link-active .tab__item::after {
+    transform: scaleX(1);
+    transition: transform 0.3s;
+  }
+
+  .router-link-active .tab__item__login::after {
+    transform: scaleX(0);
   }
 }
 </style>

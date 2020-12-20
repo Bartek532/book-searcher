@@ -69,6 +69,7 @@
     font-size: 20px;
     position: relative;
     margin-top: 12px;
+    font-weight: 500;
 
     &:after {
       position: absolute;

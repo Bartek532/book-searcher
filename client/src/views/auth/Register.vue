@@ -175,7 +175,7 @@ export default defineComponent({
   @include flex;
   flex-flow: column wrap;
   background: transparent;
-  padding-top: 40px;
+  padding-top: 60px;
 
   &__label {
     font-size: 3rem;

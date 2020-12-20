@@ -5,7 +5,7 @@
       :class="{ 'search__circle--active': inputFocused }"
     >
       <input
-        type="text"
+        type="search"
         class="search__circle__input"
         placeholder="Szukaj"
         @blur="inputFocused = false"

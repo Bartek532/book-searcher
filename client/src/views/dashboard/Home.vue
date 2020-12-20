@@ -141,18 +141,29 @@ export default {
       border: 0 none;
       padding: 20px 30px;
       border-radius: 10px;
+      position: relative;
       width: 270px;
       margin: 7px;
-      box-shadow: rgba(0, 0, 0, 0.08) 0px 0px 2px 1px,
-        rgba(0, 0, 0, 0.16) 0px 4px 8px 0px;
       transition: 0.3s;
       cursor: pointer;
 
+      &::after {
+        border-radius: 10px;
+        @include pseudo;
+        opacity: 1;
+        transition: opacity 0.3s;
+        box-shadow: $box-shadow;
+      }
+
       &:focus,
       &:hover {
-        box-shadow: none;
-        transition: 0.3s;
+        transition: transform 0.3s;
         transform: translateY(1px);
+
+        &::after {
+          opacity: 0;
+          transition: opacity 0.3s;
+        }
       }
 
       &:nth-child(1) {

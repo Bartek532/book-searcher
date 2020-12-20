@@ -1,10 +1,10 @@
 <template>
-  <div class="field">
+  <article class="field">
     <div class="field__icon">
       <img :src="require(`../assets/svgs/rooms/${label}.svg`)" :alt="label" />
     </div>
     <div class="field__label">{{ polishTranslate[label] }}</div>
-  </div>
+  </article>
 </template>
 
 <script lang="ts">
@@ -40,13 +40,24 @@ export default defineComponent({
   border: 2px solid rgba(0, 0, 0, 0.08);
   cursor: pointer;
   transition: all 0.3s;
+  position: relative;
+
+  &::after {
+    border-radius: 10px;
+    @include pseudo;
+    box-shadow: $box-shadow;
+    opacity: 0;
+  }
 
   &:hover {
-    box-shadow: rgba(0, 0, 0, 0.08) 0px 0px 2px 1px,
-      rgba(0, 0, 0, 0.16) 0px 4px 8px 0px;
     transform: translateY(-25px) rotate(7deg);
     transform-origin: "100% 100%";
     transition: all 0.3s;
+
+    &::after {
+      opacity: 1;
+      transition: opacity 0.3s;
+    }
   }
   &__icon {
     max-width: 150px;

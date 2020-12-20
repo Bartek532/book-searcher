@@ -3,8 +3,21 @@ $inactive-color: #9c9bf0;
 $shadow-color: #bebebe;
 $warning-color: #e5383b;
 $second-color: #f59b66;
+
+$box-shadow: rgba(0, 0, 0, 0.08) 0px 0px 2px 1px,
+  rgba(0, 0, 0, 0.16) 0px 4px 8px 0px;
 @mixin flex($jus: center, $ali: center) {
   display: flex;
   justify-content: $jus;
   align-items: $ali;
+}
+
+@mixin pseudo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  content: "";
+  z-index: -1;
 }

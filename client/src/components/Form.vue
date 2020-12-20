@@ -193,6 +193,7 @@ h3 {
   border-bottom: 2px solid $main-color;
   padding: 0 20px 5px 3px;
   margin-bottom: 10px;
+  font-weight: 600;
 }
 
 span {

@@ -223,4 +223,10 @@ export default {};
     stroke-dashoffset: -200;
   }
 }
+
+@media all and (max-width: 700px) {
+  .main {
+    transform: scale(0.7);
+  }
+}
 </style>

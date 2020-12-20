@@ -7,14 +7,13 @@
 
 <script lang="ts">
 import Navbar from "./components/Navbar.vue";
-import { useRouter, useRoute } from "vue-router";
+import { useRoute } from "vue-router";
 import { ref, watch } from "vue";
 export default {
   components: {
     Navbar
   },
   setup() {
-    const router = useRouter();
     const route = useRoute();
     const showNavbar = ref(true);
 
@@ -76,5 +75,23 @@ body {
 a {
   text-decoration: none;
   color: #000;
+}
+
+input[type="search"]::-ms-clear {
+  display: none;
+  width: 0;
+  height: 0;
+}
+input[type="search"]::-ms-reveal {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration {
+  display: none;
 }
 </style>

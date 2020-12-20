@@ -75,7 +75,7 @@ export const advancedFetchBooks = (query: {
   const filters = Object.fromEntries(
     Object.entries(query).filter(item => item[1] && item[0] != "tags")
   );
-  if (query.tags) {
+  if (query.tags.length) {
     return prisma.book.findMany({
       where: {
         AND: [
