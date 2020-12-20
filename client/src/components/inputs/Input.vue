@@ -136,7 +136,7 @@ export default defineComponent({
   label {
     @include flex(space-between);
     span {
-      font-weight: bold;
+      font-weight: 600;;;
       font-size: 0.87rem;
       text-transform: capitalize;
     }

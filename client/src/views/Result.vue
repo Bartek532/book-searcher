@@ -372,7 +372,7 @@ export default defineComponent({
       }
 
       &__title {
-        font-weight: bold;
+        font-weight: 600;
         font-size: 1rem;
         margin-bottom: 5px;
       }
@@ -386,7 +386,7 @@ export default defineComponent({
         margin-top: 11px;
         background-color: rgba($main-color, 0.3);
         @include flex;
-        font-weight: bold;
+        font-weight: 600;
         font-size: 0.7rem;
         color: $main-color;
         padding: 2px 14px 2px 10px;
@@ -429,7 +429,7 @@ export default defineComponent({
       }
 
       .text {
-        font-weight: bold;
+        font-weight: 600;
         font-size: 0.8rem;
         color: #000;
         letter-spacing: 0.7px;

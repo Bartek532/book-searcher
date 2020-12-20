@@ -290,7 +290,7 @@ export default {
   .label {
     text-align: center;
     transform: translateY(-10px);
-    font-weight: bold;
+    font-weight: 600;
     font-size: 1.3rem;
   }
   img {

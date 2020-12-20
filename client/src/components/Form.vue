@@ -91,10 +91,13 @@ export default defineComponent({
         i => i[0] === roomFromSelect
       );
       selectedRoomPlaces.value = selectedPlace ? selectedPlace[1] : [];
-      book.set('place', selectedRoomPlaces.value[selectedRoomPlaces.value.length-1]);
+      book.set(
+        "place",
+        selectedRoomPlaces.value[selectedRoomPlaces.value.length - 1]
+      );
       book.set("room", roomFromSelect);
 
-      console.log(book.get('place'), book.get('room'));
+      console.log(book.get("place"), book.get("room"));
     }
 
     function setTags(tags: string[]) {
@@ -193,7 +196,7 @@ h3 {
 }
 
 span {
-  font-weight: bold;
+  font-weight: 600;
   text-transform: capitalize;
   font-size: 0.87rem;
 }

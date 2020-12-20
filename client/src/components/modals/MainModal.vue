@@ -81,7 +81,7 @@ export default defineComponent({
   }
 
   &__info {
-    font-weight: bold;
+    font-weight: 600;
     font-size: 1.05rem;
     text-align: center;
     transform: translateY(-10px);
@@ -113,7 +113,7 @@ export default defineComponent({
       margin: 0 5px;
       padding: 8px 15px;
       border-radius: 5px;
-      font-weight: bold;
+      font-weight: 600;
       cursor: pointer;
     }
 

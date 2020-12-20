@@ -21,7 +21,7 @@ button {
   background: linear-gradient(90deg, #5368ea, $main-color);
   border: 0 none;
   color: #fff;
-  font-weight: bold;
+  font-weight: 600;
   letter-spacing: 1.2px;
   border-radius: 30px;
   box-shadow: 0 4px 7px 0 rgba($main-color, 0.65);

@@ -82,7 +82,7 @@ export default defineComponent({
     cursor: pointer;
 
     &__label {
-      font-weight: bold;
+      font-weight: 600;
       font-size: 0.84rem;
       text-transform: capitalize;
     }

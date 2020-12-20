@@ -135,7 +135,7 @@ $nth: nth($list, $imgKey);
       height: 100px;
       border-radius: 50%;
       color: #fff;
-      font-weight: bold;
+      font-weight: 600;
       font-size: 3.3rem;
       background-color: $nth;
       @include flex;
@@ -143,7 +143,7 @@ $nth: nth($list, $imgKey);
     }
 
     &__name {
-      font-weight: bold;
+      font-weight: 600;
       font-size: 1.1rem;
       margin-top: 10px;
     }

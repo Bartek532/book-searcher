@@ -183,7 +183,7 @@ export default defineComponent({
 
     .create-account {
       margin-top: 60px;
-      font-weight: bold;
+      font-weight: 600;
       text-decoration: underline;
       cursor: pointer;
     }

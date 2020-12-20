@@ -177,7 +177,7 @@ export default {
 
       &__label {
         color: #fff;
-        font-weight: bold;
+        font-weight: 600;
         text-transform: uppercase;
         font-size: 1.1rem;
       }

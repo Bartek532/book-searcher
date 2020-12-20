@@ -67,18 +67,9 @@
         </defs>
       </svg>
     </div>
-    <img src="../assets/svgs/logo/logo.svg" alt="logo" class="logo" />
-    <img
-      src="../assets/svgs/logo/logo-name.svg"
-      alt="logo-name"
-      class="logo__name"
-    />
-    <img
-      src="../assets/svgs/logo/logo-subname.svg"
-      alt="logo-subname"
-      class="logo__subname"
-    />
-
+    <img src="../assets/svgs/logo.svg" alt="logo" class="logo" />
+    <div class="logo__name">b<span class="logo__name__blue">oo</span>k</div>
+    <div class="logo__subname">searcher</div>
     <SearchInput @search="$emit('default-search', $event)" />
   </div>
 </template>
@@ -139,11 +130,25 @@ export default {
     top: 0;
     right: 0;
     z-index: 10;
-    margin-top: -7px;
+    margin-top: -8px;
   }
 
   .logo__name {
-    margin: 30px 0 17px 0;
+    font-weight: 700;
+    font-size: 2.9rem;
+    margin-top: 20px;
+    &__blue {
+      color: $main-color;
+      font-weight: 700;
+      font-size: 2.9rem;
+    }
+  }
+
+  .logo__subname {
+    font-size: 1.56rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 8px;
   }
 }
 
@@ -154,6 +159,10 @@ export default {
   .search {
     transform: scale(1.2);
     margin: 6px 0;
+  }
+
+  .logo {
+    margin-bottom: 14px;
   }
 
   .search {

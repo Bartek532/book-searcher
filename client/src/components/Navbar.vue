@@ -206,7 +206,7 @@ export default defineComponent({
       }
       &__label {
         display: block;
-        font-weight: bold;
+        font-weight: 600;
         text-transform: uppercase;
         margin: 0 10px;
       }

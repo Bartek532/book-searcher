@@ -38,16 +38,15 @@ export default defineComponent({
   flex-flow: column wrap;
   background-color: #fff;
   border: 2px solid rgba(0, 0, 0, 0.08);
-
   cursor: pointer;
-  transition: 0.3s;
+  transition: all 0.3s;
 
   &:hover {
     box-shadow: rgba(0, 0, 0, 0.08) 0px 0px 2px 1px,
       rgba(0, 0, 0, 0.16) 0px 4px 8px 0px;
     transform: translateY(-25px) rotate(7deg);
     transform-origin: "100% 100%";
-    transition: 0.3s;
+    transition: all 0.3s;
   }
   &__icon {
     max-width: 150px;
@@ -57,7 +56,7 @@ export default defineComponent({
     }
   }
   &__label {
-    font-weight: bold;
+    font-weight: 500;
     text-transform: capitalize;
     text-align: center;
     font-size: 0.9rem;
