@@ -46,6 +46,7 @@ export default defineComponent({
     border-radius: 10px;
     @include pseudo;
     box-shadow: $box-shadow;
+    transition: opacity 0.3s;
     opacity: 0;
   }
 

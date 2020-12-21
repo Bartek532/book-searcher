@@ -33,11 +33,11 @@
 </template>
 
 <script lang="ts">
-import gsap from "gsap";
 import Button from "../../components/inputs/Button.vue";
 import Input from "../../components/inputs/Input.vue";
 import Password from "../../components/inputs/PasswordInput.vue";
 import Modal from "../../components/modals/MainModal.vue";
+import registerAnimation from "../../animations/registerAnimation";
 import { reactive, ref, onMounted, defineComponent } from "vue";
 import { useStore } from "vuex";
 import LoadingModal from "../../components/modals/LoadingModal.vue";
@@ -98,63 +98,7 @@ export default defineComponent({
     }
 
     onMounted(() => {
-      const tl = gsap.timeline({});
-
-      if (window.innerWidth < 1000) {
-        tl.from(".register__label", {
-          duration: 0.7,
-          opacity: 0
-        })
-          .addLabel("form")
-          .fromTo(
-            ".register__form",
-            {
-              duration: 0.5,
-              opacity: 0,
-              y: 200,
-              ease: "ease-in"
-            },
-            {
-              opacity: 1,
-              y: -90
-            }
-          )
-          .to(
-            ".register__label",
-            {
-              duration: 0.5,
-              y: -105
-            },
-            "form"
-          );
-      } else {
-        tl.fromTo(
-          ".register__label",
-          {
-            duration: 0.5,
-            x: -150,
-            y: -70,
-            opacity: 0
-          },
-          {
-            y: -70,
-            opacity: 1,
-            x: 0
-          }
-        ).fromTo(
-          ".register__form",
-          {
-            duration: 0.5,
-            opacity: 0,
-            y: 100
-          },
-          {
-            opacity: 1,
-            y: -50,
-            ease: "ease-in"
-          }
-        );
-      }
+      registerAnimation();
     });
 
     return {

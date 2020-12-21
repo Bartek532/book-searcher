@@ -32,11 +32,11 @@ import Input from "../../components/inputs/Input.vue";
 import Password from "../../components/inputs/PasswordInput.vue";
 import LoadingModal from "../../components/modals/LoadingModal.vue";
 import Modal from "../../components/modals/MainModal.vue";
+import loginAnimation from "../../animations/loginAnimation";
 import { reactive, onMounted, ref, defineComponent } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 
-import gsap from "gsap";
 export default defineComponent({
   components: {
     Button,
@@ -93,63 +93,7 @@ export default defineComponent({
     isLoggedIn();
 
     onMounted(() => {
-      const tl = gsap.timeline({});
-
-      if (window.innerWidth < 1000) {
-        tl.from(".login__label", {
-          duration: 0.7,
-          opacity: 0
-        })
-          .addLabel("form")
-          .fromTo(
-            ".login__form",
-            {
-              duration: 0.5,
-              opacity: 0,
-              y: 200,
-              ease: "ease-in"
-            },
-            {
-              opacity: 1,
-              y: -80
-            }
-          )
-          .to(
-            ".login__label",
-            {
-              duration: 0.5,
-              y: -100
-            },
-            "form"
-          );
-      } else {
-        tl.fromTo(
-          ".login__label",
-          {
-            duration: 0.5,
-            x: -150,
-            y: -70,
-            opacity: 0
-          },
-          {
-            y: -70,
-            opacity: 1,
-            x: 0
-          }
-        ).fromTo(
-          ".login__form",
-          {
-            duration: 0.5,
-            opacity: 0,
-            y: 100
-          },
-          {
-            opacity: 1,
-            y: -50,
-            ease: "ease-in"
-          }
-        );
-      }
+      loginAnimation();
     });
 
     return { loginData, login, loading };

@@ -75,42 +75,16 @@
 </template>
 
 <script lang="ts">
-import gsap from "gsap";
 import { onMounted } from "vue";
 import SearchInput from "../components/inputs/SearchInput.vue";
+import homeAnimation from "../animations/homeAnimation";
 export default {
   components: {
     SearchInput
   },
   setup() {
     onMounted(() => {
-      const tl = gsap.timeline();
-      tl.from(".up-circle", 0.4, {
-        scale: 0,
-        transformOrigin: "100% 0"
-      })
-        .from(".logo", 0.3, {
-          opacity: 0,
-          y: -50
-        })
-        .addLabel("logo")
-        .from(".logo__name", 0.3, {
-          opacity: 0,
-          x: 50
-        })
-        .from(
-          ".logo__subname",
-          0.3,
-          {
-            opacity: 0,
-            x: -50
-          },
-          "logo"
-        )
-        .from(".search", 0.3, {
-          opacity: 0,
-          y: 50
-        });
+      homeAnimation();
     });
   }
 };
