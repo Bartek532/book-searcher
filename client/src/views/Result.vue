@@ -227,13 +227,13 @@ export default defineComponent({
         });
         store.dispatch("setModal", {
           show: true,
-          error: false,
+          type: "success",
           message: "Dziękujemy za opinię!"
         });
       } catch (err) {
         store.dispatch("setModal", {
           show: true,
-          error: true,
+          type: "error",
           message: err.response.data.message
         });
       } finally {
@@ -260,14 +260,14 @@ export default defineComponent({
         });
         store.dispatch("setModal", {
           show: true,
-          error: false,
+          type: "success",
           message: requestData.message
         });
         activeBookmark.value = requestData.message.startsWith("Dodano") && true;
       } catch (err) {
         store.dispatch("setModal", {
           show: true,
-          error: true,
+          type: "error",
           message: err.response.data.message
         });
       } finally {
@@ -409,7 +409,7 @@ export default defineComponent({
     p {
       padding: 0 10px;
       font-size: 0.95rem;
-      line-height: 1.2rem;
+      line-height: 1.35rem;
     }
   }
 

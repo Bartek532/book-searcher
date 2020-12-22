@@ -1,8 +1,8 @@
 <template>
   <div class="login" @keyup.enter="login">
     <h2 class="login__label">
-      <span>Welcome back,</span><br />
-      Log In!
+      <span>Witaj z powrotem, </span><br />
+      Zaloguj się!
     </h2>
     <form class="login__form" @submit.prevent="login">
       <Input
@@ -77,7 +77,7 @@ export default defineComponent({
         } else {
           store.dispatch("setModal", {
             show: true,
-            error: true,
+            type: "error",
             message: store.state.error
           });
         }
@@ -117,6 +117,7 @@ export default defineComponent({
     text-align: center;
     span {
       font-size: 2rem;
+      text-transform: none;
     }
   }
 
@@ -130,6 +131,16 @@ export default defineComponent({
       font-weight: 600;
       text-decoration: underline;
       cursor: pointer;
+    }
+  }
+}
+
+@media all and (max-width: 370px) {
+  .login__label {
+    font-size: 2.1rem;
+
+    span {
+      font-size: 1.7rem;
     }
   }
 }

@@ -71,7 +71,7 @@ export default defineComponent({
       } catch (err) {
         store.dispatch("setModal", {
           show: true,
-          error: true,
+          type: "error",
           message: err.response.data.message
         });
       } finally {
@@ -91,13 +91,13 @@ export default defineComponent({
         );
         store.dispatch("setModal", {
           show: true,
-          error: false,
+          type: "success",
           message: "Zmieniono dane użytkownika."
         });
       } catch (err) {
         store.dispatch("setModal", {
           show: true,
-          error: true,
+          type: "error",
           message: err.response.data.message
         });
       } finally {
@@ -120,7 +120,7 @@ $nth: nth($list, $imgKey);
 
 .account {
   width: 100vw;
-  padding: 50px 0;
+  padding: 60px 0 90px 0;
   @include flex;
   flex-flow: column wrap;
 
@@ -130,6 +130,7 @@ $nth: nth($list, $imgKey);
     border-bottom: 1px solid $shadow-color;
     width: 75%;
     padding-bottom: 20px;
+    max-width: 370px;
     &__image {
       width: 100px;
       height: 100px;
@@ -165,6 +166,10 @@ $nth: nth($list, $imgKey);
       @include flex;
       flex-flow: column wrap;
     }
+  }
+
+  button {
+    margin-top: 50px;
   }
 }
 </style>

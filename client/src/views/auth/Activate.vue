@@ -35,13 +35,13 @@ export default defineComponent({
         });
         store.dispatch("setModal", {
           show: true,
-          error: false,
+          type: "success",
           message: data.message
         });
       } catch (err) {
         store.dispatch("setModal", {
           show: true,
-          error: true,
+          type: "error",
           message: err.response.data.message
         });
       }

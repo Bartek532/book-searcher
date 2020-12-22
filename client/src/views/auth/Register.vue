@@ -1,8 +1,8 @@
 <template>
   <div class="register" @keyup.enter="register">
     <h2 class="register__label">
-      <span>Hello,</span><br />
-      Sign Up!
+      <span>Cześć,</span><br />
+      Zarejestruj się!
     </h2>
     <form class="register__form" @submit.prevent="register">
       <Input
@@ -83,14 +83,14 @@ export default defineComponent({
           registerSuccess.value = true;
           store.dispatch("setModal", {
             show: true,
-            error: false,
+            type: "success",
             message: "Twoje konto zostało utworzone, sprawdź email!"
           });
         } else {
           registerSuccess.value = false;
           store.dispatch("setModal", {
             show: true,
-            error: true,
+            type: "error",
             message: store.state.error
           });
         }
@@ -138,6 +138,16 @@ export default defineComponent({
 
     button {
       margin-top: 40px;
+    }
+  }
+}
+
+@media all and (max-width: 370px) {
+  .register__label {
+    font-size: 2.1rem;
+
+    span {
+      font-size: 1.7rem;
     }
   }
 }

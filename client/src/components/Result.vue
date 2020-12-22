@@ -69,15 +69,22 @@ export default defineComponent({
   flex: 1 1 150px;
   @include flex(center, flex-start);
   flex-flow: column wrap;
-  box-shadow: $box-shadow;
+  position: relative;
   border-radius: 10px;
   margin: 7px;
   cursor: pointer;
-  transition: 0.3s;
-  &:hover {
-    box-shadow: rgba($main-color, 0.17) 0px 0px 2px 1px,
-      rgba($main-color, 0.24) 0px 4px 8px 0px;
-    transition: 0.3s;
+
+  &::after {
+    @include pseudo;
+    box-shadow: $box-shadow;
+    border-radius: 10px;
+    transition: opacity 0.3s;
+    opacity: 1;
+  }
+
+  &:hover::after {
+    opacity: 0;
+    transition: opacity 0.3s;
   }
   &__image {
     width: 100%;

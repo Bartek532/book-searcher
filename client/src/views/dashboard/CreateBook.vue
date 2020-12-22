@@ -46,13 +46,13 @@ export default defineComponent({
         if (!store.state.error) {
           store.dispatch("setModal", {
             show: true,
-            error: false,
+            type: "success",
             message: "Książka została dodana!"
           });
         } else {
           store.dispatch("setModal", {
             show: true,
-            error: true,
+            type: "error",
             message: store.state.error
           });
         }

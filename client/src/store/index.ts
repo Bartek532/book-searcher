@@ -11,7 +11,7 @@ const store = createStore({
     isLogIn: false,
     modal: {
       show: false,
-      error: false,
+      type: "error",
       message: ""
     }
   },
@@ -34,10 +34,14 @@ const store = createStore({
     },
     [types.SET_MODAL_STATUS](
       state,
-      data: { show: boolean; error?: boolean; message?: string }
+      data: {
+        show: boolean;
+        type: "error" | "success" | "info" | "question";
+        message?: string;
+      }
     ) {
       state.modal.show = data.show;
-      if (typeof data.error === "boolean") state.modal.error = data.error;
+      state.modal.type = data.type;
       if (data.message) state.modal.message = data.message;
     }
   },
@@ -106,7 +110,11 @@ const store = createStore({
     },
     setModal(
       { commit },
-      data: { show: boolean; error?: boolean; message?: string }
+      data: {
+        show: boolean;
+        type: "error" | "success" | "info" | "question";
+        message?: string;
+      }
     ) {
       commit(types.SET_MODAL_STATUS, data);
     },
