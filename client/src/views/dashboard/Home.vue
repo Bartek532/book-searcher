@@ -21,10 +21,7 @@
         </div>
         <div class="option__label">Dodaj książkę</div>
       </button>
-      <button
-        @click="$router.push({ path: '/dashboard/library' })"
-        class="option"
-      >
+      <button @click="getUserBooks" class="option">
         <div class="option__icon">
           <svg
             width="36"
@@ -119,7 +116,12 @@ export default {
       router.push({ path: "/auth/login" });
     }
 
-    return { logout };
+    function getUserBooks() {
+      store.dispatch("getUserBooks");
+      router.push({ path: "/dashboard/library" });
+    }
+
+    return { logout, getUserBooks };
   }
 };
 </script>

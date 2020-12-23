@@ -1,50 +1,43 @@
 <template>
-  <router-link
-    :to="
-      ($route.path.startsWith('/results') && `/results/${data.slug}`) ||
-        `/dashboard/library/${data.slug}`
-    "
-  >
-    <div class="result">
-      <div
-        class="result__image"
-        :style="{ backgroundImage: `url(${data.img})` }"
-      ></div>
-      <div
-        :class="[
-          'result__title',
-          { result__title__smaller: data.name.length > 21 }
-        ]"
-      >
-        {{ data.name.length > 30 ? data.name.slice(0, 28) + "..." : data.name }}
+  <div class="result">
+    <div
+      class="result__image"
+      :style="{ backgroundImage: `url(${data.img})` }"
+    ></div>
+    <div
+      :class="[
+        'result__title',
+        { result__title__smaller: data.name.length > 21 }
+      ]"
+    >
+      {{ data.name.length > 30 ? data.name.slice(0, 28) + "..." : data.name }}
+    </div>
+    <div class="result__rates">
+      <div class="result__rates__star">
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 7 7"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M5.95531 2.72367L4.38147 2.48415L3.67792 0.990544C3.6587 0.94965 3.62709 0.916546 3.58803 0.896423C3.49009 0.845792 3.37108 0.887985 3.32211 0.990544L2.61856 2.48415L1.04471 2.72367C1.00132 2.73017 0.961648 2.75159 0.931274 2.78404C0.894554 2.82356 0.87432 2.87674 0.875017 2.93187C0.875715 2.98701 0.897287 3.0396 0.934994 3.07809L2.07369 4.24065L1.80467 5.88226C1.79836 5.92044 1.8024 5.95972 1.81632 5.99563C1.83024 6.03153 1.85349 6.06264 1.88344 6.08541C1.91338 6.10819 1.94882 6.12172 1.98573 6.12448C2.02265 6.12723 2.05956 6.1191 2.09229 6.10101L3.50001 5.32597L4.90774 6.10101C4.94617 6.12243 4.9908 6.12957 5.03357 6.12178C5.14143 6.1023 5.21395 5.9952 5.19536 5.88226L4.92633 4.24065L6.06503 3.07809C6.09602 3.04628 6.11648 3.00474 6.12268 2.9593C6.13942 2.84571 6.06379 2.74055 5.95531 2.72367Z"
+            fill="#2524E9"
+          />
+        </svg>
       </div>
-      <div class="result__rates">
-        <div class="result__rates__star">
-          <svg
-            width="14"
-            height="14"
-            viewBox="0 0 7 7"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M5.95531 2.72367L4.38147 2.48415L3.67792 0.990544C3.6587 0.94965 3.62709 0.916546 3.58803 0.896423C3.49009 0.845792 3.37108 0.887985 3.32211 0.990544L2.61856 2.48415L1.04471 2.72367C1.00132 2.73017 0.961648 2.75159 0.931274 2.78404C0.894554 2.82356 0.87432 2.87674 0.875017 2.93187C0.875715 2.98701 0.897287 3.0396 0.934994 3.07809L2.07369 4.24065L1.80467 5.88226C1.79836 5.92044 1.8024 5.95972 1.81632 5.99563C1.83024 6.03153 1.85349 6.06264 1.88344 6.08541C1.91338 6.10819 1.94882 6.12172 1.98573 6.12448C2.02265 6.12723 2.05956 6.1191 2.09229 6.10101L3.50001 5.32597L4.90774 6.10101C4.94617 6.12243 4.9908 6.12957 5.03357 6.12178C5.14143 6.1023 5.21395 5.9952 5.19536 5.88226L4.92633 4.24065L6.06503 3.07809C6.09602 3.04628 6.11648 3.00474 6.12268 2.9593C6.13942 2.84571 6.06379 2.74055 5.95531 2.72367Z"
-              fill="#2524E9"
-            />
-          </svg>
-        </div>
-        <div class="result__rates__rate">
-          {{
-            (
-              data.UserBookRate.reduce((acc, { rate }) => acc + rate, 0) /
-              data.UserBookRate.length
-            ).toFixed(1)
-          }}
-          / 6
-        </div>
+      <div class="result__rates__rate">
+        {{
+          (
+            data.UserBookRate.reduce((acc, { rate }) => acc + rate, 0) /
+            data.UserBookRate.length
+          ).toFixed(1)
+        }}
+        / 6
       </div>
     </div>
-  </router-link>
+  </div>
 </template>
 
 <script lang="ts">
@@ -73,6 +66,11 @@ export default defineComponent({
   border-radius: 10px;
   margin: 7px;
   cursor: pointer;
+
+  &:hover {
+    opacity: 0.8;
+    transition: opacity 0.3s;
+  }
 
   &::after {
     @include pseudo;

@@ -46,6 +46,18 @@ const store = createStore({
     }
   },
   actions: {
+    async getAllBooks({ commit }) {
+      commit(types.SET_LOADING_STATUS, true);
+      try {
+        const { data } = await axios.get("/api/books");
+        commit(types.UPDATE_RESULTS, data);
+        commit(types.SET_ERRORS, "");
+      } catch (err) {
+        commit(types.SET_ERRORS, err.response.data.message);
+      } finally {
+        commit(types.SET_LOADING_STATUS, false);
+      }
+    },
     async searchByQuery({ commit, state }) {
       commit(types.SET_LOADING_STATUS, true);
       try {

@@ -8,8 +8,15 @@
     >
       <Result
         v-for="result in $store.state.results"
-        :key="result"
+        :key="result.id"
         :data="result"
+        @click="
+          $router.push({
+            path: $route.path.startsWith('/results')
+              ? `/results/${result.slug}`
+              : `/dashboard/library/${result.slug}`
+          })
+        "
       />
     </div>
     <Loader v-else-if="$store.state.loading" />

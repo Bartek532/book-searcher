@@ -18,11 +18,6 @@ export default {
       }
     }
 
-    async function getBooks() {
-      await store.dispatch("getUserBooks");
-    }
-
-    getBooks();
     isLoggedIn();
   }
 };
