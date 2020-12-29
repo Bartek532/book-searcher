@@ -1,38 +1,28 @@
 <template>
-  <div>
-    <span class="delete__title"><h1>Usuń książkę</h1></span>
-    <div
-      class="books"
-      v-if="!$store.state.loading && $store.state.results.length"
-    >
-      <Result
-        v-for="result in $store.state.results"
-        :key="result.id"
-        :data="result"
-        @click="showQuestionModal(result.id)"
-      />
-    </div>
-    <Loader v-else-if="$store.state.loading" />
+  <div class="page">
+    <h1 class="title"><span>Usuń książkę</span></h1>
+    <SearchInput />
     <Modal @modal-accepted="deleteBook" />
     <LoadingModal v-if="loading" />
+    <Results @result-clicked="showQuestionModal($event.id)" />
   </div>
 </template>
 
 <script lang="ts">
 import axios from "axios";
 import { defineComponent, ref } from "vue";
-import Result from "../../components/Result.vue";
-import Loader from "../../components/Loader.vue";
 import Modal from "../../components/modals/MainModal.vue";
 import LoadingModal from "../../components/modals/LoadingModal.vue";
+import Results from "../../components/Results.vue";
+import SearchInput from "../../components/inputs/SearchInput.vue";
 
 import { useStore } from "vuex";
 export default defineComponent({
   components: {
-    Result,
-    Loader,
+    Results,
     Modal,
-    LoadingModal
+    LoadingModal,
+    SearchInput
   },
   setup() {
     const store = useStore();
@@ -79,25 +69,13 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.books {
-  width: 100vw;
-  margin-top: 100px;
-  padding: 20px 20px 70px 20px;
-  @include flex;
-  flex-wrap: wrap;
+.page {
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
 }
 
-.delete__title {
-  text-transform: uppercase;
-  font-weight: 600;
-  width: 100%;
-  @include flex;
-  transform: translateY(40px);
-
-  h1 {
-    border-bottom: 3px solid $main-color;
-    width: fit-content;
-    font-size: 2.2rem;
-  }
+.search {
+  transform: translateY(63px);
 }
 </style>

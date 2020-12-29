@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import Home from "../views/Home.vue";
 
-import Results from "../views/Results.vue";
+import SearchResults from "../views/SearchResults.vue";
 import Result from "../views/Result.vue";
 
 import Search from "../views/Search.vue";
@@ -23,10 +23,11 @@ import Dashboard from "../views/dashboard/Dashboard.vue";
 import dashboardHome from "../views/dashboard/Home.vue";
 import createBook from "../views/dashboard/CreateBook.vue";
 import User from "../views/dashboard/User.vue";
+import Library from "../views/dashboard/Library.vue";
 import DeleteBook from "../views/dashboard/DeleteBook.vue";
 
 //404 page
-import notFound from "../views/NotFound.vue";
+import PageNotFound from "../views/PageNotFound.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -35,7 +36,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: "/results",
-    component: Results
+    component: SearchResults
   },
   {
     path: "/results/:slug",
@@ -69,7 +70,7 @@ const routes: Array<RouteRecordRaw> = [
     children: [
       { path: "start", component: dashboardHome },
       { path: "add-book", component: createBook },
-      { path: "library", component: Results },
+      { path: "library", component: Library },
       { path: "library/:slug", component: Result, props: true },
       { path: "account", component: User },
       { path: "delete-book", component: DeleteBook }
@@ -77,7 +78,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: "/:pathMatch(.*)*",
-    component: notFound
+    component: PageNotFound
   }
 ];
 

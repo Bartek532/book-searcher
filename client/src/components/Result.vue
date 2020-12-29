@@ -63,7 +63,7 @@ export default defineComponent({
   @include flex(center, flex-start);
   flex-flow: column wrap;
   position: relative;
-  border-radius: 10px;
+  border-radius: 8px;
   margin: 7px;
   cursor: pointer;
 

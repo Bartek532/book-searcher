@@ -70,7 +70,7 @@
     <img src="../assets/svgs/logo.svg" alt="logo" class="logo" />
     <div class="logo__name">b<span class="logo__name__blue">oo</span>k</div>
     <div class="logo__subname">searcher</div>
-    <SearchInput @search="$emit('default-search', $event)" />
+    <SearchInput />
   </div>
 </template>
 

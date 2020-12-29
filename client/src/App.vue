@@ -72,6 +72,20 @@ body {
   margin-top: 3px;
 }
 
+.title {
+  font-weight: 600;
+  width: 100%;
+  @include flex;
+  transform: translateY(50px);
+
+  span {
+    border-bottom: 3px solid $main-color;
+    text-transform: uppercase;
+    width: fit-content;
+    font-size: 2.2rem;
+  }
+}
+
 a {
   text-decoration: none;
   color: #000;

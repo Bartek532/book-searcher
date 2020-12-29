@@ -34,7 +34,7 @@
 <script lang="ts">
 import { ref, computed, defineComponent } from "vue";
 import { useStore } from "vuex";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import gsap from "gsap";
 export default defineComponent({
   name: "searchInput",
@@ -42,6 +42,7 @@ export default defineComponent({
     const inputFocused = ref(false);
     const store = useStore();
     const router = useRouter();
+    const route = useRoute();
     const query = computed({
       get: () => store.state.query,
       set: value => store.commit("UPDATE_QUERY", value)
@@ -52,7 +53,9 @@ export default defineComponent({
       counter++;
 
       if (counter >= 2) {
-        router.push({ path: "/results" });
+        if (route.path === "/") {
+          router.push({ path: "/results" });
+        }
         store.dispatch("searchByQuery");
       }
     }
