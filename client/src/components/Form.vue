@@ -240,6 +240,7 @@ span {
     padding: 9px 14px;
     resize: none;
     border-radius: 5px;
+    transition: 0.3s;
 
     &:focus {
       border: 2px solid $main-color;
@@ -264,14 +265,15 @@ span {
 
 @media all and (min-width: 800px) {
   .container {
-    background: linear-gradient(90deg, #fad7a1, #e96d71);
     padding: 40px 0;
   }
   .form {
     position: relative;
     background-color: #fff;
-    padding: 35px 50px;
+    padding: 50px;
     z-index: 100;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
+      rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
   }
   .form__wrapper__inputs,
   .form__wrapper__rest,

@@ -22,6 +22,7 @@ import Activate from "../views/auth/Activate.vue";
 import Dashboard from "../views/dashboard/Dashboard.vue";
 import dashboardHome from "../views/dashboard/Home.vue";
 import createBook from "../views/dashboard/CreateBook.vue";
+import MoveBook from "../views/dashboard/MoveBook.vue";
 import User from "../views/dashboard/User.vue";
 import Library from "../views/dashboard/Library.vue";
 import DeleteBook from "../views/dashboard/DeleteBook.vue";
@@ -72,6 +73,7 @@ const routes: Array<RouteRecordRaw> = [
       { path: "add-book", component: createBook },
       { path: "library", component: Library },
       { path: "library/:slug", component: Result, props: true },
+      { path: "move-book", component: MoveBook },
       { path: "account", component: User },
       { path: "delete-book", component: DeleteBook }
     ]

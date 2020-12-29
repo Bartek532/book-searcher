@@ -47,7 +47,12 @@
           <div class="result__info__data__title">
             {{ data.name }}
           </div>
-          <div class="result__info__data__author">{{ data.author }}</div>
+          <div
+            class="result__info__data__author"
+            @click="searchByAuthor(data.author)"
+          >
+            {{ data.author }}
+          </div>
           <Checkbox
             :text="data.series"
             :check="false"
@@ -98,9 +103,9 @@
                 />
               </svg>
             </div>
-            <div class="text">
+            <router-link :to="`/rooms/${data.room}`" class="text">
               {{ capitalize(polishTranslate[data.room]) }}
-            </div>
+            </router-link>
           </div>
           <div class="result__places__place">
             <div class="icon">
@@ -121,9 +126,9 @@
                 />
               </svg>
             </div>
-            <div class="text">
+            <span class="text" @click="searchByRooms(data.room, data.place)">
               {{ capitalize(polishTranslate[data.place]) }}
-            </div>
+            </span>
           </div>
         </div>
         <p>
@@ -287,6 +292,17 @@ export default defineComponent({
       store.dispatch("searchBySeries", series);
     }
 
+    //Search by places
+    function searchByRooms(room: string, place: string) {
+      router.push({ path: "/results" });
+      store.dispatch("searchByRooms", { room, place });
+    }
+
+    function searchByAuthor(author: string) {
+      router.push({ path: "/results" });
+      store.dispatch("advancedSearch", { author });
+    }
+
     if (!data) {
       router.push({ path: "/" });
       router.go(-1);
@@ -305,6 +321,8 @@ export default defineComponent({
       activeBookmark,
       searchByTag,
       searchBySeries,
+      searchByRooms,
+      searchByAuthor,
       loading,
       polishTranslate
     };
@@ -380,6 +398,11 @@ export default defineComponent({
         font-size: 0.9rem;
         margin-bottom: 15px;
         color: gray;
+
+        &:hover {
+          text-decoration: underline;
+          cursor: pointer;
+        }
       }
 
       &__rates {
@@ -434,6 +457,11 @@ export default defineComponent({
         color: #000;
         letter-spacing: 0.7px;
         transform: translateY(-2px);
+
+        &:hover {
+          text-decoration: underline;
+          cursor: pointer;
+        }
       }
     }
   }
@@ -501,7 +529,3 @@ export default defineComponent({
   }
 }
 </style>
-
-https://images.wallpaperscraft.com/image/lamps_books_library_73969_1920x1080.jpg
-https://static01.nyt.com/images/2019/12/17/books/review/17fatbooks/17fatbooks-mobileMasterAt3x.jpg
-https://images.unsplash.com/photo-1507842217343-583bb7270b66?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxleHBsb3JlLWZlZWR8Mnx8fGVufDB8fHw%3D&w=1000&q=80

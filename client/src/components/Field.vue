@@ -1,7 +1,11 @@
 <template>
   <article class="field">
     <div class="field__icon">
-      <img :src="require(`../assets/svgs/rooms/${label}.svg`)" :alt="label" />
+      <img
+        :src="require(`../assets/svgs/rooms/${label}.svg`)"
+        :alt="label"
+        loading="lazy"
+      />
     </div>
     <div class="field__label">{{ polishTranslate[label] }}</div>
   </article>

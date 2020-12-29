@@ -46,6 +46,26 @@
         <div class="option__label">Moje książki</div>
       </button>
       <button
+        @click="$router.push({ path: '/dashboard/move-book' })"
+        class="option"
+      >
+        <div class="option__icon">
+          <svg
+            width="36"
+            height="36"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M18 11H13V6H16L12 2L8 6H11V11H6V8L2 12L6 16V13H11V18H8L12 22L16 18H13V13H18V16L22 12L18 8V11Z"
+              fill="#fff"
+            />
+          </svg>
+        </div>
+        <div class="option__label">Zmień miejsce</div>
+      </button>
+      <button
         @click="$router.push({ path: '/dashboard/delete-book' })"
         class="option"
       >
@@ -128,7 +148,7 @@ export default {
 .dashboard {
   min-height: 100vh;
   @include flex;
-  padding-bottom: 50px;
+  padding: 50px 0;
 
   .options {
     @include flex;
@@ -145,6 +165,7 @@ export default {
       width: 270px;
       margin: 7px;
       transition: 0.3s;
+      height: 85px;
       cursor: pointer;
 
       &::after {
@@ -184,6 +205,10 @@ export default {
 
       &:nth-child(5) {
         background: linear-gradient(90deg, #f97794, #623aa2);
+      }
+
+      &:nth-child(6) {
+        background: linear-gradient(90deg, #ffdb01, #0e197d);
       }
 
       &__label {

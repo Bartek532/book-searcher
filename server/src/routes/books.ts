@@ -7,7 +7,8 @@ import {
   searchBySeries,
   advancedSearch,
   createBook,
-  rateBook
+  rateBook,
+  deleteBook
 } from "../controllers/booksController";
 import { validateToken } from "../middlewares/validateToken";
 import {
@@ -19,6 +20,7 @@ import {
 const router = express.Router();
 
 router.get("/search", catchAsync(searchBooks));
+router.delete("/book/:id", catchAsync(deleteBook));
 router.get("/", catchAsync(getBooks));
 router.get("/book/:slug", catchAsync(getBook));
 router.get("/:series", catchAsync(searchBySeries));

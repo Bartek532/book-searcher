@@ -75,7 +75,7 @@ export const register = async (req: Request, res: Response) => {
   const data = {
     name: req.body.name,
     email: req.body.email,
-    address: `https://book-searcherv1.herokuapp.com/auth/activate/${token}`
+    address: `https://book-searcher-library.herokuapp.com/auth/activate/${token}`
   };
 
   try {
