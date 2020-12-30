@@ -8,9 +8,11 @@ import {
   deleteBookById,
   advancedFetchBooks,
   updateBookRates,
-  insertBook
+  insertBook,
+  changeBookPosition
 } from "../services/books";
 import { validateFilters } from "../middlewares/validateData";
+import { validateBookPosition } from "../validation";
 
 export const getBooks = async (req: Request, res: Response) => {
   res.status(200).json(await fetchBooks());
@@ -61,4 +63,13 @@ export const rateBook = async (req: Request, res: Response) => {
 
 export const createBook = async (req: Request, res: Response) => {
   await insertBook(req, res);
+};
+
+export const moveBook = async (req: Request, res: Response) => {
+  const { error } = validateBookPosition(req.body);
+  if (error) {
+    return res.status(400).json({ message: error.details[0].message });
+  }
+
+  res.status(200).json(await changeBookPosition(req.body));
 };

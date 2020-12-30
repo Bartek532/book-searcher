@@ -86,16 +86,19 @@ export default defineComponent({
     const selectedRoomPlaces = ref(["wardrobe", "chest-of-drawers"]);
 
     function roomSelected(e: HTMLInputEvent) {
-      const roomFromSelect = e.target.value;
-      const selectedPlace = Object.entries(places).find(
-        i => i[0] === roomFromSelect
-      );
-      selectedRoomPlaces.value = selectedPlace ? selectedPlace[1] : [];
+      selectedRoomPlaces.value =
+        places[
+          e.target.value as
+            | "bedroom"
+            | "living-room"
+            | "corridor"
+            | "carriage-room"
+        ];
       book.set(
         "place",
         selectedRoomPlaces.value[selectedRoomPlaces.value.length - 1]
       );
-      book.set("room", roomFromSelect);
+      book.set("room", e.target.value);
 
       console.log(book.get("place"), book.get("room"));
     }
@@ -146,6 +149,13 @@ export default defineComponent({
   }
 });
 </script>
+<style lang="scss" scoped>
+span {
+  font-weight: 600;
+  text-transform: capitalize;
+  font-size: 0.87rem;
+}
+</style>
 <style lang="scss">
 .container {
   width: 100vw;
@@ -194,12 +204,6 @@ h3 {
   padding: 0 20px 5px 3px;
   margin-bottom: 10px;
   font-weight: 600;
-}
-
-span {
-  font-weight: 600;
-  text-transform: capitalize;
-  font-size: 0.87rem;
 }
 
 .file-select {

@@ -8,7 +8,8 @@ import {
   advancedSearch,
   createBook,
   rateBook,
-  deleteBook
+  deleteBook,
+  moveBook
 } from "../controllers/booksController";
 import { validateToken } from "../middlewares/validateToken";
 import {
@@ -25,7 +26,18 @@ router.get("/", catchAsync(getBooks));
 router.get("/book/:slug", catchAsync(getBook));
 router.get("/:series", catchAsync(searchBySeries));
 router.post("/advancedSearch", catchAsync(advancedSearch));
-router.post("/", validateToken, catchAsync(createBook));
+router.post(
+  "/",
+  validateToken,
+  catchAsync(validateUser),
+  catchAsync(createBook)
+);
+router.put(
+  "/move",
+  validateToken,
+  catchAsync(validateUser),
+  catchAsync(moveBook)
+);
 router.put(
   "/rate",
   validateToken,

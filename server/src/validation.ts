@@ -56,3 +56,13 @@ export const validateBook = (data: object) => {
 
   return schema.validate(data);
 };
+
+export const validateBookPosition = (data: Request) => {
+  const schema = Joi.object({
+    id: Joi.number().required(),
+    room: Joi.string().min(3).required(),
+    place: Joi.string().min(3).required()
+  });
+
+  return schema.validate(data);
+};

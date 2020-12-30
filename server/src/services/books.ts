@@ -205,3 +205,14 @@ export const insertBook = async (data: Request, res: Response) => {
     );
   });
 };
+
+export const changeBookPosition = (data: {
+  id: number;
+  room: string;
+  place: string;
+}) => {
+  return prisma.book.update({
+    where: { id: data.id },
+    data: { room: data.room, place: data.place }
+  });
+};

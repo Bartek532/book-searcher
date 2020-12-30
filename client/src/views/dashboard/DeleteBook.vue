@@ -4,7 +4,7 @@
     <SearchInput />
     <Modal @modal-accepted="deleteBook" />
     <LoadingModal v-if="loading" />
-    <Results @result-clicked="showQuestionModal($event.id)" />
+    <Results @result-clicked="showQuestionModal($event.id)" class="all-books" />
   </div>
 </template>
 
@@ -70,12 +70,16 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .page {
-  display: flex;
+  @include flex;
   flex-flow: column wrap;
-  align-items: center;
+}
+
+.all-books {
+  width: 100%;
+  transform: translateY(-35px);
 }
 
 .search {
-  transform: translateY(63px);
+  transform: translateY(50px);
 }
 </style>

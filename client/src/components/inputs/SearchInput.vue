@@ -102,6 +102,8 @@ export default defineComponent({
 <style lang="scss" scoped>
 .search {
   margin-top: 30px;
+  position: relative;
+  z-index: 10;
   &__circle {
     width: 55px;
     height: 55px;
