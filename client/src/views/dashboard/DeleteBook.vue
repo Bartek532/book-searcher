@@ -80,6 +80,6 @@ export default defineComponent({
 }
 
 .search {
-  transform: translateY(50px);
+  transform: translateY(40px);
 }
 </style>

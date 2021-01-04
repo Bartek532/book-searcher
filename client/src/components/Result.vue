@@ -63,7 +63,7 @@ export default defineComponent({
   @include flex(center, flex-start);
   flex-flow: column wrap;
   position: relative;
-  border-radius: 8px;
+  border-radius: 7px;
   margin: 7px;
   cursor: pointer;
 
@@ -75,7 +75,7 @@ export default defineComponent({
   &::after {
     @include pseudo;
     box-shadow: $box-shadow;
-    border-radius: 10px;
+    border-radius: 7px;
     transition: opacity 0.3s;
     opacity: 1;
   }

@@ -31,10 +31,10 @@ export default {
   }
 }
 
-@media all and (min-width: 1100px) {
+@media all and (min-width: 1120px) {
   .search {
     top: -10px;
-    right: 680px;
+    right: 685px;
   }
 }
 </style>

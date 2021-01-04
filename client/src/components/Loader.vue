@@ -1,15 +1,22 @@
 <template>
-  <div class="loader">
-    <div class="book">
-      <figure class="book__page"></figure>
-      <figure class="book__page"></figure>
-      <figure class="book__page"></figure>
-    </div>
+  <div class="page-loader">
+    <div class="loader">
+      <div class="book">
+        <figure class="book__page"></figure>
+        <figure class="book__page"></figure>
+        <figure class="book__page"></figure>
+      </div>
 
-    <h1 class="loader__label">Czytanie</h1>
+      <h1 class="loader__label">Czytanie</h1>
+    </div>
   </div>
 </template>
 <style lang="scss" scoped>
+.page-loader {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+}
 .loader {
   @include flex;
   flex-flow: column wrap;

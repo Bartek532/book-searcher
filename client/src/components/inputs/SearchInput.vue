@@ -101,7 +101,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .search {
-  margin-top: 30px;
+  margin-top: 40px;
   position: relative;
   z-index: 10;
   &__circle {
@@ -139,7 +139,7 @@ export default defineComponent({
 
 @media all and (min-width: 1100px) {
   .search {
-    margin-top: 25px;
+    margin-top: 35px;
   }
 }
 </style>

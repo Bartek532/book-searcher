@@ -10,6 +10,7 @@
         :data="result"
         @click="$emit('result-clicked', result)"
       />
+      <ScrollToTopBtn />
     </div>
     <Loader v-else-if="$store.state.loading" />
     <EmptyResults v-else-if="!$store.state.results.length" />
@@ -20,12 +21,14 @@
 import Loader from "./Loader.vue";
 import Result from "./Result.vue";
 import EmptyResults from "./EmptyResults.vue";
+import ScrollToTopBtn from "./ScrollTopButton.vue";
 
 export default {
   components: {
     Loader,
     Result,
-    EmptyResults
+    EmptyResults,
+    ScrollToTopBtn
   }
 };
 </script>

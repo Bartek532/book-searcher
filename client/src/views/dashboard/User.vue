@@ -10,8 +10,8 @@
       </div>
       <div class="account__edit" v-if="Object.entries(userInfo).length">
         <form class="account__edit__form" @submit.prevent="modifyUserData">
-          <Input name="nazwa" v-model="userInfo.name" />
-          <Input name="adres email" v-model="userInfo.email" type="email" />
+          <Input name="Nazwa" v-model="userInfo.name" />
+          <Input name="Adres email" v-model="userInfo.email" type="email" />
           <PasswordInput
             v-model="userInfo.oldPassword"
             placeholder="Stare hasło"

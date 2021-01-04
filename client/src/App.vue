@@ -61,6 +61,10 @@ export default {
   -webkit-tap-highlight-color: transparent;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   @include flex;
   overflow-x: hidden;
