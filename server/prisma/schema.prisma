@@ -76,7 +76,7 @@ model UserBookRate {
 
 model UserToken {
   userId Int
-  token  String 
+  token  String
   User   User   @relation(fields: [userId], references: [id])
 
   @@id([userId, token])

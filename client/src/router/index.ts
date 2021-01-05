@@ -25,7 +25,6 @@ import createBook from "../views/dashboard/CreateBook.vue";
 import MoveBook from "../views/dashboard/MoveBook.vue";
 import User from "../views/dashboard/User.vue";
 import Library from "../views/dashboard/Library.vue";
-import DeleteBook from "../views/dashboard/DeleteBook.vue";
 
 //404 page
 import PageNotFound from "../views/PageNotFound.vue";
@@ -74,8 +73,7 @@ const routes: Array<RouteRecordRaw> = [
       { path: "library", component: Library },
       { path: "library/:slug", component: Result, props: true },
       { path: "move-book", component: MoveBook },
-      { path: "account", component: User },
-      { path: "delete-book", component: DeleteBook }
+      { path: "account", component: User }
     ]
   },
   {

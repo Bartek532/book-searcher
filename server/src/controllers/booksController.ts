@@ -5,7 +5,6 @@ import {
   fetchBooksBySeries,
   fetchBooksByQuery,
   fetchBooksByFilters,
-  deleteBookById,
   advancedFetchBooks,
   updateBookRates,
   insertBook,
@@ -24,10 +23,6 @@ export const getBook = async (req: Request, res: Response) => {
 
 export const searchBySeries = async (req: Request, res: Response) => {
   res.status(200).json(await fetchBooksBySeries(req.params.series));
-};
-
-export const deleteBook = async (req: Request, res: Response) => {
-  res.status(200).json(await deleteBookById(Number(req.params.id)));
 };
 
 export const searchBooks = async (req: Request, res: Response) => {

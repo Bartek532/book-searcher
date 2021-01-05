@@ -68,6 +68,8 @@ html {
 body {
   @include flex;
   overflow-x: hidden;
+  padding: 0;
+  margin: 0;
 }
 
 .error {

@@ -66,26 +66,6 @@
         <div class="option__label">Zmień miejsce</div>
       </button>
       <button
-        @click="$router.push({ path: '/dashboard/delete-book' })"
-        class="option"
-      >
-        <div class="option__icon">
-          <svg
-            width="39"
-            height="39"
-            viewBox="0 0 39 39"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M30.875 6.5H25.1875L23.5625 4.875H15.4375L13.8125 6.5H8.125V9.75H30.875V6.5ZM9.75 30.875C9.75 31.737 10.0924 32.5636 10.7019 33.1731C11.3114 33.7826 12.138 34.125 13 34.125H26C26.862 34.125 27.6886 33.7826 28.2981 33.1731C28.9076 32.5636 29.25 31.737 29.25 30.875V11.375H9.75V30.875Z"
-              fill="#fff"
-            />
-          </svg>
-        </div>
-        <div class="option__label">Usuń książkę</div>
-      </button>
-      <button
         @click="$router.push({ path: '/dashboard/account' })"
         class="option"
       >

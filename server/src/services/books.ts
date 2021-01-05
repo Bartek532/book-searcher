@@ -24,35 +24,6 @@ export const fetchBook = (slug: string) => {
   });
 };
 
-const tags = [
-  "crime",
-  "thriller",
-  "food",
-  "school",
-  "youth",
-  "detective",
-  "science",
-  "fantasy",
-  "series",
-  "jokes",
-  "psychological",
-  "kids",
-  "beauty",
-  "sci-fi",
-  "horror",
-  "adventure",
-  "fact",
-  "biography",
-  "sport"
-];
-
-export const deleteBookById = (id: number) => {
-  return prisma.book.delete({
-    where: { id },
-    include: { BookTag: true }
-  });
-};
-
 export const fetchBooksBySeries = (series: string) => {
   return prisma.book.findMany({
     where: {

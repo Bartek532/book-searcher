@@ -427,12 +427,13 @@ export default defineComponent({
     border-top: 2px solid lightgray;
     color: gray;
     width: 100%;
-    margin-top: 25px;
+    margin-top: 28px;
 
     p {
       padding: 0 10px;
       font-size: 0.95rem;
       line-height: 1.35rem;
+      margin-top: 5px;
     }
   }
 
