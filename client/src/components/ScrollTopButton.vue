@@ -27,7 +27,6 @@ export default defineComponent({
 
     window.addEventListener("scroll", () => {
       isScrolled.value = window.pageYOffset > 100;
-      console.log(window.pageYOffset);
     });
 
     return { isScrolled, scroll };

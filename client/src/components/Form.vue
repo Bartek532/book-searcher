@@ -99,8 +99,6 @@ export default defineComponent({
         selectedRoomPlaces.value[selectedRoomPlaces.value.length - 1]
       );
       book.set("room", e.target.value);
-
-      console.log(book.get("place"), book.get("room"));
     }
 
     function setTags(tags: string[]) {

@@ -370,8 +370,8 @@ export default defineComponent({
 
     &__image {
       width: 40vw;
-      max-width: 125px;
-      height: 187px;
+      max-width: 130px;
+      height: 197px;
       border-radius: 10px;
       background-position: center center;
       background-size: cover;

@@ -58,7 +58,7 @@ export default defineComponent({
   padding: 10px 15px;
   width: 40vw;
   max-width: 160px;
-  height: 300px;
+  height: 305px;
   flex: 1 1 150px;
   @include flex(center, flex-start);
   flex-flow: column wrap;
@@ -95,7 +95,7 @@ export default defineComponent({
   &__title {
     font-weight: 500;
     font-size: 0.95rem;
-    margin-top: 15px;
+    margin: 15px 0 5px 0;
     height: 40px;
 
     &__smaller {

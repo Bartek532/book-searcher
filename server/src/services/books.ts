@@ -11,7 +11,7 @@ const prisma = new PrismaClient();
 export const fetchBooks = () => {
   return prisma.book.findMany({
     include: { UserBookRate: true, BookTag: true },
-    orderBy: { id: "asc" }
+    orderBy: { place: "asc" }
   });
 };
 
@@ -20,7 +20,8 @@ export const fetchBook = (slug: string) => {
     where: {
       slug
     },
-    include: { UserBookRate: true, BookTag: true }
+    include: { UserBookRate: true, BookTag: true },
+    orderBy: { place: "asc" }
   });
 };
 
@@ -29,7 +30,8 @@ export const fetchBooksBySeries = (series: string) => {
     where: {
       series
     },
-    include: { UserBookRate: true, BookTag: true }
+    include: { UserBookRate: true, BookTag: true },
+    orderBy: { place: "asc" }
   });
 };
 export const fetchBooksByQuery = (query: string) => {
@@ -56,14 +58,16 @@ export const fetchBooksByQuery = (query: string) => {
         }
       ]
     },
-    include: { UserBookRate: true, BookTag: true }
+    include: { UserBookRate: true, BookTag: true },
+    orderBy: { place: "asc" }
   });
 };
 
 export const fetchBooksByFilters = (filters: object) => {
   return prisma.book.findMany({
     where: { ...filters },
-    include: { UserBookRate: true, BookTag: true }
+    include: { UserBookRate: true, BookTag: true },
+    orderBy: { place: "asc" }
   });
 };
 
@@ -72,23 +76,32 @@ export const advancedFetchBooks = (query: {
   author?: string;
   tags: string[];
 }) => {
-  const filters = Object.fromEntries(
-    Object.entries(query).filter(item => item[1] && item[0] != "tags")
-  );
   if (query.tags && query.tags.length) {
     return prisma.book.findMany({
       where: {
         AND: [
           { BookTag: { some: { tagName: { in: query.tags } } } },
-          { ...filters }
+          {
+            AND: [
+              { name: { contains: query.name || "", mode: "insensitive" } },
+              { author: { contains: query.author || "", mode: "insensitive" } }
+            ]
+          }
         ]
       },
       include: { UserBookRate: true, BookTag: true }
     });
   }
+
   return prisma.book.findMany({
-    where: { ...filters },
-    include: { UserBookRate: true, BookTag: true }
+    where: {
+      AND: [
+        { name: { contains: query.name || "", mode: "insensitive" } },
+        { author: { contains: query.author || "", mode: "insensitive" } }
+      ]
+    },
+    include: { UserBookRate: true, BookTag: true },
+    orderBy: { place: "asc" }
   });
 };
 
