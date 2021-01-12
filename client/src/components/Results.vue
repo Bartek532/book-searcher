@@ -4,12 +4,17 @@
       class="results"
       v-if="!$store.state.loading && $store.state.results.length"
     >
-      <Result
-        v-for="result in $store.state.results"
-        :key="result.id"
-        :data="result"
-        @click="$emit('result-clicked', result)"
-      />
+      <span class="results__count"
+        >Wyniki: <strong>{{ $store.state.results.length }}</strong></span
+      >
+      <div class="results__books">
+        <Result
+          v-for="result in $store.state.results"
+          :key="result.id"
+          :data="result"
+          @click="$emit('result-clicked', result)"
+        />
+      </div>
       <ScrollToTopBtn />
     </div>
     <Loader v-else-if="$store.state.loading" />
@@ -40,6 +45,16 @@ export default {
   padding: 20px 20px 70px 20px;
   @include flex;
   flex-wrap: wrap;
+
+  &__books {
+    width: 100%;
+    @include flex;
+    flex-wrap: wrap;
+  }
+
+  &__count {
+    margin-bottom: 15px;
+  }
 }
 
 @media all and (min-width: 640px) and (max-width: 1100px) {
