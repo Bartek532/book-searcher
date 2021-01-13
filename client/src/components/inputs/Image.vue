@@ -109,8 +109,8 @@ export default defineComponent({
       max-width: 126px;
       height: 180px;
       position: absolute;
-      top: -2.15px;
-      left: -2.55px;
+      top: -1.8px;
+      left: -1.8px;
       z-index: 10;
       border-radius: 10px;
     }
