@@ -110,7 +110,7 @@ export default defineComponent({
       height: 180px;
       position: absolute;
       top: -1.8px;
-      left: -1.8px;
+      left: -1.5px;
       z-index: 10;
       border-radius: 10px;
     }
