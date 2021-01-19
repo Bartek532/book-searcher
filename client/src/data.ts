@@ -27,7 +27,6 @@ export const polishTranslate = {
   detective: "detektywistyczna",
   science: "nauka",
   fantasy: "fantasy",
-  jokes: "żarty",
   psychological: "psychologiczna",
   kids: "dla dzieci",
   series: "cykl",
@@ -50,14 +49,13 @@ export const tags = [
   "science",
   "fantasy",
   "series",
-  "jokes",
+  "biography",
   "psychological",
   "kids",
   "beauty",
   "sci-fi",
   "horror",
+  "sport",
   "adventure",
-  "fact",
-  "biography",
-  "sport"
+  "fact"
 ];
