@@ -36,7 +36,8 @@ export const polishTranslate = {
   adventure: "przygodowa",
   fact: "fakt",
   biography: "biografia",
-  sport: "sport"
+  sport: "sport",
+  classic: "klasyka"
 };
 
 export const tags = [
@@ -57,5 +58,6 @@ export const tags = [
   "horror",
   "sport",
   "adventure",
-  "fact"
+  "fact",
+  "classic"
 ];

@@ -26,7 +26,7 @@ export default defineComponent({
     const loading = ref(false);
 
     async function createBook(data: FormData) {
-      let formLength = JSON.parse(data.get("tags") as string) ? 1 : 0;
+      let formLength = 0;
       data.forEach(item => {
         if (item) {
           formLength++;
@@ -34,11 +34,12 @@ export default defineComponent({
       });
 
       const errors = document.querySelectorAll(".error");
-      if (JSON.parse(data.get("tags") as string).includes("series")) {
+      const tags = JSON.parse(data.get("tags") as string);
+      if (tags && tags.includes("series")) {
         formLength--;
       }
 
-      if (errors.length === 0 && formLength >= 9) {
+      if (errors.length === 0 && formLength >= 8) {
         loading.value = true;
         await store.dispatch("createBook", data);
         loading.value = false;
@@ -56,6 +57,12 @@ export default defineComponent({
             message: store.state.error
           });
         }
+      } else {
+        store.dispatch("setModal", {
+          show: true,
+          type: "error",
+          message: "Wypełnij poprawnie formularz!"
+        });
       }
     }
 

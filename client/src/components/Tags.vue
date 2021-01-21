@@ -26,9 +26,6 @@
         @select-tag="updateTags"
       />
     </div>
-    <div v-if="error && validate" class="error tags__error">
-      Wybierz conajmniej jeden tag.
-    </div>
   </div>
 </template>
 
@@ -38,18 +35,11 @@ import { tags as defaultTags } from "../data";
 import { defineComponent, ref, Ref } from "vue";
 export default defineComponent({
   name: "Tags",
-  props: {
-    validate: {
-      type: Boolean,
-      default: true
-    }
-  },
   components: {
     CheckboxInput
   },
   setup(prp, ctx) {
     const tagsShown = ref(false);
-    const error = ref(true);
     const tags: Ref<string[]> = ref([]);
     function updateTags(isChecked: boolean, value: string) {
       if (isChecked) {
@@ -57,15 +47,13 @@ export default defineComponent({
       } else {
         tags.value = tags.value.filter(i => i !== value);
       }
-
-      error.value = tags.value.length > 0 ? false : true;
       ctx.emit("tags-selected", tags.value);
     }
 
     if (window.innerWidth >= 720) {
       tagsShown.value = true;
     }
-    return { defaultTags, updateTags, tags, tagsShown, error };
+    return { defaultTags, updateTags, tags, tagsShown };
   }
 });
 </script>
