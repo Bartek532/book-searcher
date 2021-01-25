@@ -2,7 +2,11 @@
   <div class="page">
     <h1 class="title"><span>Zmień miejsce</span></h1>
     <SearchInput />
-    <Results class="all-books" @result-clicked="openMoveModal($event.id)" />
+    <Results
+      class="all-books"
+      @result-clicked="openMoveModal($event.id)"
+      :notFound="false"
+    />
     <div class="move-modal" v-if="modalOpen">
       <div class="move-modal__window">
         <div class="move-modal__window__close" @click="closeModal">
@@ -63,6 +67,10 @@
 
         <Button text="Zapisz" @click="moveBook" />
       </div>
+    </div>
+    <div class="not-found" v-if="!$store.state.results.length">
+      <span class="bold">Niestety</span>, nie znaleźliśmy tego czego szukasz :(
+      <span class="again">Spróbuj ponownie!</span>
     </div>
     <LoadingModal v-if="loading" />
     <Modal />
@@ -258,6 +266,25 @@ export default defineComponent({
         margin-bottom: 5px;
       }
     }
+  }
+}
+
+.not-found {
+  font-size: 1.5rem;
+  line-height: 37px;
+  width: 80%;
+  max-width: 500px;
+  text-align: center;
+  transform: translateY(150px);
+
+  .bold,
+  .again {
+    font-weight: bold;
+  }
+
+  .again {
+    display: block;
+    color: #0466c8;
   }
 }
 </style>

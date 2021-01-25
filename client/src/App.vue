@@ -67,6 +67,7 @@ html {
 
 body {
   @include flex;
+  width: 100vw;
   overflow-x: hidden;
   padding: 0;
   margin: 0;

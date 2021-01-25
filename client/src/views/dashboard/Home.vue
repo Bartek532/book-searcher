@@ -128,7 +128,7 @@ export default {
 .dashboard {
   min-height: 100vh;
   @include flex;
-  padding: 50px 0;
+  padding: 50px 0 80px 0;
 
   .options {
     @include flex;

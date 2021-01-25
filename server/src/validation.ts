@@ -46,7 +46,7 @@ export const validateBook = (data: object) => {
   const schema = Joi.object({
     room: Joi.string().min(6).required(),
     place: Joi.string().min(3).required(),
-    tags: Joi.string().min(3).required(),
+    tags: Joi.string(),
     rate: Joi.string().min(1).max(1).required(),
     name: Joi.string().min(3).required(),
     author: Joi.string().min(3).required(),

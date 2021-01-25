@@ -18,7 +18,7 @@
       <ScrollToTopBtn />
     </div>
     <Loader v-else-if="$store.state.loading" />
-    <EmptyResults v-else-if="!$store.state.results.length" />
+    <EmptyResults v-else-if="!$store.state.results.length && notFound" />
   </div>
 </template>
 
@@ -29,6 +29,12 @@ import EmptyResults from "./EmptyResults.vue";
 import ScrollToTopBtn from "./ScrollTopButton.vue";
 
 export default {
+  props: {
+    notFound: {
+      type: Boolean,
+      default: true
+    }
+  },
   components: {
     Loader,
     Result,

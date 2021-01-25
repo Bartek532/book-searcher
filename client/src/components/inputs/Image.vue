@@ -107,9 +107,9 @@ export default defineComponent({
     &__preview {
       width: 34vw;
       max-width: 126px;
-      height: 180px;
+      height: 182px;
       position: absolute;
-      top: -1.8px;
+      top: -1.9px;
       left: -1.5px;
       z-index: 10;
       border-radius: 10px;

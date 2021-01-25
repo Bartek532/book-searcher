@@ -127,7 +127,8 @@ export const insertBook = async (data: Request, res: Response) => {
       throw new Error(err);
     }
     const { error } = validateBook(fields);
-    if (error) return res.status(400).json({ message: err.details[0].message });
+    if (error)
+      return res.status(400).json({ message: error.details[0].message });
 
     const slug = slugx.create(
       fields.name +
@@ -175,13 +176,17 @@ export const insertBook = async (data: Request, res: Response) => {
           }
         });
 
-        for (const tag of JSON.parse(fields.tags as string)) {
-          await prisma.bookTag.create({
-            data: {
-              Book: { connect: { id: book.id } },
-              Tag: { connect: { name: tag } }
-            }
-          });
+        const tags = JSON.parse(fields.tags as string);
+
+        if (tags.length) {
+          for (const tag of tags) {
+            await prisma.bookTag.create({
+              data: {
+                Book: { connect: { id: book.id } },
+                Tag: { connect: { name: tag } }
+              }
+            });
+          }
         }
 
         res.status(200).json(book);

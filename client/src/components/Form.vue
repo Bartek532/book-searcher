@@ -81,6 +81,8 @@ export default defineComponent({
 
     book.append("room", "bedroom");
     book.append("place", "wardrobe");
+    book.set("tags", "[]");
+    book.set("rate", "1");
 
     //Select place in room
     const selectedRoomPlaces = ref(["wardrobe", "chest-of-drawers"]);
