@@ -55,6 +55,12 @@ export const fetchBooksByQuery = (query: string) => {
             contains: query,
             mode: "insensitive"
           }
+        },
+        {
+          series: {
+            contains: query,
+            mode: "insensitive"
+          }
         }
       ]
     },
