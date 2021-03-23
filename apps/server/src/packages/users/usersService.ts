@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-
+import type {User} from '@book-searcher/types';
 const prisma = new PrismaClient();
 
 export const findUserByEmail = (email: string) => {
@@ -8,18 +8,14 @@ export const findUserByEmail = (email: string) => {
 
 export const findUserByToken = (token: string) => {
   return prisma.user.findFirst({
-    where: { UserToken: { every: { token } } }
+    where: { UserToken: { every: { token } } },
   });
-};
-
-export const findUsers = () => {
-  return prisma.user.findMany({ include: { UserToken: true } });
 };
 
 export const activateUser = (id: number) => {
   return prisma.user.update({
     where: { id },
-    data: { isActive: true }
+    data: { isActive: true },
   });
 };
 
@@ -28,8 +24,8 @@ export const createUser = (name: string, email: string, password: string) => {
     data: {
       name,
       email,
-      password
-    }
+      password,
+    },
   });
 };
 
@@ -37,46 +33,52 @@ export const addUserToken = (userId: number, token: string) => {
   return prisma.userToken.create({
     data: {
       User: { connect: { id: userId } },
-      token
-    }
+      token,
+    },
   });
 };
 
-export const getUserBooks = async (id: number) => {
+export const addBookToLibrary = (userId: number, bookId: number) => {
+  return prisma.userBookLibrary.create({
+    data: { bookId, userId }
+  })
+}
+
+export const fetchUserBook = (userId: number, bookId: number) => {
+  return prisma.userBookLibrary.findUnique({ where: { bookId_userId: { bookId, userId } }})
+}
+
+export const fetchUserLibrary = async (id: number) => {
   const user = await prisma.user.findUnique({
     where: { id },
-    include: { UserBookLibrary: true }
+    include: { UserBookLibrary: true },
   });
 
   const books = user!.UserBookLibrary.map(item => item.bookId);
 
   return await prisma.book.findMany({
     where: { id: { in: books } },
-    include: { UserBookRate: true, BookTag: true }
+    include: { UserBookRate: true, BookTag: true },
   });
 };
 
+export const addBookToUserLibrary = (userId: number, bookId: number) => {
+  return prisma.userBookLibrary.create({
+    data: { bookId, userId }
+  })
+}
+
 export const deleteBookFromUserLibrary = (userId: number, bookId: number) => {
   return prisma.userBookLibrary.delete({
-    where: { bookId_userId: { bookId, userId } }
+    where: { bookId_userId: { bookId, userId } },
   });
 };
 
 export const updateUserInfo = (
-  id: number,
-  name: string,
-  email: string,
-  password?: string
+  data: User
 ) => {
-  if (password) {
-    return prisma.user.update({
-      where: { id },
-      data: { name, password, email }
-    });
-  }
-
   return prisma.user.update({
-    where: { id },
-    data: { name, email }
+    where: { id: data.id },
+    data,
   });
 };

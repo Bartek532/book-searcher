@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node dist/index.js",
-    "dev": "nodemon --exec ts-node src/index.ts",
+    "dev": "nodemon --exec ts-node-dev src/index.ts",
     "build": "tsc && cp -r ./public ./dist/public"
   },
   "author": "",
@@ -33,6 +33,7 @@
     "joi": "^17.3.0",
     "nodemailer": "^6.4.16",
     "slugx": "^2.1.0",
+    "ts-node-dev": "^1.1.6",
     "typescript": "^4.1.2"
   }
 }

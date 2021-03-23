@@ -1,9 +1,10 @@
-import jwt from "jsonwebtoken";
-import { Request, Response, NextFunction } from "express";
+import Joi from 'joi';
+import type { Request, Response, NextFunction } from "express";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
+/*
 export const validateUser = async (
   req: Request,
   res: Response,
@@ -63,6 +64,8 @@ export const validateLibrary = async (
   res.status(200).json({ message: "Dodano książkę do biblioteki." });
 };
 
+*/
+
 export const validateFilters = ({ query }: Request) => {
   const availableFilters = [
     "id",
@@ -77,3 +80,13 @@ export const validateFilters = ({ query }: Request) => {
     Object.entries(query).filter(item => availableFilters.indexOf(item[0]) > -1)
   );
 };
+
+
+export const validateData = (schema: Joi.ObjectSchema<any>) => (req: Request, res: Response, next: NextFunction) => {
+  const { error } = schema.validate(req.body);
+  if(error){
+    return res.status(400).json({ message: error.details[0].message });
+  }
+
+  next();
+}
