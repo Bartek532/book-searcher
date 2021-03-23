@@ -1,0 +1,21 @@
+{
+  "name": "root",
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "apps/*"
+    ]
+  },
+  "scripts": {
+    "build": "yarn workspace server build",
+    "start": "yarn workspaces run start",
+    "build-front": "yarn workspace client build",
+    "dev": "lerna run dev"
+  },
+  "devDependencies": {
+    "lerna": "^3.22.1"
+  },
+  "engines": {
+    "node": "14.x"
+  }
+}
