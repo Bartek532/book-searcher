@@ -6,7 +6,7 @@ import bodyParser from "body-parser";
 import { notFound, catchErrors } from "./middlewares/errors";
 import expressSession from "express-session";
 import { sessionConfig } from "./config/session";
-//import books from "./routes/books";
+import { booksRoute } from "./packages/books/booksRoute";
 import { usersRoute } from "./packages/users/usersRoute";
 
 const app = express();
@@ -15,7 +15,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(expressSession(sessionConfig));
 
-//app.use("/api/books", books);
+app.use("/api/books", booksRoute);
 app.use("/api/users", usersRoute);
 
 app.use(notFound);

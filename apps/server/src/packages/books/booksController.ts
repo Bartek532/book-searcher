@@ -3,17 +3,22 @@ import {
   fetchBooks,
   fetchBook,
   fetchBooksBySeries,
+  fetchSeries,
   fetchBooksByQuery,
   fetchBooksByFilters,
   advancedFetchBooks,
+  changeBookPosition,
+  updateBookRates,
+  /*
   updateBookRates,
   insertBook,
-  changeBookPosition
-} from "../services/books";
-import { validateFilters } from "../middlewares/validateData";
-import { validateBookPosition } from "../validation";
+  changeBookPosition,
+  */
+} from "./booksService";
 
-export const getBooks = async (req: Request, res: Response) => {
+import { validateFilters } from "../../middlewares/validateData";
+
+export const getAllBooks = async (req: Request, res: Response) => {
   res.status(200).json(await fetchBooks());
 };
 
@@ -22,49 +27,65 @@ export const getBook = async (req: Request, res: Response) => {
 };
 
 export const searchBySeries = async (req: Request, res: Response) => {
-  res.status(200).json(await fetchBooksBySeries(req.params.series));
+  if (req.body.series) {
+    return res.status(200).json(await fetchBooksBySeries(req.params.series));
+  }
+
+  return res.status(200).json(await fetchSeries());
 };
 
 export const searchBooks = async (req: Request, res: Response) => {
-  if (req.query.q) {
-    const data = await fetchBooksByQuery(req.query.q as string);
-    res.status(200).json(data);
-  } else {
-    const data = await fetchBooksByFilters({ ...validateFilters(req) });
-    res.status(200).json(data);
+  if (req.query.type === "basic") {
+    if (req.query.q) {
+      const data = await fetchBooksByQuery(req.query.q as string);
+      return res.status(200).json(data);
+    }
+
+    const filters = validateFilters(req.query);
+
+    if (Object.keys(filters).length) {
+      const data = await fetchBooksByFilters(filters);
+      return res.status(200).json(data);
+    }
+
+    return res
+      .status(200)
+      .json({ message: "Nieprawidłowe filtry wyszukiwania." });
   }
+  if (req.query.type === "advanced") {
+    const query = {
+      name: req.body.name,
+      author: req.body.author,
+      tags: req.body.tags,
+    };
+    return res.status(200).json(await advancedFetchBooks(query));
+  }
+
+  return res.status(400).json({ message: "Nieprawidłowy typ wyszukiwania. " });
 };
 
-export const advancedSearch = async (req: Request, res: Response) => {
-  const query = {
-    name: req.body.name,
-    author: req.body.author,
-    tags: req.body.tags
-  };
-  res.status(200).json(await advancedFetchBooks(query));
+export const moveBook = async (req: Request, res: Response) => {
+  res.status(200).json(
+    await changeBookPosition({
+      id: req.body.id,
+      place: req.body.place,
+      room: req.body.room,
+    }),
+  );
 };
 
 export const rateBook = async (req: Request, res: Response) => {
-  if (
-    typeof req.body.rate !== "number" ||
-    req.body.rate > 6 ||
-    req.body.rate < 1
-  ) {
-    return res.status(400).json({ message: "Niepoprawna wartość." });
-  }
-  await updateBookRates(req.user!.id, req.body.id, req.body.rate);
+  await updateBookRates(req.session.user!.id, req.body.id, req.body.rate);
   res.status(200).json({ message: "Dziękujemy za opinię!" });
 };
+
+/*
+
 
 export const createBook = async (req: Request, res: Response) => {
   await insertBook(req, res);
 };
 
-export const moveBook = async (req: Request, res: Response) => {
-  const { error } = validateBookPosition(req.body);
-  if (error) {
-    return res.status(400).json({ message: error.details[0].message });
-  }
 
-  res.status(200).json(await changeBookPosition(req.body));
-};
+
+*/

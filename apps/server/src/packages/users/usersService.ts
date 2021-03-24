@@ -12,13 +12,6 @@ export const findUserByToken = (token: string) => {
   });
 };
 
-export const activateUser = (id: number) => {
-  return prisma.user.update({
-    where: { id },
-    data: { isActive: true },
-  });
-};
-
 export const createUser = (name: string, email: string, password: string) => {
   return prisma.user.create({
     data: {
@@ -29,11 +22,19 @@ export const createUser = (name: string, email: string, password: string) => {
   });
 };
 
+export const activateUser = (id: number) => {
+  return prisma.user.update({
+    where: { id },
+    data: { isActive: true },
+  });
+};
+
+
 export const addUserToken = (userId: number, token: string) => {
   return prisma.userToken.create({
     data: {
-      User: { connect: { id: userId } },
-      token,
+      userId,
+      token
     },
   });
 };

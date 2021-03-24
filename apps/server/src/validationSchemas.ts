@@ -1,4 +1,5 @@
 import Joi from "joi";
+import { rooms, places } from "@book-searcher/data";
 
 export const passwordRegex = /(?=^.{8,}$)(?=.*\d)(?=.*[!@#$%^&*]+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/;
 
@@ -37,15 +38,16 @@ export const validationSchemas = {
   }),
   book: Joi.object({
     room: Joi.string()
-      .min(6)
-      .required(),
+      .required()
+      .valid(...rooms),
     place: Joi.string()
-      .min(3)
-      .required(),
+      .required()
+      .valid(...Object.values(places).flat(Infinity)),
     tags: Joi.string(),
-    rate: Joi.string()
+    rate: Joi.number()
+      .integer()
       .min(1)
-      .max(1)
+      .max(6)
       .required(),
     name: Joi.string()
       .min(3)
@@ -57,14 +59,26 @@ export const validationSchemas = {
       .min(10)
       .required(),
     series: Joi.string().allow(null, ""),
-  }),
+  }).strict(),
   bookPosition: Joi.object({
-    id: Joi.number().required(),
+    id: Joi.number()
+      .required()
+      .integer(),
     room: Joi.string()
-      .min(3)
-      .required(),
+      .required()
+      .valid(...rooms),
     place: Joi.string()
-      .min(3)
+      .required()
+      .valid(...Object.values(places).flat(Infinity)),
+  }).strict(),
+  rate: Joi.object({
+    id: Joi.number()
+      .integer()
       .required(),
-  }),
+    rate: Joi.number()
+      .integer()
+      .min(1)
+      .max(6)
+      .required(),
+  }).strict(),
 };

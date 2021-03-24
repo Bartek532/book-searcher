@@ -2,38 +2,46 @@ import { Request, Response } from "express";
 import formidable from "formidable";
 import cloudinary from "cloudinary";
 import slugx from "slugx";
-import { validateBook } from "../validation";
 import { PrismaClient } from "@prisma/client";
-import jwt from "jsonwebtoken";
 
 const prisma = new PrismaClient();
 
 export const fetchBooks = () => {
   return prisma.book.findMany({
     include: { UserBookRate: true, BookTag: true },
-    orderBy: { place: "asc" }
+    orderBy: { place: "asc" },
   });
 };
 
 export const fetchBook = (slug: string) => {
   return prisma.book.findFirst({
     where: {
-      slug
+      slug,
     },
     include: { UserBookRate: true, BookTag: true },
-    orderBy: { place: "asc" }
+    orderBy: { place: "asc" },
   });
+};
+
+export const fetchSeries = async () => {
+  const series = await prisma.book.findMany({
+    select: { series: true },
+    distinct: ["series"],
+  });
+
+  return series.filter(({ series }) => series).map(item => item.series);
 };
 
 export const fetchBooksBySeries = (series: string) => {
   return prisma.book.findMany({
     where: {
-      series
+      series,
     },
     include: { UserBookRate: true, BookTag: true },
-    orderBy: { place: "asc" }
+    orderBy: { place: "asc" },
   });
 };
+
 export const fetchBooksByQuery = (query: string) => {
   return prisma.book.findMany({
     where: {
@@ -41,31 +49,31 @@ export const fetchBooksByQuery = (query: string) => {
         {
           name: {
             contains: query,
-            mode: "insensitive"
-          }
+            mode: "insensitive",
+          },
         },
         {
           author: {
             contains: query,
-            mode: "insensitive"
-          }
+            mode: "insensitive",
+          },
         },
         {
           description: {
             contains: query,
-            mode: "insensitive"
-          }
+            mode: "insensitive",
+          },
         },
         {
           series: {
             contains: query,
-            mode: "insensitive"
-          }
-        }
-      ]
+            mode: "insensitive",
+          },
+        },
+      ],
     },
     include: { UserBookRate: true, BookTag: true },
-    orderBy: { place: "asc" }
+    orderBy: { place: "asc" },
   });
 };
 
@@ -73,7 +81,7 @@ export const fetchBooksByFilters = (filters: object) => {
   return prisma.book.findMany({
     where: { ...filters },
     include: { UserBookRate: true, BookTag: true },
-    orderBy: { place: "asc" }
+    orderBy: { place: "asc" },
   });
 };
 
@@ -90,12 +98,13 @@ export const advancedFetchBooks = (query: {
           {
             AND: [
               { name: { contains: query.name || "", mode: "insensitive" } },
-              { author: { contains: query.author || "", mode: "insensitive" } }
-            ]
-          }
-        ]
+              { author: { contains: query.author || "", mode: "insensitive" } },
+            ],
+          },
+        ],
       },
-      include: { UserBookRate: true, BookTag: true }
+      include: { UserBookRate: true, BookTag: true },
+      orderBy: { place: "asc" },
     });
   }
 
@@ -103,28 +112,44 @@ export const advancedFetchBooks = (query: {
     where: {
       AND: [
         { name: { contains: query.name || "", mode: "insensitive" } },
-        { author: { contains: query.author || "", mode: "insensitive" } }
-      ]
+        { author: { contains: query.author || "", mode: "insensitive" } },
+      ],
     },
     include: { UserBookRate: true, BookTag: true },
-    orderBy: { place: "asc" }
+    orderBy: { place: "asc" },
   });
 };
 
 export const updateBookRates = (
   userId: number,
   bookId: number,
-  rate: number
+  rate: number,
 ) => {
   return prisma.userBookRate.create({
     data: {
       rate,
-      Book: { connect: { id: bookId } },
-      User: { connect: { id: userId } }
-    }
+      bookId,
+      userId,
+    },
   });
 };
 
+export const changeBookPosition = ({
+  id,
+  place,
+  room,
+}: {
+  id: number;
+  place: string;
+  room: string;
+}) => {
+  return prisma.book.update({
+    where: { id },
+    data: { room, place },
+  });
+};
+
+/*
 export const insertBook = async (data: Request, res: Response) => {
   const form = new formidable.IncomingForm();
 
@@ -201,13 +226,5 @@ export const insertBook = async (data: Request, res: Response) => {
   });
 };
 
-export const changeBookPosition = (data: {
-  id: number;
-  room: string;
-  place: string;
-}) => {
-  return prisma.book.update({
-    where: { id: data.id },
-    data: { room: data.room, place: data.place }
-  });
-};
+
+*/

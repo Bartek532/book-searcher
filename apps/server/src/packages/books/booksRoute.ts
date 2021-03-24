@@ -1,54 +1,38 @@
 import express from "express";
-import { catchAsync } from "../middlewares/errors";
+import { catchAsync } from "../../middlewares/errors";
 import {
   searchBooks,
-  getBooks,
+  getAllBooks,
   getBook,
   searchBySeries,
-  advancedSearch,
-  createBook,
+  moveBook,
   rateBook,
-  moveBook
-} from "../controllers/booksController";
-import { validateToken } from "../middlewares/validateToken";
-import {
-  validateUser,
-  validateRates,
-  validateLibrary
-} from "../middlewares/validateData";
+  /*
+  createBook,
+  */
+} from "./booksController";
+import { validateAuth } from "../../middlewares/validateAuth";
+import { validateData } from "../../middlewares/validateData";
+import { validationSchemas } from "../../validationSchemas";
 
 const router = express.Router();
 
 router.get("/search", catchAsync(searchBooks));
-router.get("/", catchAsync(getBooks));
-router.get("/book/:slug", catchAsync(getBook));
-router.get("/:series", catchAsync(searchBySeries));
-router.post("/advancedSearch", catchAsync(advancedSearch));
+router.get("/", catchAsync(getAllBooks));
+router.get("/series", catchAsync(searchBySeries));
 router.post(
-  "/",
-  validateToken,
-  catchAsync(validateUser),
-  catchAsync(createBook)
-);
-router.put(
-  "/move",
-  validateToken,
-  catchAsync(validateUser),
-  catchAsync(moveBook)
-);
-router.put(
   "/rate",
-  validateToken,
-  catchAsync(validateUser),
-  catchAsync(validateRates),
-  catchAsync(rateBook)
+  validateAuth,
+  validateData(validationSchemas.rate),
+  catchAsync(rateBook),
 );
 
+router.get("/:slug", catchAsync(getBook));
 router.put(
-  "/bookmark",
-  validateToken,
-  catchAsync(validateUser),
-  catchAsync(validateLibrary)
+  "/",
+  validateAuth,
+  validateData(validationSchemas.bookPosition),
+  catchAsync(moveBook),
 );
 
-export default router;
+export const booksRoute = router;

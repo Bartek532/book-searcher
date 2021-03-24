@@ -1,26 +1,11 @@
 import Joi from 'joi';
 import type { Request, Response, NextFunction } from "express";
 import { PrismaClient } from "@prisma/client";
+import type { Filters } from '@book-searcher/types';
 
 const prisma = new PrismaClient();
 
 /*
-export const validateUser = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  const { id } = jwt.decode(req.authToken) as { id: number; iat: number };
-
-  const user = await prisma.user.findUnique({ where: { id } });
-
-  if (!user) {
-    return res.status(400).json({ message: "Nie znaleziono użytkownika." });
-  }
-
-  req.user = user;
-  next();
-};
 
 export const validateRates = async (
   req: Request,
@@ -40,33 +25,10 @@ export const validateRates = async (
   }
 };
 
-export const validateLibrary = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  const isInLibrary = await prisma.userBookLibrary.findMany({
-    where: { AND: [{ userId: req.user!.id }, { bookId: req.body.id }] }
-  });
-  if (isInLibrary.length) {
-    return res
-      .status(400)
-      .json({ message: "Już masz tą książkę w bibliotece." });
-  }
-
-  await prisma.userBookLibrary.create({
-    data: {
-      Book: { connect: { id: req.body.id } },
-      User: { connect: { id: req.user!.id } }
-    }
-  });
-
-  res.status(200).json({ message: "Dodano książkę do biblioteki." });
-};
 
 */
 
-export const validateFilters = ({ query }: Request) => {
+export const validateFilters = (query: Partial<Filters>): Partial<Filters> => {
   const availableFilters = [
     "id",
     "name",
@@ -77,7 +39,13 @@ export const validateFilters = ({ query }: Request) => {
     "series"
   ];
   return Object.fromEntries(
-    Object.entries(query).filter(item => availableFilters.indexOf(item[0]) > -1)
+    Object.entries(query).filter(item => availableFilters.includes(item[0])).map(item => {
+      if(item[0] === "id"){
+        return ["id", Number(item[1])]
+      }
+
+      return item;
+    })
   );
 };
 
