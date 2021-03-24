@@ -7,12 +7,11 @@ import {
   searchBySeries,
   moveBook,
   rateBook,
-  /*
   createBook,
-  */
 } from "./booksController";
 import { validateAuth } from "../../middlewares/validateAuth";
 import { validateData } from "../../middlewares/validateData";
+import { parseForm } from "../../middlewares/parseForm";
 import { validationSchemas } from "../../validationSchemas";
 
 const router = express.Router();
@@ -34,5 +33,7 @@ router.put(
   validateData(validationSchemas.bookPosition),
   catchAsync(moveBook),
 );
+
+router.post("/", validateAuth, parseForm, catchAsync(createBook));
 
 export const booksRoute = router;

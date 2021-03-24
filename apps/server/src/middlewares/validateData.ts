@@ -1,32 +1,7 @@
 import Joi from 'joi';
 import type { Request, Response, NextFunction } from "express";
-import { PrismaClient } from "@prisma/client";
 import type { Filters } from '@book-searcher/types';
 
-const prisma = new PrismaClient();
-
-/*
-
-export const validateRates = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  if (req.body.id && req.body.rate) {
-    const isRated = await prisma.userBookRate.findMany({
-      where: { AND: [{ userId: req.user!.id }, { bookId: req.body.id }] }
-    });
-    if (isRated.length) {
-      return res.status(400).json({ message: "Już oceniałeś tą książkę!" });
-    }
-    next();
-  } else {
-    return res.status(400).json({ message: "Błędne dane." });
-  }
-};
-
-
-*/
 
 export const validateFilters = (query: Partial<Filters>): Partial<Filters> => {
   const availableFilters = [

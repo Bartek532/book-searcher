@@ -9,14 +9,13 @@ import {
   advancedFetchBooks,
   changeBookPosition,
   updateBookRates,
-  /*
-  updateBookRates,
+  getBookByUserRate,
   insertBook,
-  changeBookPosition,
-  */
 } from "./booksService";
 
 import { validateFilters } from "../../middlewares/validateData";
+import { createBookSlug } from "../../utils";
+import { validationSchemas } from "../../validationSchemas";
 
 export const getAllBooks = async (req: Request, res: Response) => {
   res.status(200).json(await fetchBooks());
@@ -75,17 +74,43 @@ export const moveBook = async (req: Request, res: Response) => {
 };
 
 export const rateBook = async (req: Request, res: Response) => {
+  const ratedBook = await getBookByUserRate(req.session.user!.id, req.body.id);
+  if (ratedBook) {
+    return res.status(400).json({ message: "Już oceniałeś tą książkę!" });
+  }
+
   await updateBookRates(req.session.user!.id, req.body.id, req.body.rate);
   res.status(200).json({ message: "Dziękujemy za opinię!" });
 };
 
-/*
-
-
 export const createBook = async (req: Request, res: Response) => {
-  await insertBook(req, res);
+  const { error } = validationSchemas.book.validate({
+    ...res.locals.fields,
+    rate: Number(res.locals.fields.rate),
+  });
+  if (error) {
+    return res.status(400).json({ message: error.details[0].message });
+  }
+
+  const bookSlug = createBookSlug(
+    res.locals.fields.name,
+    res.locals.fields.author,
+  );
+  const book = await fetchBook(bookSlug);
+
+  if (book) {
+    return res.status(400).json({ message: "Książka już istnieje." });
+  }
+
+  res.status(200).json(
+    await insertBook(
+      {
+        ...res.locals.fields,
+        slug: bookSlug,
+        rate: Number(res.locals.fields.rate),
+      },
+      res.locals.files.img,
+      req.session.user!.id,
+    ),
+  );
 };
-
-
-
-*/

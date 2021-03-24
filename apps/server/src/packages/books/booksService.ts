@@ -1,8 +1,8 @@
-import { Request, Response } from "express";
-import formidable from "formidable";
+import type {File} from "formidable";
+import type { Book } from '@book-searcher/types';
 import cloudinary from "cloudinary";
-import slugx from "slugx";
 import { PrismaClient } from "@prisma/client";
+import { tags as bookTags } from '@book-searcher/data' 
 
 const prisma = new PrismaClient();
 
@@ -120,6 +120,12 @@ export const advancedFetchBooks = (query: {
   });
 };
 
+export const getBookByUserRate = (userId: number, bookId: number) => {
+  return prisma.userBookRate.findUnique({
+    where: { bookId_userId: { userId, bookId } },
+  });
+};
+
 export const updateBookRates = (
   userId: number,
   bookId: number,
@@ -149,82 +155,49 @@ export const changeBookPosition = ({
   });
 };
 
-/*
-export const insertBook = async (data: Request, res: Response) => {
-  const form = new formidable.IncomingForm();
+export const insertBook = async (data: Book & {rate: number, tags: string}, img: File, userId: number) => {
+  
+    const uploadedFile = await cloudinary.v2.uploader.upload(img.path, {
+      folder: "book_searcher",
+      public_id: data.slug,
+      use_filename: true
+    });
 
-  form.parse(data, async (err, fields, files) => {
-    if (err) {
-      throw new Error(err);
-    }
-    const { error } = validateBook(fields);
-    if (error)
-      return res.status(400).json({ message: error.details[0].message });
+    const book =  await prisma.book.create({
+      data: {
+        name: data.name,
+        author: data.author,
+        place: data.place,
+        room: data.room,
+        slug: data.slug,
+        description: data.description,
+        series: data.series || "", 
+        img: uploadedFile!.secure_url,
+      }
+    });
 
-    const slug = slugx.create(
-      fields.name +
-        " " +
-        (fields.author as string).substring(
-          (fields.author as string).lastIndexOf(" ") + 1 || 0
-        )
-    );
+    await prisma.userBookRate.create({
+      data: {
+        rate: data.rate,
+        bookId: book.id,
+        userId
+      }
+    });
 
-    if (await fetchBook(slug)) {
-      return res.status(400).json({ message: "Książka już istnieje." });
-    }
-
-    cloudinary.v2.uploader.upload(
-      files.file.path,
-      {
-        folder: "book_searcher",
-        public_id: slug,
-        use_filename: true
-      },
-      async function (error, result) {
-        const book = await prisma.book.create({
-          data: {
-            name: fields.name as string,
-            author: fields.author as string,
-            img: result!.secure_url,
-            slug,
-            room: fields.room as string,
-            place: fields.place as string,
-            series: fields.series as string,
-            description: fields.description as string
-          }
-        });
-
-        const { id: userId } = jwt.decode(data.authToken) as {
-          id: number;
-          iat: number;
-        };
-
-        await prisma.userBookRate.create({
-          data: {
-            rate: Number(fields.rate),
-            Book: { connect: { id: book.id } },
-            User: { connect: { id: userId } }
-          }
-        });
-
-        const tags = JSON.parse(fields.tags as string);
-
-        if (tags.length) {
-          for (const tag of tags) {
-            await prisma.bookTag.create({
-              data: {
-                Book: { connect: { id: book.id } },
-                Tag: { connect: { name: tag } }
-              }
-            });
+        if (data.tags) {
+          const tags = JSON.parse(data.tags);
+          const filteredTags = tags.filter((tag: string) => bookTags.includes(tag))
+          if(filteredTags.length){
+            for (const tag of filteredTags) {
+              await prisma.bookTag.create({
+                data: {
+                  tagName: tag,
+                  bookId: book.id
+                }
+              });
+            }
           }
         }
 
-        res.status(200).json(book);
-      }
-    );
-  });
+  return book;
 };
-
-
-*/
