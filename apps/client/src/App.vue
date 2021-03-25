@@ -1,17 +1,17 @@
 <template>
-  <div>
+  <div class="app">
     <router-view></router-view>
     <Navbar v-if="showNavbar" />
   </div>
 </template>
 
 <script lang="ts">
-import Navbar from "./components/Navbar.vue";
 import { useRoute } from "vue-router";
+import Navbar from "./components/Navbar.vue";
 import { ref, watch } from "vue";
 export default {
   components: {
-    Navbar
+    Navbar,
   },
   setup() {
     const route = useRoute();
@@ -41,13 +41,13 @@ export default {
     window.addEventListener("resize", navbar);
     watch(
       () => route.path,
-      () => navbar()
+      () => navbar(),
     );
 
     return {
-      showNavbar
+      showNavbar,
     };
-  }
+  },
 };
 </script>
 

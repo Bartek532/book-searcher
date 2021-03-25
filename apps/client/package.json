@@ -13,6 +13,7 @@
     "gsap": "^3.5.1",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
+    "vue3-lazyload": "^0.2.2-beta",
     "vuex": "^4.0.0-rc.2"
   },
   "devDependencies": {

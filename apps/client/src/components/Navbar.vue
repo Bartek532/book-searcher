@@ -100,7 +100,7 @@ export default defineComponent({
   setup() {
     const activeRoute = ref(1);
 
-    function tilt(e: HTMLElementEvent) {
+    const tilt = (e: HTMLElementEvent) => {
       if (e.target.classList.contains("tab__item")) {
         gsap.to(e.target, {
           scale: 0.7,
@@ -109,9 +109,9 @@ export default defineComponent({
           duration: 0.4,
         });
       }
-    }
+    };
 
-    function activateRoute(e: HTMLElementEvent) {
+    const activateRoute = (e: HTMLElementEvent) => {
       const items = document.querySelectorAll(".tab__item");
 
       if (e.target.classList.contains("tab__item")) {
@@ -124,7 +124,8 @@ export default defineComponent({
           ease: Back.easeOut.config(5),
         });
       }
-    }
+    };
+
     return {
       activeRoute,
       activateRoute,
@@ -141,17 +142,16 @@ export default defineComponent({
   bottom: 0;
   right: 0;
   background: linear-gradient(90deg, #5368ea, $main-color);
-  width: 100vw;
+  width: 100%;
   z-index: 90;
   border-radius: 15px 15px 0 0;
 
   &__items {
     list-style: none;
-    padding: 5px 0;
+    padding: 2px 0;
     margin: 0;
     display: grid;
-    align-items: end;
-    justify-items: center;
+    place-items: center;
     grid-template-columns: repeat(4, 1fr);
   }
 
@@ -179,10 +179,10 @@ export default defineComponent({
     transition: fill 0.5s ease-in-out;
   }
 
-  .router-link-exact-active svg path {
+  .router-link-exact-active .tab__icon path {
     fill: #fff;
   }
-  .router-link-exact-active span {
+  .router-link-exact-active .tab__item__label {
     color: #fff;
   }
 }
@@ -190,46 +190,57 @@ export default defineComponent({
 @media all and (min-width: 700px) {
   .tab {
     position: absolute;
-    top: 0;
+    top: 20px;
     right: 0;
     width: auto;
-    margin: 18px 40px 0 0;
     padding: 0;
     background: transparent;
-    height: 38px;
+    height: 40px;
+
     &__icon {
       display: none;
     }
 
     &__item {
       position: relative;
-      &__login {
-        background: linear-gradient(90deg, #5368ea, $main-color);
-        box-shadow: 0 4px 7px 0 rgba($main-color, 0.65);
-        color: #fff;
-        padding: 9px 17px;
-        transition: 0.3s;
+      height: auto;
 
-        &:hover {
-          box-shadow: none;
-          transform: translateY(3px);
-          transition: 0.3s;
-        }
-      }
       &__label {
-        display: block;
         font-weight: 600;
-        text-transform: uppercase;
+        font-size: 1rem;
+        color: #000;
         margin: 0 10px;
       }
 
+      &__login {
+        background: linear-gradient(90deg, #5368ea, $main-color);
+        padding: 9px 17px;
+
+        .tab__item__label {
+          color: #fff;
+        }
+
+        &::before {
+          @include pseudo;
+          box-shadow: 0 4px 7px 0 rgba($main-color, 0.65);
+          opacity: 1;
+          transition: opacity 0.3s;
+        }
+
+        &:hover::before {
+          opacity: 0;
+          transition: opacity 0.3s;
+        }
+
+        &::after {
+          display: none;
+        }
+      }
+
       &::after {
-        content: "";
-        position: absolute;
-        bottom: -5px;
-        left: 0;
-        width: 100%;
-        height: 13%;
+        @include pseudo;
+        top: 90%;
+        height: 10%;
         z-index: 2;
         background: $main-color;
         border-radius: 20px;
@@ -237,26 +248,23 @@ export default defineComponent({
         transition: transform 0.3s;
       }
 
-      &:hover::after,
-      &--active::after {
+      &.router-link-exact-active {
+        .tab__item__label {
+          color: #000;
+        }
+        &.tab__item__login {
+          transform: scaleX(0);
+        }
+        &::after {
+          transform: scaleX(1);
+          transition: transform 0.3s;
+        }
+      }
+      &:hover::after {
         transform: scaleX(1);
         transition: transform 0.3s;
       }
-
-      &--active.tab__item__login::after,
-      &__login:hover::after {
-        transform: scaleX(0);
-      }
     }
-  }
-
-  .router-link-active .tab__item::after {
-    transform: scaleX(1);
-    transition: transform 0.3s;
-  }
-
-  .router-link-active .tab__item__login::after {
-    transform: scaleX(0);
   }
 }
 </style>
