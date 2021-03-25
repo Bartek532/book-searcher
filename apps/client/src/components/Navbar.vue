@@ -7,44 +7,46 @@
       @mouseup="activateRoute"
       @touchend="activateRoute"
     >
-      <router-link to="/">
-        <li class="tab__item">
-          <svg
-            width="34"
-            height="34"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            class="tab__icon"
-          >
-            <path
-              d="M9.99998 19V14H14V19C14 19.55 14.45 20 15 20H18C18.55 20 19 19.55 19 19V12H20.7C21.16 12 21.38 11.43 21.03 11.13L12.67 3.59997C12.29 3.25997 11.71 3.25997 11.33 3.59997L2.96998 11.13C2.62998 11.43 2.83998 12 3.29998 12H4.99998V19C4.99998 19.55 5.44998 20 5.99998 20H8.99998C9.54998 20 9.99998 19.55 9.99998 19Z"
-              fill="#9c9bf0"
-            />
-          </svg>
-          <div class="tab__item__label">Start</div>
-        </li>
-      </router-link>
-      <router-link to="/rooms">
-        <li class="tab__item">
+      <li>
+        <router-link to="/" class="tab__item">
           <svg
             width="30"
-            height="30"
-            viewBox="0 0 24 24"
+            height="27"
+            viewBox="0 0 20 17"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
             class="tab__icon"
           >
             <path
-              d="M12 2C8.13 2 5 5.13 5 9C5 14.25 12 22 12 22C12 22 19 14.25 19 9C19 5.13 15.87 2 12 2ZM12 11.5C11.337 11.5 10.7011 11.2366 10.2322 10.7678C9.76339 10.2989 9.5 9.66304 9.5 9C9.5 8.33696 9.76339 7.70107 10.2322 7.23223C10.7011 6.76339 11.337 6.5 12 6.5C12.663 6.5 13.2989 6.76339 13.7678 7.23223C14.2366 7.70107 14.5 8.33696 14.5 9C14.5 9.66304 14.2366 10.2989 13.7678 10.7678C13.2989 11.2366 12.663 11.5 12 11.5V11.5Z"
-              fill="#9c9bf0"
+              d="M18.672 10H17V16C17 16.445 16.806 17 16 17H12V11H7.99998V17H3.99998C3.19398 17 2.99998 16.445 2.99998 16V10H1.32798C0.729984 10 0.857984 9.67602 1.26798 9.25202L9.29198 1.22002C9.48698 1.01802 9.74298 0.91802 9.99998 0.90802C10.257 0.91802 10.513 1.01702 10.708 1.22002L18.731 9.25102C19.142 9.67602 19.27 10 18.672 10V10Z"
+              fill="black"
             />
           </svg>
-          <div class="tab__item__label">Lokalizacja</div>
-        </li>
-      </router-link>
-      <router-link to="/search">
-        <li class="tab__item">
+
+          <span class="tab__item__label">start</span>
+        </router-link>
+      </li>
+      <li>
+        <router-link to="/rooms" class="tab__item">
+          <svg
+            width="32"
+            height="26"
+            viewBox="0 0 20 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            class="tab__icon"
+          >
+            <path
+              d="M10 0.25C15.385 0.25 19.75 4.615 19.75 10C19.75 14.12 16.855 18.61 11.14 23.518C10.8222 23.791 10.4171 23.9409 9.99813 23.9405C9.5792 23.9402 9.1743 23.7895 8.857 23.516L8.479 23.188C3.017 18.408 0.25 14.028 0.25 10C0.25 4.615 4.615 0.25 10 0.25ZM10 6.25C9.00544 6.25 8.05161 6.64509 7.34835 7.34835C6.64509 8.05161 6.25 9.00544 6.25 10C6.25 10.9946 6.64509 11.9484 7.34835 12.6517C8.05161 13.3549 9.00544 13.75 10 13.75C10.9946 13.75 11.9484 13.3549 12.6517 12.6517C13.3549 11.9484 13.75 10.9946 13.75 10C13.75 9.00544 13.3549 8.05161 12.6517 7.34835C11.9484 6.64509 10.9946 6.25 10 6.25Z"
+              fill="black"
+            />
+          </svg>
+
+          <span class="tab__item__label">lokalizacja</span>
+        </router-link>
+      </li>
+      <li>
+        <router-link to="/search" class="tab__item">
           <svg
             class="tab__icon"
             width="26"
@@ -58,31 +60,33 @@
               fill="#9c9bf0"
             />
           </svg>
-          <div class="tab__item__label">Szukaj</div>
-        </li>
-      </router-link>
-      <router-link
-        :to="!$store.state.isLogIn ? '/auth/login' : '/dashboard/start'"
-      >
-        <li class="tab__item tab__item__login">
+          <span class="tab__item__label">szukaj</span>
+        </router-link>
+      </li>
+      <li>
+        <router-link
+          :to="!$store.state.isLogIn ? '/auth/login' : '/dashboard/start'"
+          class="tab__item tab__item__login"
+        >
           <svg
-            width="32"
-            height="32"
-            viewBox="0 0 24 24"
+            width="30"
+            height="24"
+            viewBox="0 0 18 19"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
             class="tab__icon"
           >
             <path
-              d="M12 4C13.0609 4 14.0783 4.42143 14.8284 5.17157C15.5786 5.92172 16 6.93913 16 8C16 9.06087 15.5786 10.0783 14.8284 10.8284C14.0783 11.5786 13.0609 12 12 12C10.9391 12 9.92172 11.5786 9.17157 10.8284C8.42143 10.0783 8 9.06087 8 8C8 6.93913 8.42143 5.92172 9.17157 5.17157C9.92172 4.42143 10.9391 4 12 4V4ZM12 14C16.42 14 20 15.79 20 18V20H4V18C4 15.79 7.58 14 12 14Z"
-              fill="#9c9bf0"
+              d="M4.5 4.5C4.5 6.981 6.519 9 9 9C11.481 9 13.5 6.981 13.5 4.5C13.5 2.019 11.481 0 9 0C6.519 0 4.5 2.019 4.5 4.5ZM17 19H18V18C18 14.141 14.859 11 11 11H7C3.14 11 0 14.141 0 18V19H17Z"
+              fill="black"
             />
           </svg>
-          <div class="tab__item__label">
-            {{ $store.state.isLogIn ? "moje konto" : "zaloguj się" }}
-          </div>
-        </li>
-      </router-link>
+
+          <span class="tab__item__label">
+            {{ $store.state.isLogIn ? "konto" : "zaloguj" }}
+          </span>
+        </router-link>
+      </li>
     </ul>
   </nav>
 </template>
@@ -102,7 +106,7 @@ export default defineComponent({
           scale: 0.7,
           rotate: "10deg",
           ease: Power4.easeOut,
-          duration: 0.4
+          duration: 0.4,
         });
       }
     }
@@ -117,16 +121,16 @@ export default defineComponent({
         gsap.to(e.target, {
           scale: 1,
           rotate: 0,
-          ease: Back.easeOut.config(5)
+          ease: Back.easeOut.config(5),
         });
       }
     }
     return {
       activeRoute,
       activateRoute,
-      tilt
+      tilt,
     };
-  }
+  },
 });
 </script>
 
@@ -139,29 +143,34 @@ export default defineComponent({
   background: linear-gradient(90deg, #5368ea, $main-color);
   width: 100vw;
   z-index: 90;
-  border-radius: 5px 5px 0 0;
+  border-radius: 15px 15px 0 0;
 
   &__items {
     list-style: none;
-    padding: 0;
+    padding: 5px 0;
+    margin: 0;
     display: grid;
-    align-items: center;
+    align-items: end;
     justify-items: center;
     grid-template-columns: repeat(4, 1fr);
   }
 
   &__item {
     cursor: pointer;
-    max-height: 100%;
+    height: 70px;
+    padding: 11px 0;
     @include flex(space-between);
     flex-direction: column;
+    margin: 0 5px;
 
     * {
       pointer-events: none;
     }
 
     &__label {
-      display: none;
+      text-transform: uppercase;
+      color: $inactive-color;
+      font-size: 0.75rem;
     }
   }
 
@@ -172,6 +181,9 @@ export default defineComponent({
 
   .router-link-exact-active svg path {
     fill: #fff;
+  }
+  .router-link-exact-active span {
+    color: #fff;
   }
 }
 
