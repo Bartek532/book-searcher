@@ -5,3 +5,7 @@ export interface HTMLElementEvent extends Event {
 export interface HTMLInputEvent extends Event {
   target: HTMLInputElement & EventTarget;
 }
+
+export interface HTMLFormEvent extends Event {
+  target: HTMLFormElement & EventTarget;
+}

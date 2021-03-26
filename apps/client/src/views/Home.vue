@@ -1,77 +1,10 @@
 <template>
-  <div class="home">
-    <div class="up-circle">
-      <svg
-        width="270"
-        height="223"
-        viewBox="0 0 270 223"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <g clip-path="url(#clip0)">
-          <g filter="url(#filter0_d)">
-            <path
-              d="M270 0V223C217.185 175.597 222.808 117.035 136.934 112.291C51.0601 107.546 0 0 0 0H270Z"
-              fill="url(#paint0_linear)"
-            />
-          </g>
-        </g>
-        <defs>
-          <filter
-            id="filter0_d"
-            x="-4"
-            y="0"
-            width="278"
-            height="231"
-            filterUnits="userSpaceOnUse"
-            color-interpolation-filters="sRGB"
-          >
-            <feFlood flood-opacity="0" result="BackgroundImageFix" />
-            <feColorMatrix
-              in="SourceAlpha"
-              type="matrix"
-              values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-            />
-            <feOffset dy="4" />
-            <feGaussianBlur stdDeviation="2" />
-            <feColorMatrix
-              type="matrix"
-              values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"
-            />
-            <feBlend
-              mode="normal"
-              in2="BackgroundImageFix"
-              result="effect1_dropShadow"
-            />
-            <feBlend
-              mode="normal"
-              in="SourceGraphic"
-              in2="effect1_dropShadow"
-              result="shape"
-            />
-          </filter>
-          <linearGradient
-            id="paint0_linear"
-            x1="270"
-            y1="-1.03126e-05"
-            x2="134.086"
-            y2="84.0144"
-            gradientUnits="userSpaceOnUse"
-          >
-            <stop stop-color="#5368EA" />
-            <stop offset="1" stop-color="#2524E9" />
-          </linearGradient>
-          <clipPath id="clip0">
-            <rect width="270" height="223" fill="white" />
-          </clipPath>
-        </defs>
-      </svg>
-    </div>
+  <section class="home">
     <img src="../assets/svgs/logo.svg" alt="logo" class="logo" />
-    <div class="logo__name">b<span class="logo__name__blue">oo</span>k</div>
-    <div class="logo__subname">searcher</div>
+    <h1 class="logo__name">b<span class="logo__name__blue">oo</span>k</h1>
+    <h2 class="logo__subname">searcher</h2>
     <SearchInput />
-  </div>
+  </section>
 </template>
 
 <script lang="ts">
@@ -80,32 +13,28 @@ import SearchInput from "../components/inputs/SearchInput.vue";
 import homeAnimation from "../animations/homeAnimation";
 export default {
   components: {
-    SearchInput
+    SearchInput,
   },
   setup() {
     onMounted(() => {
       homeAnimation();
     });
-  }
+  },
 };
 </script>
 
 <style lang="scss" scoped>
+h1,
+h2 {
+  margin: 0;
+}
+
 .home {
-  min-width: 100vw;
-  height: 100vh;
+  width: 100%;
   @include flex;
   flex-flow: column wrap;
-  position: relative;
   padding: 0;
-
-  .up-circle {
-    position: absolute;
-    top: 0;
-    right: 0;
-    z-index: 10;
-    margin-top: -8px;
-  }
+  min-height: 90vh;
 
   .logo__name {
     font-weight: 700;
@@ -132,7 +61,7 @@ export default {
   .logo__subname,
   .search {
     transform: scale(1.2);
-    margin: 6px 0;
+    margin: 7px 0;
   }
 
   .logo {
@@ -142,8 +71,22 @@ export default {
   .search {
     margin-top: 30px;
   }
-  .up-circle {
-    display: none;
+}
+
+@media all and (min-width: 1200px) {
+  .logo,
+  .logo__name,
+  .logo__subname {
+    transform: scale(1.4);
+    margin: 8px 0;
+  }
+
+  .logo {
+    margin-bottom: 27px;
+  }
+
+  .search {
+    margin-top: 40px;
   }
 }
 </style>

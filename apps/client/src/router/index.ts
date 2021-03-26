@@ -35,6 +35,9 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/wyniki",
     component: SearchResults,
+    meta: {
+      title: "Wyniki",
+    },
   },
   {
     path: "/wyniki/:slug",
@@ -45,33 +48,65 @@ const routes: Array<RouteRecordRaw> = [
     path: "/pokoje",
     component: Rooms,
     children: [
-      { path: "", component: RoomsHome },
-      { path: ":room", component: Places, props: true },
+      { path: "", component: RoomsHome, meta: { title: "Pokoje" } },
+      {
+        path: ":room",
+        component: Places,
+        props: true,
+        meta: { title: "Miejsca" },
+      },
     ],
   },
   {
     path: "/szukaj",
     component: Search,
+    meta: { title: "Szukaj" },
   },
   {
     path: "/auth",
     component: Auth,
     children: [
-      { path: "logowanie", component: Login },
-      { path: "rejestracja", component: Register },
-      { path: "aktywacja/:token", component: Activate, props: true },
+      { path: "logowanie", component: Login, meta: { title: "Logowanie" } },
+      {
+        path: "rejestracja",
+        component: Register,
+        meta: { title: "Rejestracja" },
+      },
+      {
+        path: "aktywacja/:token",
+        component: Activate,
+        props: true,
+        meta: { title: "Aktywacja konta" },
+      },
     ],
   },
   {
     path: "/panel",
     component: Dashboard,
     children: [
-      { path: "start", component: DashboardHome },
-      { path: "dodaj", component: CreateBook },
-      { path: "biblioteka", component: Library },
-      { path: "library/:slug", component: Result, props: true },
-      { path: "przenies", component: MoveBook },
-      { path: "konto", component: User },
+      {
+        path: "start",
+        component: DashboardHome,
+        meta: { title: "Panel użytkownika " },
+      },
+      {
+        path: "dodaj",
+        component: CreateBook,
+        meta: { title: "Dodaj książkę " },
+      },
+      { path: "biblioteka", component: Library, meta: { title: "Biblioteka" } },
+      {
+        path: "library/:slug",
+        component: Result,
+        props: true,
+        meta: { title: "Biblioteka" },
+      },
+      {
+        path: "przenies",
+        component: MoveBook,
+        meta: { title: "Przenieś książkę " },
+      },
+      { path: "konto", component: User, meta: { title: "Ustawienia konta" } },
     ],
   },
   {

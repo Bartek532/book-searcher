@@ -191,7 +191,8 @@ export default defineComponent({
   .tab {
     position: absolute;
     top: 20px;
-    right: 0;
+    left: 50%;
+    transform: translateX(-50%);
     width: auto;
     padding: 0;
     background: transparent;
