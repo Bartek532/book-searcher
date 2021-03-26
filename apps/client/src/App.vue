@@ -195,7 +195,7 @@ input[type="search"]::-webkit-search-results-decoration {
 
 @media all and (min-width: 700px) {
   .app {
-    padding: 20px 0;
+    padding: 25px 0;
   }
 }
 </style>

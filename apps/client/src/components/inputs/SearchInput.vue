@@ -1,7 +1,7 @@
 <template>
   <div class="search">
     <form
-      @submit="search"
+      @submit.prevent="search"
       class="search__circle"
       :class="{ 'search__circle--active': inputFocused }"
     >
@@ -37,8 +37,8 @@
 </template>
 
 <script lang="ts">
-import { ref, computed, defineComponent, onMounted } from "vue";
-import { useStore } from "vuex";
+import { ref, defineComponent, onMounted } from "vue";
+import { prepareQueryToSearch } from "../../utils/functions";
 import { useRouter } from "vue-router";
 import gsap from "gsap";
 export default defineComponent({
@@ -52,16 +52,11 @@ export default defineComponent({
   setup(prp) {
     const inputFocused = ref(false);
     const buttonType = ref(prp.active ? "submit" : "button");
-    const store = useStore();
     const router = useRouter();
-    const query = computed({
-      get: () => store.state.query,
-      set: value => store.commit("UPDATE_QUERY", value),
-    });
+    const query = ref("");
 
-    const search = (e: Event) => {
-      e.preventDefault();
-      router.push("/wyniki");
+    const search = () => {
+      router.push(`/ksiazki?q=${prepareQueryToSearch(query.value)}`);
     };
 
     const searchAnimation = () => {

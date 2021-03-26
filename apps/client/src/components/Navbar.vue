@@ -179,10 +179,10 @@ export default defineComponent({
     transition: fill 0.5s ease-in-out;
   }
 
-  .router-link-exact-active .tab__icon path {
+  .router-link-active .tab__icon path {
     fill: #fff;
   }
-  .router-link-exact-active .tab__item__label {
+  .router-link-active .tab__item__label {
     color: #fff;
   }
 }
@@ -250,7 +250,7 @@ export default defineComponent({
         transition: transform 0.3s;
       }
 
-      &.router-link-exact-active {
+      &.router-link-active {
         .tab__item__label {
           color: #000;
         }

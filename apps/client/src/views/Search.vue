@@ -1,27 +1,25 @@
 <template>
-  <div class="container">
+  <main class="container">
+    <h2>Znajdź książkę</h2>
     <form @submit.prevent="onSubmit" class="form">
-      <h3>Znajdź książkę</h3>
-      <div class="form__search">
-        <div class="form__search__inputs">
-          <Input
-            name="Tytuł"
-            placeholder="Niewinny"
-            :validate="false"
-            v-model="title"
-          />
-          <Input
-            name="Autor"
-            placeholder="Lee Child"
-            :validate="false"
-            v-model="author"
-          />
-        </div>
+      <div class="form__inputs">
+        <Input
+          name="Tytuł"
+          placeholder="Niewinny"
+          :validate="false"
+          v-model="title"
+        />
+        <Input
+          name="Autor"
+          placeholder="Lee Child"
+          :validate="false"
+          v-model="author"
+        />
         <Tags @tags-selected="tags = $event" :validate="false" />
       </div>
       <Button text="Szukaj" />
     </form>
-  </div>
+  </main>
 </template>
 
 <script lang="ts">
@@ -35,7 +33,7 @@ export default defineComponent({
   components: {
     Input,
     Tags,
-    Button
+    Button,
   },
   setup() {
     const router = useRouter();
@@ -51,30 +49,30 @@ export default defineComponent({
       store.dispatch("advancedSearch", {
         name: title.value,
         author: author.value,
-        tags: tags.value
+        tags: tags.value,
       });
     }
 
     return { onSubmit, query, title, author, tags };
-  }
+  },
 });
 </script>
 
 <style lang="scss" scoped>
 .container {
   @include flex(center, flex-start);
-  min-height: 100vh;
-  padding-bottom: 80px;
-  padding-top: 30px;
+  flex-flow: column wrap;
   background: #fff;
+  width: 100%;
   .form {
-    &__search {
-      width: 100%;
+    width: 100%;
+    @include flex;
+    flex-flow: column wrap;
 
-      &__inputs {
-        @include flex;
-        flex-flow: column wrap;
-      }
+    &__inputs {
+      @include flex;
+      flex-flow: column wrap;
+      width: 100%;
     }
   }
 }

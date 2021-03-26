@@ -9,9 +9,9 @@ export default defineComponent({
   props: {
     text: {
       type: String,
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 });
 </script>
 
@@ -25,10 +25,11 @@ button {
   letter-spacing: 1.2px;
   border-radius: 30px;
   margin-top: 30px;
-  transition: 0.3s;
+  transition: transform 0.3s;
   font-size: 1rem;
   cursor: pointer;
   position: relative;
+  outline: 0 none;
 
   &::after {
     @include pseudo;
@@ -38,8 +39,8 @@ button {
     transition: opacity 0.3s;
   }
 
-  &:focus,
-  &:hover {
+  &:hover,
+  &:focus {
     transform: translateY(3px);
     transition: transform 0.3s;
 

@@ -1,30 +1,32 @@
 <template>
-  <article class="field">
-    <div class="field__icon">
-      <img
-        :src="require(`../assets/svgs/rooms/${label}.svg`)"
-        :alt="label"
-        loading="lazy"
-      />
-    </div>
-    <div class="field__label">{{ polishTranslate[label] }}</div>
-  </article>
+  <router-link :to="path">
+    <article class="field">
+      <div class="field__icon">
+        <img v-lazy="require(`../assets/svgs/rooms/${img}.svg`)" :alt="label" />
+      </div>
+      <button class="field__label">{{ label }}</button>
+    </article>
+  </router-link>
 </template>
 
 <script lang="ts">
-import { polishTranslate } from "../data";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "Field",
   props: {
     label: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
+    img: {
+      type: String,
+      required: true,
+    },
+    path: {
+      type: String,
+      required: true,
+    },
   },
-  setup() {
-    return { polishTranslate };
-  }
 });
 </script>
 
@@ -57,7 +59,7 @@ export default defineComponent({
   &:hover {
     transform: translateY(-25px) rotate(7deg);
     transform-origin: "100% 100%";
-    transition: all 0.3s;
+    transition: transform 0.3s;
 
     &::after {
       opacity: 1;
@@ -76,6 +78,8 @@ export default defineComponent({
     text-transform: capitalize;
     text-align: center;
     font-size: 0.9rem;
+    border: 0 none;
+    background-color: transparent;
 
     @media all and (min-width: 450px) {
       font-size: 1.15rem;

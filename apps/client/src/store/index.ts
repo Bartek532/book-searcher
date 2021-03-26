@@ -1,12 +1,13 @@
 import { createStore } from "vuex";
 import axios from "axios";
 import { types } from "./mutation-types";
+import type { Book } from '@book-searcher/types';
+import {fetcher} from '../utils/fetcher';
 
 const store = createStore({
   state: {
-    query: "",
     loading: false,
-    results: [],
+    results: [] as Book[],
     error: "",
     isLogIn: false,
     modal: {
@@ -17,13 +18,10 @@ const store = createStore({
   },
   getters: {},
   mutations: {
-    [types.UPDATE_QUERY](state, value: string) {
-      state.query = value;
-    },
     [types.SET_LOADING_STATUS](state, value: boolean) {
       state.loading = value;
     },
-    [types.UPDATE_RESULTS](state, value) {
+    [types.UPDATE_RESULTS](state, value: Book[]) {
       state.results = value;
     },
     [types.SET_ERRORS](state, value: string) {
@@ -49,41 +47,45 @@ const store = createStore({
     async getAllBooks({ commit }) {
       commit(types.SET_LOADING_STATUS, true);
       try {
-        const { data } = await axios.get("/api/books");
+        const { data }: { data: Book[] } = await fetcher('/api/books', "GET");
         commit(types.UPDATE_RESULTS, data);
         commit(types.SET_ERRORS, "");
       } catch (err) {
-        commit(types.SET_ERRORS, err.response.data.message);
+        console.error(err);
+        commit(types.SET_ERRORS, err);
       } finally {
         commit(types.SET_LOADING_STATUS, false);
       }
     },
-    async searchByQuery({ commit, state }) {
+    async searchByQuery({ commit }, query) {
       commit(types.SET_LOADING_STATUS, true);
       try {
-        const { data } = await axios.get(`/api/books/search?q=${state.query}`);
+        const { data }: { data: Book[] } = await fetcher(`/api/books/search?type=basic&q=${query}`, "GET");
         commit(types.UPDATE_RESULTS, data);
         commit(types.SET_ERRORS, "");
       } catch (err) {
-        commit(types.SET_ERRORS, err.response.data.message);
+        console.error(err);
+        commit(types.SET_ERRORS, err);
       } finally {
         commit(types.SET_LOADING_STATUS, false);
       }
     },
     async searchByRooms({ commit }, filters) {
-      let url = "/api/books";
+      let url = "/api/books/search?type=basic&";
       if (filters) {
         url += filters.place
-          ? `/search?room=${filters.room}&place=${filters.place}`
-          : `/search?room=${filters.room}`;
+          ? `room=${filters.room}&place=${filters.place}`
+          : `room=${filters.room}`;
       }
+      console.log(url);
       commit(types.SET_LOADING_STATUS, true);
       try {
-        const { data } = await axios.get(url);
+        const { data } = await fetcher(url, "GET");
         commit(types.UPDATE_RESULTS, data);
         commit(types.SET_ERRORS, "");
       } catch (err) {
-        commit(types.SET_ERRORS, err.response.data.message);
+        console.error(err.message)
+        commit(types.SET_ERRORS, err);
       } finally {
         commit(types.SET_LOADING_STATUS, false);
       }

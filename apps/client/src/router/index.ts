@@ -33,14 +33,14 @@ const routes: Array<RouteRecordRaw> = [
     component: Home,
   },
   {
-    path: "/wyniki",
+    path: "/ksiazki",
     component: SearchResults,
     meta: {
-      title: "Wyniki",
+      title: "Książki",
     },
   },
   {
-    path: "/wyniki/:slug",
+    path: "/ksiazki/:slug",
     component: Result,
     props: true,
   },
@@ -53,7 +53,6 @@ const routes: Array<RouteRecordRaw> = [
         path: ":room",
         component: Places,
         props: true,
-        meta: { title: "Miejsca" },
       },
     ],
   },

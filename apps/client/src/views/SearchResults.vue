@@ -1,20 +1,38 @@
 <template>
-  <div>
+  <main>
     <SearchInput />
     <Results
       @result-clicked="$router.push({ path: `/results/${$event.slug}` })"
     />
-  </div>
+  </main>
 </template>
 
 <script>
 import SearchInput from "../components/inputs/SearchInput.vue";
 import Results from "../components/Results.vue";
+import { useStore } from "vuex";
+import { useRoute } from "vue-router";
 export default {
   components: {
     SearchInput,
-    Results
-  }
+    Results,
+  },
+  setup() {
+    const store = useStore();
+    const route = useRoute();
+
+    if (!Object.keys(route.query).length) {
+      store.dispatch("getAllBooks");
+    }
+
+    if (route.query.q) {
+      store.dispatch("searchByQuery", decodeURIComponent(route.query.q));
+    }
+
+    if (route.query.place || route.query.room) {
+      store.dispatch("searchByRooms", route.query);
+    }
+  },
 };
 </script>
 

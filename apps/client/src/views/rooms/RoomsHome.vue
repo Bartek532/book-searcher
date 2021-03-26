@@ -1,62 +1,50 @@
 <template>
-  <div class="choose__rooms">
-    <Button text="Pokaż wszystko" class="rooms__btn" @click="searchBooks" />
-    <div class="rooms">
+  <section class="rooms">
+    <Button
+      text="Pokaż wszystko"
+      class="rooms__btn"
+      @click="$router.push('/ksiazki')"
+    />
+    <div class="fields">
       <Field
         v-for="room in rooms"
-        :label="room"
+        :label="polishTranslate[room]"
+        :img="room"
         :key="room"
-        class="room__field"
-        @click="$router.push({ path: `/rooms/${room}` })"
+        :path="`/pokoje/${encodeURIComponent(polishTranslate[room])}`"
       />
     </div>
-  </div>
+  </section>
 </template>
 
 <script lang="ts">
 import Field from "../../components/Field.vue";
 import Button from "../../components/inputs/Button.vue";
-import { rooms } from "../../data";
+import { rooms, polishTranslate } from "@book-searcher/data";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 export default {
   components: {
     Field,
-    Button
+    Button,
   },
-
   setup() {
-    const store = useStore();
-    const router = useRouter();
-    function searchBooks() {
-      store.dispatch("searchByRooms");
-      router.push({ path: "/results" });
-    }
-    return { rooms, searchBooks };
-  }
+    return { rooms, polishTranslate };
+  },
 };
 </script>
 
 <style lang="scss" scoped>
-.choose__rooms {
-  min-height: 100vh;
-  padding: 80px 0;
+.rooms {
+  min-height: 90vh;
+  padding: 30px 0;
   @include flex;
   flex-flow: column wrap;
 
-  button {
-    transform: translateY(-40px);
-  }
-
-  .rooms {
+  .fields {
     flex-wrap: wrap;
     @include flex;
-  }
-}
-
-@media all and (min-width: 1000px) {
-  button {
-    transform: translateY(-70px);
+    margin: 35px 0;
   }
 }
 </style>

@@ -1,75 +1,66 @@
 <template>
-  <div class="choose__places">
+  <section class="places">
     <Button
       text="Pokaż wszystko"
       class="places__btn"
-      @click="searchBooks({ room })"
+      @click="$router.push(`/ksiazki?room=${selectedRoom}`)"
     />
-    <div class="places">
+    <div class="fields">
       <Field
-        class="place__field"
-        v-for="place in places[room]"
-        :label="place"
+        v-for="place in places[selectedRoom]"
+        :label="polishTranslate[place]"
         :key="place"
-        @click="searchBooks({ room, place })"
+        :img="place"
+        :path="`/ksiazki?room=${selectedRoom}&place=${place}`"
       />
     </div>
-  </div>
+  </section>
 </template>
 
 <script lang="ts">
-import { places } from "../../data";
+import { places, polishTranslate } from "@book-searcher/data";
+import { getKeyByValue } from "../../utils/functions";
+import { defineComponent, ref } from "vue";
 import Field from "../../components/Field.vue";
 import Button from "../../components/inputs/Button.vue";
-import { useStore } from "vuex";
-import { useRouter } from "vue-router";
-export default {
+export default defineComponent({
   components: {
     Field,
-    Button
+    Button,
   },
   props: {
     room: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
-  setup() {
-    interface Filters {
-      place?: string;
-      room?: string;
-    }
-    const store = useStore();
-    const router = useRouter();
-    function searchBooks(filters: Filters) {
-      store.dispatch("searchByRooms", filters);
-      router.push({ path: "/results" });
-    }
-    return { places, searchBooks };
-  }
-};
+  setup(prp) {
+    document.title =
+      decodeURIComponent(prp.room)
+        .slice(0, 1)
+        .toUpperCase() +
+      decodeURIComponent(prp.room).slice(1) +
+      " | Book searcher";
+
+    const selectedRoom = ref(
+      getKeyByValue(decodeURIComponent(prp.room), polishTranslate),
+    );
+    return { places, selectedRoom, polishTranslate };
+  },
+});
 </script>
 
 <style lang="scss" scoped>
-.choose__places {
-  min-height: 100vh;
+.places {
+  min-height: 90vh;
+  padding: 30px 0;
   @include flex;
-  padding: 80px 0;
   flex-flow: column wrap;
 
-  button {
-    transform: translateY(-40px);
-  }
-
-  .places {
+  .fields {
     flex-wrap: wrap;
     @include flex;
-  }
-}
-
-@media all and (min-width: 1000px) {
-  button {
-    transform: translateY(-70px);
+    margin: 35px 0;
   }
 }
 </style>
