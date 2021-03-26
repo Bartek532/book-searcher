@@ -27,7 +27,7 @@
         </router-link>
       </li>
       <li>
-        <router-link to="/rooms" class="tab__item">
+        <router-link to="/pokoje" class="tab__item">
           <svg
             width="32"
             height="26"
@@ -46,7 +46,7 @@
         </router-link>
       </li>
       <li>
-        <router-link to="/search" class="tab__item">
+        <router-link to="/szukaj" class="tab__item">
           <svg
             class="tab__icon"
             width="26"
@@ -65,7 +65,7 @@
       </li>
       <li>
         <router-link
-          :to="!$store.state.isLogIn ? '/auth/login' : '/dashboard/start'"
+          :to="!$store.state.isLogIn ? '/auth/logowanie' : '/panel/start'"
           class="tab__item tab__item__login"
         >
           <svg
@@ -204,6 +204,7 @@ export default defineComponent({
     &__item {
       position: relative;
       height: auto;
+      margin: 0 15px;
 
       &__label {
         font-weight: 600;
@@ -240,7 +241,7 @@ export default defineComponent({
       &::after {
         @include pseudo;
         top: 90%;
-        height: 10%;
+        height: 8%;
         z-index: 2;
         background: $main-color;
         border-radius: 20px;
@@ -254,6 +255,10 @@ export default defineComponent({
         }
         &.tab__item__login {
           transform: scaleX(0);
+
+          .tab__item__label {
+            color: #fff;
+          }
         }
         &::after {
           transform: scaleX(1);

@@ -1,90 +1,88 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-import Home from "../views/Home.vue";
 
-import SearchResults from "../views/SearchResults.vue";
-import Result from "../views/Result.vue";
-
-import Search from "../views/Search.vue";
+const Home = () => import("../views/Home.vue");
+const SearchResults = () => import("../views/SearchResults.vue");
+const Result = () => import("../views/Result.vue");
+const Search = () => import("../views/Search.vue");
 
 //Rooms
-import Rooms from "../views/rooms/Rooms.vue";
-import roomsHome from "../views/rooms/RoomsHome.vue";
-import Places from "../views/rooms/Places.vue";
+const Rooms = () => import("../views/rooms/Rooms.vue");
+const RoomsHome = () => import("../views/rooms/RoomsHome.vue");
+const Places = () => import("../views/rooms/Places.vue");
 
 //Auth
-
-import Auth from "../views/auth/Home.vue";
-import Login from "../views/auth/Login.vue";
-import Register from "../views/auth/Register.vue";
-import Activate from "../views/auth/Activate.vue";
+const Auth = () => import("../views/auth/Home.vue");
+const Login = () => import("../views/auth/Login.vue");
+const Register = () => import("../views/auth/Register.vue");
+const Activate = () => import("../views/auth/Activate.vue");
 
 //Dashboard
-import Dashboard from "../views/dashboard/Dashboard.vue";
-import dashboardHome from "../views/dashboard/Home.vue";
-import createBook from "../views/dashboard/CreateBook.vue";
-import MoveBook from "../views/dashboard/MoveBook.vue";
-import User from "../views/dashboard/User.vue";
-import Library from "../views/dashboard/Library.vue";
+const Dashboard = () => import("../views/dashboard/Dashboard.vue");
+const DashboardHome = () => import("../views/dashboard/Home.vue");
+const CreateBook = () => import("../views/dashboard/CreateBook.vue");
+const MoveBook = () => import("../views/dashboard/MoveBook.vue");
+const User = () => import("../views/dashboard/User.vue");
+const Library = () => import("../views/dashboard/Library.vue");
 
 //404 page
-import PageNotFound from "../views/PageNotFound.vue";
+const PageNotFound = () => import("../views/PageNotFound.vue");
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
-    component: Home
+    component: Home,
   },
   {
-    path: "/results",
-    component: SearchResults
+    path: "/wyniki",
+    component: SearchResults,
   },
   {
-    path: "/results/:slug",
+    path: "/wyniki/:slug",
     component: Result,
-    props: true
+    props: true,
   },
   {
-    path: "/rooms",
+    path: "/pokoje",
     component: Rooms,
     children: [
-      { path: "", component: roomsHome },
-      { path: ":room", component: Places, props: true }
-    ]
+      { path: "", component: RoomsHome },
+      { path: ":room", component: Places, props: true },
+    ],
   },
   {
-    path: "/search",
-    component: Search
+    path: "/szukaj",
+    component: Search,
   },
   {
     path: "/auth",
     component: Auth,
     children: [
-      { path: "login", component: Login },
-      { path: "register", component: Register },
-      { path: "activate/:token", component: Activate, props: true }
-    ]
+      { path: "logowanie", component: Login },
+      { path: "rejestracja", component: Register },
+      { path: "aktywacja/:token", component: Activate, props: true },
+    ],
   },
   {
-    path: "/dashboard",
+    path: "/panel",
     component: Dashboard,
     children: [
-      { path: "start", component: dashboardHome },
-      { path: "add-book", component: createBook },
-      { path: "library", component: Library },
+      { path: "start", component: DashboardHome },
+      { path: "dodaj", component: CreateBook },
+      { path: "biblioteka", component: Library },
       { path: "library/:slug", component: Result, props: true },
-      { path: "move-book", component: MoveBook },
-      { path: "account", component: User }
-    ]
+      { path: "przenies", component: MoveBook },
+      { path: "konto", component: User },
+    ],
   },
   {
     path: "/:pathMatch(.*)*",
-    component: PageNotFound
-  }
+    component: PageNotFound,
+  },
 ];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes
+  routes,
 });
 
 export default router;
