@@ -115,7 +115,7 @@ export default defineComponent({
       const items = document.querySelectorAll(".tab__item");
 
       if (e.target.classList.contains("tab__item")) {
-        items.forEach(item => item.classList.remove("tab__item--active"));
+        items.forEach((item) => item.classList.remove("tab__item--active"));
         e.target.classList.add("tab__item--active");
 
         gsap.to(e.target, {
@@ -191,8 +191,8 @@ export default defineComponent({
   .tab {
     position: absolute;
     top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
+    right: 50%;
+    transform: translateX(50%);
     width: auto;
     padding: 0;
     background: transparent;
@@ -251,19 +251,21 @@ export default defineComponent({
       }
 
       &.router-link-active {
-        .tab__item__label {
-          color: #000;
-        }
         &.tab__item__login {
-          transform: scaleX(0);
-
           .tab__item__label {
             color: #fff;
+          }
+
+          &::after {
+            transform: scaleX(0);
           }
         }
         &::after {
           transform: scaleX(1);
           transition: transform 0.3s;
+        }
+        .tab__item__label {
+          color: #000;
         }
       }
       &:hover::after {

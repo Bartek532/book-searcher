@@ -3,9 +3,9 @@
     <input
       type="checkbox"
       name="tag"
-      :value="checkboxValue"
+      :value="value"
       :checked="check"
-      @change="$emit('update:checkboxValue', $event)"
+      @change="changeCheckbox"
       class="checkbox__input"
     />
     <div class="checkbox__label">
@@ -30,7 +30,8 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { polishTranslate } from "../../data";
+import { polishTranslate } from "@book-searcher/data";
+import type { HTMLInputEvent } from "../../types";
 export default defineComponent({
   name: "Checbox",
   props: {
@@ -38,18 +39,33 @@ export default defineComponent({
       type: String,
       required: true,
     },
-    checkboxValue: {
-      type: String,
-      required: false,
+    modelValue: {
+      type: Array,
+      required: true,
     },
     check: {
       type: Boolean,
       default: false,
     },
+    value: {
+      type: String,
+    },
   },
 
-  setup() {
-    return { polishTranslate };
+  setup(prp, ctx) {
+    const changeCheckbox = (e: HTMLInputEvent) => {
+      if (e.target.checked) {
+        return ctx.emit("update:modelValue", [
+          ...prp.modelValue,
+          e.target.value,
+        ]);
+      }
+      return ctx.emit(
+        "update:modelValue",
+        prp.modelValue.filter((item) => item !== e.target.value),
+      );
+    };
+    return { polishTranslate, changeCheckbox };
   },
 });
 </script>

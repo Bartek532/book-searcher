@@ -11,7 +11,7 @@
           xmlns="http://www.w3.org/2000/svg"
           :class="[
             'result__bookmark',
-            { 'result__bookmark--active': activeBookmark }
+            { 'result__bookmark--active': activeBookmark },
           ]"
           @click="manageUserLibrary"
         >
@@ -181,13 +181,13 @@ export default defineComponent({
     RateModal,
     Modal,
     LoadingModal,
-    Button
+    Button,
   },
   props: {
     slug: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   setup(prp) {
     interface Book {
@@ -217,7 +217,8 @@ export default defineComponent({
 
     //Search book
     data = store.state.results.find(
-      (item: object & { slug: string }) => item.slug === prp.slug
+      (item: Record<string, string> & { slug: string }) =>
+        item.slug === prp.slug,
     );
 
     const loading = ref(false);
@@ -228,18 +229,18 @@ export default defineComponent({
       try {
         await axios.put("/api/books/rate", {
           rate: rate,
-          id: data.id
+          id: data.id,
         });
         store.dispatch("setModal", {
           show: true,
           type: "success",
-          message: "Dziękujemy za opinię!"
+          message: "Dziękujemy za opinię!",
         });
       } catch (err) {
         store.dispatch("setModal", {
           show: true,
           type: "error",
-          message: err.response.data.message
+          message: err.response.data.message,
         });
       } finally {
         loading.value = false;
@@ -251,7 +252,7 @@ export default defineComponent({
     async function manageUserLibrary() {
       const requestData = {
         url: "/api/books/bookmark",
-        message: "Dodano książkę do biblioteki."
+        message: "Dodano książkę do biblioteki.",
       };
       if (activeBookmark.value) {
         requestData.url = "/api/users/deleteFromLibrary";
@@ -261,19 +262,19 @@ export default defineComponent({
       loading.value = true;
       try {
         await axios.put(requestData.url, {
-          id: data.id
+          id: data.id,
         });
         store.dispatch("setModal", {
           show: true,
           type: "success",
-          message: requestData.message
+          message: requestData.message,
         });
         activeBookmark.value = requestData.message.startsWith("Dodano") && true;
       } catch (err) {
         store.dispatch("setModal", {
           show: true,
           type: "error",
-          message: err.response.data.message
+          message: err.response.data.message,
         });
       } finally {
         loading.value = false;
@@ -324,9 +325,9 @@ export default defineComponent({
       searchByRooms,
       searchByAuthor,
       loading,
-      polishTranslate
+      polishTranslate,
     };
-  }
+  },
 });
 </script>
 

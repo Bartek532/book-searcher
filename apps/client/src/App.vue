@@ -1,19 +1,20 @@
 <template>
   <div class="app">
-    <Navbar v-if="showNavbar" />
+    <Navbar />
     <router-view></router-view>
   </div>
 </template>
 
 <script lang="ts">
-import { useRoute, useRouter } from "vue-router";
+//import { useRoute, useRouter } from "vue-router";
 import Navbar from "./components/Navbar.vue";
-import { ref, watch } from "vue";
+//import { ref, watch } from "vue";
 export default {
   components: {
     Navbar,
   },
   setup() {
+    /*
     const route = useRoute();
     const router = useRouter();
     const showNavbar = ref(true);
@@ -54,6 +55,8 @@ export default {
     return {
       showNavbar,
     };
+  },
+  */
   },
 };
 </script>
@@ -195,7 +198,7 @@ input[type="search"]::-webkit-search-results-decoration {
 
 @media all and (min-width: 700px) {
   .app {
-    padding: 25px 0;
+    padding: 80px 0;
   }
 }
 </style>

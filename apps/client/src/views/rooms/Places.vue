@@ -36,9 +36,7 @@ export default defineComponent({
   },
   setup(prp) {
     document.title =
-      decodeURIComponent(prp.room)
-        .slice(0, 1)
-        .toUpperCase() +
+      decodeURIComponent(prp.room).slice(0, 1).toUpperCase() +
       decodeURIComponent(prp.room).slice(1) +
       " | Book searcher";
 
@@ -52,7 +50,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .places {
-  min-height: 90vh;
+  min-height: 80vh;
   padding: 30px 0;
   @include flex;
   flex-flow: column wrap;

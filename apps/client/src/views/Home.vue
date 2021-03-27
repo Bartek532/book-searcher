@@ -34,7 +34,7 @@ h2 {
   @include flex;
   flex-flow: column wrap;
   padding: 0;
-  min-height: 90vh;
+  min-height: 80vh;
 
   .logo__name {
     font-weight: 700;

@@ -1,7 +1,7 @@
 <template>
   <details class="tags">
     <summary class="tags__summary">
-      <div class="tags__icon" @click="tagsShown = !tagsShown">
+      <div class="tags__icon">
         <svg
           width="18"
           height="18"
@@ -15,15 +15,16 @@
           />
         </svg>
       </div>
-      <span class="tags__label">Tagi</span></summary
-    >
+      <span class="tags__label">Tagi</span>
+    </summary>
     <div class="tags__checkboxes">
       <CheckboxInput
         :text="tag"
-        v-for="tag in defaultTags"
+        v-for="tag in tags"
         :key="tag"
         :value="tag"
-        @select-tag="updateTags"
+        v-model="checkedTags"
+        @change="$emit('update:modelValue', checkedTags)"
       />
     </div>
   </details>
@@ -31,29 +32,22 @@
 
 <script lang="ts">
 import CheckboxInput from "./inputs/Checkbox.vue";
-import { tags as defaultTags } from "../data";
-import { defineComponent, ref, Ref } from "vue";
+import { tags } from "../data";
+import { defineComponent, ref } from "vue";
 export default defineComponent({
   name: "Tags",
   components: {
     CheckboxInput,
   },
-  setup(prp, ctx) {
-    const tagsShown = ref(false);
-    const tags: Ref<string[]> = ref([]);
-    function updateTags(isChecked: boolean, value: string) {
-      if (isChecked) {
-        tags.value.push(value);
-      } else {
-        tags.value = tags.value.filter(i => i !== value);
-      }
-      ctx.emit("tags-selected", tags.value);
-    }
+  props: {
+    modelValue: {
+      type: Array,
+    },
+  },
+  setup() {
+    const checkedTags = ref([]);
 
-    if (window.innerWidth >= 720) {
-      tagsShown.value = true;
-    }
-    return { defaultTags, updateTags, tags, tagsShown };
+    return { checkedTags, tags };
   },
 });
 </script>

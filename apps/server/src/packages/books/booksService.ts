@@ -1,8 +1,8 @@
-import type {File} from "formidable";
-import type { Book } from '@book-searcher/types';
+import type { File } from "formidable";
+import type { Book } from "@book-searcher/types";
 import cloudinary from "cloudinary";
 import { PrismaClient } from "@prisma/client";
-import { tags as bookTags } from '@book-searcher/data' 
+import { tags as bookTags } from "@book-searcher/data";
 
 const prisma = new PrismaClient();
 
@@ -29,7 +29,7 @@ export const fetchSeries = async () => {
     distinct: ["series"],
   });
 
-  return series.filter(({ series }) => series).map(item => item.series);
+  return series.filter(({ series }) => series).map((item) => item.series);
 };
 
 export const fetchBooksBySeries = (series: string) => {
@@ -77,7 +77,9 @@ export const fetchBooksByQuery = (query: string) => {
   });
 };
 
-export const fetchBooksByFilters = (filters: object) => {
+export const fetchBooksByFilters = (
+  filters: Record<string, string | number>,
+) => {
   return prisma.book.findMany({
     where: { ...filters },
     include: { UserBookRate: true, BookTag: true },
@@ -155,49 +157,52 @@ export const changeBookPosition = ({
   });
 };
 
-export const insertBook = async (data: Book & {rate: number, tags: string}, img: File, userId: number) => {
-  
-    const uploadedFile = await cloudinary.v2.uploader.upload(img.path, {
-      folder: "book_searcher",
-      public_id: data.slug,
-      use_filename: true
-    });
+export const insertBook = async (
+  data: Book & { rate: number; tags: string },
+  img: File,
+  userId: number,
+) => {
+  const uploadedFile = await cloudinary.v2.uploader.upload(img.path, {
+    folder: "book_searcher",
+    public_id: data.slug,
+    use_filename: true,
+  });
 
-    const book =  await prisma.book.create({
-      data: {
-        name: data.name,
-        author: data.author,
-        place: data.place,
-        room: data.room,
-        slug: data.slug,
-        description: data.description,
-        series: data.series || "", 
-        img: uploadedFile!.secure_url,
+  const book = await prisma.book.create({
+    data: {
+      name: data.name,
+      author: data.author,
+      place: data.place,
+      room: data.room,
+      slug: data.slug,
+      description: data.description,
+      series: data.series || "",
+      img: uploadedFile!.secure_url,
+    },
+  });
+
+  await prisma.userBookRate.create({
+    data: {
+      rate: data.rate,
+      bookId: book.id,
+      userId,
+    },
+  });
+
+  if (data.tags) {
+    const tags = JSON.parse(data.tags);
+    const filteredTags = tags.filter((tag: string) => bookTags.includes(tag));
+    if (filteredTags.length) {
+      for (const tag of filteredTags) {
+        await prisma.bookTag.create({
+          data: {
+            tagName: tag,
+            bookId: book.id,
+          },
+        });
       }
-    });
-
-    await prisma.userBookRate.create({
-      data: {
-        rate: data.rate,
-        bookId: book.id,
-        userId
-      }
-    });
-
-        if (data.tags) {
-          const tags = JSON.parse(data.tags);
-          const filteredTags = tags.filter((tag: string) => bookTags.includes(tag))
-          if(filteredTags.length){
-            for (const tag of filteredTags) {
-              await prisma.bookTag.create({
-                data: {
-                  tagName: tag,
-                  bookId: book.id
-                }
-              });
-            }
-          }
-        }
+    }
+  }
 
   return book;
 };

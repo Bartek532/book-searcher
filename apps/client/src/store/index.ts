@@ -1,8 +1,8 @@
 import { createStore } from "vuex";
 import axios from "axios";
 import { types } from "./mutation-types";
-import type { Book } from '@book-searcher/types';
-import {fetcher} from '../utils/fetcher';
+import type { Book } from "@book-searcher/types";
+import { fetcher } from "../utils/fetcher";
 
 const store = createStore({
   state: {
@@ -13,8 +13,8 @@ const store = createStore({
     modal: {
       show: false,
       type: "error",
-      message: ""
-    }
+      message: "",
+    },
   },
   getters: {},
   mutations: {
@@ -36,18 +36,18 @@ const store = createStore({
         show: boolean;
         type: "error" | "success" | "info" | "question";
         message?: string;
-      }
+      },
     ) {
       state.modal.show = data.show;
       state.modal.type = data.type;
       if (data.message) state.modal.message = data.message;
-    }
+    },
   },
   actions: {
     async getAllBooks({ commit }) {
       commit(types.SET_LOADING_STATUS, true);
       try {
-        const { data }: { data: Book[] } = await fetcher('/api/books', "GET");
+        const { data }: { data: Book[] } = await fetcher("/api/books", "GET");
         commit(types.UPDATE_RESULTS, data);
         commit(types.SET_ERRORS, "");
       } catch (err) {
@@ -60,7 +60,10 @@ const store = createStore({
     async searchByQuery({ commit }, query) {
       commit(types.SET_LOADING_STATUS, true);
       try {
-        const { data }: { data: Book[] } = await fetcher(`/api/books/search?type=basic&q=${query}`, "GET");
+        const { data }: { data: Book[] } = await fetcher(
+          `/api/books/search?type=basic&q=${query}`,
+          "GET",
+        );
         commit(types.UPDATE_RESULTS, data);
         commit(types.SET_ERRORS, "");
       } catch (err) {
@@ -84,7 +87,7 @@ const store = createStore({
         commit(types.UPDATE_RESULTS, data);
         commit(types.SET_ERRORS, "");
       } catch (err) {
-        console.error(err.message)
+        console.error(err.message);
         commit(types.SET_ERRORS, err);
       } finally {
         commit(types.SET_LOADING_STATUS, false);
@@ -128,7 +131,7 @@ const store = createStore({
         show: boolean;
         type: "error" | "success" | "info" | "question";
         message?: string;
-      }
+      },
     ) {
       commit(types.SET_MODAL_STATUS, data);
     },
@@ -179,8 +182,8 @@ const store = createStore({
       } finally {
         commit(types.SET_LOADING_STATUS, false);
       }
-    }
-  }
+    },
+  },
 });
 
 export default store;

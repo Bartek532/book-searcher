@@ -3,21 +3,12 @@
     <h2>Znajdź książkę</h2>
     <form @submit.prevent="onSubmit" class="form">
       <div class="form__inputs">
-        <Input
-          name="Tytuł"
-          placeholder="Niewinny"
-          :validate="false"
-          v-model="title"
-        />
-        <Input
-          name="Autor"
-          placeholder="Lee Child"
-          :validate="false"
-          v-model="author"
-        />
-        <Tags @tags-selected="tags = $event" :validate="false" />
+        <Input v-model="title" name="Tytuł" :validate="false" />
+        <Input v-model="author" name="Autor" :validate="false" />
+        <Tags v-model="tags" />
       </div>
       <Button text="Szukaj" />
+      {{ tags }}
     </form>
   </main>
 </template>
@@ -27,8 +18,8 @@ import Input from "../components/inputs/Input.vue";
 import Tags from "../components/Tags.vue";
 import Button from "../components/inputs/Button.vue";
 import { useRouter } from "vue-router";
-import { useStore } from "vuex";
-import { ref, defineComponent, Ref } from "vue";
+import { defineComponent } from "vue";
+import { useField, useForm } from "vee-validate";
 export default defineComponent({
   components: {
     Input,
@@ -36,24 +27,26 @@ export default defineComponent({
     Button,
   },
   setup() {
-    const router = useRouter();
-    const store = useStore();
-    const title = ref("");
-    const author = ref("");
-    const tags: Ref<string[]> = ref([]);
+    const { handleSubmit, values, errors } = useForm({
+      initialValues: { title: "", author: "" },
+    });
 
-    const query = new FormData();
+    const { value: title } = useField("title");
+    const { value: author } = useField("author");
+    const { value: tags } = useField("tags");
 
-    function onSubmit() {
-      router.push({ path: "/results" });
-      store.dispatch("advancedSearch", {
-        name: title.value,
-        author: author.value,
-        tags: tags.value,
-      });
-    }
+    const onSubmit = handleSubmit((data: any) => {
+      console.log(data);
+    });
 
-    return { onSubmit, query, title, author, tags };
+    return {
+      title,
+      author,
+      tags,
+      onSubmit,
+      errors,
+      values,
+    };
   },
 });
 </script>
