@@ -72,12 +72,17 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .checkbox {
+  user-select: none;
   &__input {
     position: absolute;
     opacity: 0;
     cursor: pointer;
     height: 0;
     width: 0;
+  }
+
+  &__input:focus + &__label {
+    outline: 1px solid $main-color;
   }
 
   &__label {

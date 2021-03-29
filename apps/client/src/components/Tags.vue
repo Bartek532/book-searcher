@@ -1,7 +1,12 @@
 <template>
-  <details class="tags">
-    <summary class="tags__summary">
-      <div class="tags__icon">
+  <article class="tags">
+    <button
+      class="tags__summary"
+      @click="tagsOpen = !tagsOpen"
+      type="button"
+      v-if="!showTags"
+    >
+      <div :class="['tags__icon', { 'tags__icon--active': tagsOpen }]">
         <svg
           width="18"
           height="18"
@@ -16,8 +21,8 @@
         </svg>
       </div>
       <span class="tags__label">Tagi</span>
-    </summary>
-    <div class="tags__checkboxes">
+    </button>
+    <div class="tags__checkboxes" v-if="tagsOpen || showTags">
       <CheckboxInput
         :text="tag"
         v-for="tag in tags"
@@ -27,13 +32,13 @@
         @change="$emit('update:modelValue', checkedTags)"
       />
     </div>
-  </details>
+  </article>
 </template>
 
 <script lang="ts">
 import CheckboxInput from "./inputs/Checkbox.vue";
 import { tags } from "../data";
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref, onUnmounted } from "vue";
 export default defineComponent({
   name: "Tags",
   components: {
@@ -46,25 +51,43 @@ export default defineComponent({
   },
   setup() {
     const checkedTags = ref([]);
+    const tagsOpen = ref(false);
+    const showTags = ref(window.innerWidth > 700);
 
-    return { checkedTags, tags };
+    const handleShowTags = () => {
+      showTags.value = window.innerWidth > 700;
+    };
+
+    window.addEventListener("resize", handleShowTags);
+
+    onUnmounted(() => {
+      window.removeEventListener("resize", handleShowTags);
+    });
+
+    return { checkedTags, tags, tagsOpen, showTags };
   },
 });
 </script>
 
 <style lang="scss" scoped>
 .tags {
-  align-self: flex-start;
   margin-bottom: 14px;
-
-  &[open] .tags__icon svg {
-    transform: rotate(90deg);
-    transition: transform 0.3s;
-  }
+  width: 80vw;
+  max-width: 310px;
 
   &__summary {
     list-style-type: none;
     @include flex(flex-start);
+    border: 0 none;
+    background-color: transparent;
+    font-size: 1rem;
+    margin-bottom: 7px;
+    cursor: pointer;
+  }
+
+  &__icon--active svg {
+    transform: rotate(90deg);
+    transition: transform 0.3s;
   }
 
   &__icon svg {
@@ -80,6 +103,12 @@ export default defineComponent({
   &__error {
     padding-left: 6px;
     width: 100%;
+  }
+}
+
+@media all and (min-width: 850px) {
+  .tags {
+    max-width: 400px;
   }
 }
 </style>

@@ -53,9 +53,9 @@ export const searchBooks = async (req: Request, res: Response) => {
   }
   if (req.query.type === "advanced") {
     const query = {
-      name: req.body.name,
-      author: req.body.author,
-      tags: req.body.tags,
+      name: req.query.name as string,
+      author: req.query.author as string,
+      tags: req.query.tags ? (req.query.tags as string).split(" ") : [],
     };
     return res.status(200).json(await advancedFetchBooks(query));
   }

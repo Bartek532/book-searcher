@@ -73,7 +73,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 .input {
   width: 80vw;
-  max-width: 310px;
+  max-width: 290px;
   margin-top: 30px;
 
   label {

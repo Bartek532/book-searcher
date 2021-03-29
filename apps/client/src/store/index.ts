@@ -80,10 +80,9 @@ const store = createStore({
           ? `room=${filters.room}&place=${filters.place}`
           : `room=${filters.room}`;
       }
-      console.log(url);
       commit(types.SET_LOADING_STATUS, true);
       try {
-        const { data } = await fetcher(url, "GET");
+        const { data }: { data: Book[] } = await fetcher(url, "GET");
         commit(types.UPDATE_RESULTS, data);
         commit(types.SET_ERRORS, "");
       } catch (err) {
@@ -96,7 +95,9 @@ const store = createStore({
     async searchBySeries({ commit }, series: string) {
       commit(types.SET_LOADING_STATUS, true);
       try {
-        const { data } = await axios.get(`/api/books/${series}`);
+        const { data }: { data: Book[] } = await axios.get(
+          `/api/books/${series}`,
+        );
         commit(types.UPDATE_RESULTS, data);
         commit(types.SET_ERRORS, "");
       } catch (err) {
@@ -105,10 +106,15 @@ const store = createStore({
         commit(types.SET_LOADING_STATUS, false);
       }
     },
-    async advancedSearch({ commit }, query) {
+    async advancedSearch({ commit }, { tags, title, author }) {
       commit(types.SET_LOADING_STATUS, true);
       try {
-        const { data } = await axios.post("/api/books/advancedSearch", query);
+        const { data }: { data: Book[] } = await fetcher(
+          `/api/books/search?type=advanced${tags ? "&tags=" + tags : ""}${
+            title ? "&name=" + title : ""
+          }${author ? "&author=" + author : ""}`,
+          "GET",
+        );
         commit(types.UPDATE_RESULTS, data);
         commit(types.SET_ERRORS, "");
       } catch (err) {

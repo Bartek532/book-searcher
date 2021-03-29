@@ -32,6 +32,14 @@ export default {
     if (route.query.place || route.query.room) {
       store.dispatch("searchByRooms", route.query);
     }
+
+    if (route.query.tags || route.query.title || route.query.author) {
+      store.dispatch("advancedSearch", {
+        tags: route.query.tags,
+        title: route.query.title,
+        author: route.query.author,
+      });
+    }
   },
 };
 </script>
