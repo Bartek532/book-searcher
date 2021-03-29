@@ -32,23 +32,22 @@ export default {
   props: {
     notFound: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
   components: {
     Loader,
     Result,
     EmptyResults,
-    ScrollToTopBtn
-  }
+    ScrollToTopBtn,
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 .results {
-  width: 100vw;
-  margin-top: 100px;
-  padding: 20px 20px 70px 20px;
+  width: 100%;
+  max-width: 1200px;
   @include flex;
   flex-wrap: wrap;
 
@@ -60,19 +59,7 @@ export default {
 
   &__count {
     margin-bottom: 15px;
-  }
-}
-
-@media all and (min-width: 640px) and (max-width: 1100px) {
-  .results {
-    padding-top: 70px;
-  }
-}
-
-@media all and (max-width: 350px) {
-  .results {
-    padding-left: 10px;
-    padding-right: 10px;
+    margin-top: 20px;
   }
 }
 </style>

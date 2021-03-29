@@ -96,7 +96,7 @@ export default defineComponent({
 
       &--active {
         color: #000;
-        transform: translate(6px, -35px);
+        transform: translate(6px, -38px);
         font-size: 0.84rem;
         transition: 0.3s;
         z-index: 2;
@@ -106,7 +106,7 @@ export default defineComponent({
     .input__input {
       width: 100%;
       border: 0 none;
-      padding: 18px 17px 15px 17px;
+      padding: 19px 17px 19px 17px;
       background-color: transparent;
       border-radius: 15px;
       outline: 0 none;
