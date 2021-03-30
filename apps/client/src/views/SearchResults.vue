@@ -1,9 +1,7 @@
 <template>
   <main class="main">
     <SearchInput active />
-    <Results
-      @result-clicked="$router.push({ path: `/results/${$event.slug}` })"
-    />
+    <Results />
   </main>
 </template>
 
@@ -33,10 +31,10 @@ export default {
       store.dispatch("searchByRooms", route.query);
     }
 
-    if (route.query.tags || route.query.title || route.query.author) {
+    if (route.query.tags || route.query.name || route.query.author) {
       store.dispatch("advancedSearch", {
         tags: route.query.tags,
-        title: route.query.title,
+        title: route.query.name,
         author: route.query.author,
       });
     }

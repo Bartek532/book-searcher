@@ -1,5 +1,5 @@
 <template>
-  <div class="back">
+  <div class="back" @click="$router.go(-1)">
     <svg
       class="back__icon"
       width="15"
@@ -23,7 +23,7 @@
 .back {
   position: absolute;
   top: 20px;
-  left: 5px;
+  left: 30px;
   cursor: pointer;
 }
 </style>

@@ -3,6 +3,7 @@ import axios from "axios";
 import { types } from "./mutation-types";
 import type { Book } from "@book-searcher/types";
 import { fetcher } from "../utils/fetcher";
+import { buildAdvancedQuery } from "../utils/functions";
 
 const store = createStore({
   state: {
@@ -101,7 +102,7 @@ const store = createStore({
         commit(types.UPDATE_RESULTS, data);
         commit(types.SET_ERRORS, "");
       } catch (err) {
-        commit(types.SET_ERRORS, err.response.data.message);
+        commit(types.SET_ERRORS, err);
       } finally {
         commit(types.SET_LOADING_STATUS, false);
       }
@@ -110,15 +111,18 @@ const store = createStore({
       commit(types.SET_LOADING_STATUS, true);
       try {
         const { data }: { data: Book[] } = await fetcher(
-          `/api/books/search?type=advanced${tags ? "&tags=" + tags : ""}${
-            title ? "&name=" + title : ""
-          }${author ? "&author=" + author : ""}`,
+          `/api/books/search?type=advanced&${buildAdvancedQuery(
+            tags.split(" "),
+            author,
+            title,
+          )}`,
           "GET",
         );
         commit(types.UPDATE_RESULTS, data);
         commit(types.SET_ERRORS, "");
       } catch (err) {
-        commit(types.SET_ERRORS, err.response.data.message);
+        console.log(err);
+        commit(types.SET_ERRORS, err);
       } finally {
         commit(types.SET_LOADING_STATUS, false);
       }

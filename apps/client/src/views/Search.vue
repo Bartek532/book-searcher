@@ -21,7 +21,7 @@ import Button from "../components/inputs/Button.vue";
 import { useRouter } from "vue-router";
 import { defineComponent } from "vue";
 import { useField, useForm } from "vee-validate";
-import { prepareQueryToSearch } from "../utils/functions";
+import { buildAdvancedQuery } from "../utils/functions";
 export default defineComponent({
   components: {
     Input,
@@ -40,15 +40,7 @@ export default defineComponent({
 
     const onSubmit = handleSubmit((data) => {
       router.push(
-        `/ksiazki?tags=${data.tags.join("+")}${
-          prepareQueryToSearch(data.title as string)
-            ? "&title=" + prepareQueryToSearch(data.title as string)
-            : ""
-        }${
-          prepareQueryToSearch(data.author as string)
-            ? "&author=" + prepareQueryToSearch(data.author as string)
-            : ""
-        }`,
+        `/ksiazki?${buildAdvancedQuery(data.tags, data.author, data.title)}`,
       );
     });
 

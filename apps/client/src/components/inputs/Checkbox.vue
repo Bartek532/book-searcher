@@ -73,6 +73,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 .checkbox {
   user-select: none;
+
   &__input {
     position: absolute;
     opacity: 0;
@@ -89,8 +90,8 @@ export default defineComponent({
     display: inline-block;
     padding: 7px 14px;
     position: relative;
-    border: 2px solid lightgray;
     margin: 5px;
+    border: 2px solid lightgray;
     font-size: 0.9rem;
     cursor: pointer;
     transition: opacity 0.2s;

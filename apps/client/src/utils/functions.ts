@@ -10,3 +10,13 @@ export const getKeyByValue = (
     if (object[prop] === value) return prop;
   }
 };
+
+export const buildAdvancedQuery = (
+  tags: string[],
+  author?: string,
+  name?: string,
+) => {
+  return `tags=${tags.join("+")}${
+    name ? "&name=" + prepareQueryToSearch(name) : ""
+  }${author ? "&author=" + prepareQueryToSearch(author) : ""}`;
+};
