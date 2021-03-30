@@ -1,6 +1,6 @@
 <template>
-  <div class="result__not-found">
-    <div class="label">Niestety, nie znaleźliśmy tego czego szukasz :(</div>
+  <div class="not-found">
+    <span class="label">Niestety, nie znaleźliśmy tego czego szukasz :(</span>
     <svg
       width="600"
       height="300"
@@ -212,18 +212,15 @@ export default defineComponent({
         emptyResultsAnimation();
       }
     });
-  }
+  },
 });
 </script>
 
 <style lang="scss" scoped>
-.result__not-found {
-  width: 65vw;
+.not-found {
+  width: 75vw;
   max-width: 400px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  margin-top: 50%;
   @include flex;
   flex-wrap: wrap;
 
@@ -236,6 +233,12 @@ export default defineComponent({
   img {
     width: 100%;
     height: 100%;
+  }
+}
+
+@media all and (min-width: 700px) {
+  .not-found {
+    margin-top: 30%;
   }
 }
 </style>
