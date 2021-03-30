@@ -74,34 +74,17 @@ const store = createStore({
         commit(types.SET_LOADING_STATUS, false);
       }
     },
-    async searchByRooms({ commit }, filters) {
-      let url = "/api/books/search?type=basic&";
-      if (filters) {
-        url += filters.place
-          ? `room=${filters.room}&place=${filters.place}`
-          : `room=${filters.room}`;
-      }
+    async searchByFilters({ commit }, path: string) {
       commit(types.SET_LOADING_STATUS, true);
       try {
-        const { data }: { data: Book[] } = await fetcher(url, "GET");
-        commit(types.UPDATE_RESULTS, data);
-        commit(types.SET_ERRORS, "");
-      } catch (err) {
-        console.error(err.message);
-        commit(types.SET_ERRORS, err);
-      } finally {
-        commit(types.SET_LOADING_STATUS, false);
-      }
-    },
-    async searchBySeries({ commit }, series: string) {
-      commit(types.SET_LOADING_STATUS, true);
-      try {
-        const { data }: { data: Book[] } = await axios.get(
-          `/api/books/${series}`,
+        const { data }: { data: Book[] } = await fetcher(
+          `/api/books/search?type=basic&${path}`,
+          "GET",
         );
         commit(types.UPDATE_RESULTS, data);
         commit(types.SET_ERRORS, "");
       } catch (err) {
+        console.error(err.message);
         commit(types.SET_ERRORS, err);
       } finally {
         commit(types.SET_LOADING_STATUS, false);

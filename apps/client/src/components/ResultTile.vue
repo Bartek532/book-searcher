@@ -90,11 +90,6 @@ export default defineComponent({
     font-size: 0.85rem;
   }
 
-  &:hover {
-    opacity: 0.8;
-    transition: opacity 0.3s;
-  }
-
   &::after {
     @include pseudo;
     box-shadow: $box-shadow;
@@ -104,7 +99,6 @@ export default defineComponent({
 
   &:hover::after {
     opacity: 0;
-    transition: opacity 0.3s;
   }
   &__image {
     max-width: 40%;

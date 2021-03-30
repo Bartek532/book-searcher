@@ -3,25 +3,26 @@
     <section class="result__container" v-if="!loading">
       <BackButton />
       <div class="result__icons">
-        <svg
-          width="30"
-          height="30"
-          viewBox="0 0 16 16"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          :class="[
-            'result__icons__bookmark',
-            { 'result__icons__bookmark--active': activeBookmark },
-          ]"
-          @click="manageUserLibrary"
-        >
-          <path
-            d="M7.74275 11.5713L3.5 14.1169V3C3.5 2.60218 3.65804 2.22064 3.93934 1.93934C4.22064 1.65804 4.60218 1.5 5 1.5H11C11.3978 1.5 11.7794 1.65804 12.0607 1.93934C12.342 2.22064 12.5 2.60218 12.5 3V14.1169L8.25725 11.5713L8 11.4169L7.74275 11.5713Z"
+        <button class="result__icons__bookmark" @click="manageUserLibrary">
+          <span class="sr-only">bookmark</span>
+          <svg
+            width="30"
+            height="30"
+            viewBox="0 0 16 16"
             fill="none"
-            stroke="#2524E9"
-          />
-        </svg>
+            xmlns="http://www.w3.org/2000/svg"
+            :class="{ 'result__icons__bookmark--active': activeBookmark }"
+          >
+            <path
+              d="M7.74275 11.5713L3.5 14.1169V3C3.5 2.60218 3.65804 2.22064 3.93934 1.93934C4.22064 1.65804 4.60218 1.5 5 1.5H11C11.3978 1.5 11.7794 1.65804 12.0607 1.93934C12.342 2.22064 12.5 2.60218 12.5 3V14.1169L8.25725 11.5713L8 11.4169L7.74275 11.5713Z"
+              fill="none"
+              stroke="#2524E9"
+            />
+          </svg>
+        </button>
+
         <button class="result__icons__star" @click="rateModal = true">
+          <span class="sr-only">star</span>
           <img src="../assets/svgs/icons/star.svg" alt="" />
         </button>
       </div>
@@ -33,12 +34,12 @@
           <span class="result__info__data__title">
             {{ book.name }}
           </span>
-          <span
+          <router-link
+            :to="`/ksiazki?tags=&author=${encodeURIComponent(book.author)}`"
             class="result__info__data__author"
-            @click="searchByAuthor(book.author)"
           >
             {{ book.author }}
-          </span>
+          </router-link>
           <button class="result__info__data__series" v-if="book.series">
             {{ book.series }}
           </button>
@@ -64,15 +65,21 @@
         <div class="result__places">
           <span class="result__places__room">
             <img src="../assets/svgs/icons/room.svg" alt="" />
-            <router-link :to="`/rooms/${book.room}`" class="text">
+            <router-link
+              :to="`/pokoje/${encodeURIComponent(polishTranslate[book.room])}`"
+              class="text"
+            >
               {{ capitalize(polishTranslate[book.room]) }}
             </router-link>
           </span>
           <span class="result__places__place">
             <img src="../assets/svgs/icons/place.svg" alt="" />
-            <span class="text" @click="searchByRooms(book.room, book.place)">
+            <router-link
+              :to="`/ksiazki?room=${book.room}&place=${book.place}`"
+              class="text"
+            >
               {{ capitalize(polishTranslate[book.place]) }}
-            </span>
+            </router-link>
           </span>
         </div>
         <p>
@@ -84,8 +91,7 @@
           v-for="tag in book.BookTag"
           :key="tag.tagName"
           :text="tag.tagName"
-          :check="false"
-          @click="searchByTag(tag.tagName)"
+          @click="$router.push(`/ksiazki?tags=${tag.tagName}`)"
         />
       </div>
       <Button text="Szukaj więcej" @click="$router.push({ path: '/search' })" />
@@ -273,6 +279,7 @@ export default defineComponent({
     position: relative;
     flex-flow: column wrap;
     width: 100%;
+    max-width: 400px;
     padding: 70px 30px 30px 30px;
   }
 
@@ -291,7 +298,8 @@ export default defineComponent({
       }
     }
 
-    &__star {
+    &__star,
+    &__bookmark {
       border: 0 none;
       background-color: transparent;
       margin-left: 7px;
@@ -341,6 +349,11 @@ export default defineComponent({
         text-align: left;
         cursor: pointer;
         background-color: transparent;
+        transition: opacity 0.3s;
+
+        &:hover {
+          opacity: 0.5;
+        }
       }
 
       &__rates {
@@ -404,21 +417,30 @@ export default defineComponent({
 
   &__tags {
     margin-top: 15px;
+    @include flex;
   }
 }
 
 @media all and (min-width: 700px) {
   .result {
+    &__container {
+      border-radius: 15px;
+      box-shadow: $box-shadow;
+      margin-top: 30px;
+    }
+  }
+}
+
+/*
+@media all and (min-width: 700px) {
+  .result {
     &__background {
       @include flex;
-      background-color: darkgray;
     }
 
     &__container {
       backdrop-filter: blur(20px);
-      padding: 80px 20px 40px 20px;
       color: #fff;
-      margin: 40px;
       border-radius: 15px;
 
       .back {
@@ -457,4 +479,5 @@ export default defineComponent({
     }
   }
 }
+*/
 </style>

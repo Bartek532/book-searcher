@@ -27,11 +27,28 @@ export default {
       store.dispatch("searchByQuery", decodeURIComponent(route.query.q));
     }
 
-    if (route.query.place || route.query.room) {
-      store.dispatch("searchByRooms", route.query);
+    const availableFilters = [
+      "id",
+      "name",
+      "author",
+      "slug",
+      "room",
+      "place",
+      "series",
+    ];
+
+    if (
+      Object.keys(route.query).some((item) => availableFilters.includes(item))
+    ) {
+      store.dispatch(
+        "searchByFilters",
+        Object.entries(route.query)
+          .map((item) => item.join("="))
+          .join("&"),
+      );
     }
 
-    if (route.query.tags || route.query.name || route.query.author) {
+    if (route.query.tags) {
       store.dispatch("advancedSearch", {
         tags: route.query.tags,
         title: route.query.name,
