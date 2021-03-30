@@ -40,7 +40,13 @@
           >
             {{ book.author }}
           </router-link>
-          <button class="result__info__data__series" v-if="book.series">
+          <button
+            class="result__info__data__series"
+            v-if="book.series"
+            @click="
+              $router.push(`/ksiazki?series=${encodeURIComponent(book.series)}`)
+            "
+          >
             {{ book.series }}
           </button>
           <div class="result__info__data__rates">
@@ -417,7 +423,6 @@ export default defineComponent({
 
   &__tags {
     margin-top: 15px;
-    @include flex;
   }
 }
 
