@@ -41,7 +41,7 @@ h2 {
     font-size: 2.9rem;
     margin-top: 20px;
     &__blue {
-      color: $main-color;
+      color: var(--blue-100);
       font-weight: 700;
       font-size: 2.9rem;
     }

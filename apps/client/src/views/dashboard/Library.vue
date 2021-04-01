@@ -24,13 +24,13 @@ import Results from "../../components/Results.vue";
 import { useStore } from "vuex";
 export default defineComponent({
   components: {
-    Results
+    Results,
   },
   setup() {
     const store = useStore();
 
     store.dispatch("getUserBooks");
-  }
+  },
 });
 </script>
 
@@ -42,7 +42,7 @@ export default defineComponent({
   transform: translateY(50px);
 
   span {
-    border-bottom: 3px solid $main-color;
+    border-bottom: 3px solid var(--blue-100);
     text-transform: uppercase;
     width: fit-content;
     font-size: 2.2rem;

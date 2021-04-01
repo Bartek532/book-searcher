@@ -25,7 +25,7 @@
   transform: translate(-50%, -50%);
 
   .book {
-    border: 4px solid $main-color;
+    border: 4px solid var(--blue-100);
     width: 60px;
     height: 45px;
     position: relative;
@@ -35,14 +35,14 @@
       display: block;
       width: 30px;
       height: 45px;
-      border: 4px solid $main-color;
-      border-left: 1px solid $main-color;
+      border: 4px solid var(--blue-100);
+      border-left: 1px solid var(--blue-100);
       margin: 0;
       position: absolute;
       right: -4px;
       top: -4px;
       overflow: hidden;
-      background: $main-color;
+      background: var(--blue-100);
       transform-style: preserve-3d;
       -webkit-transform-origin: left center;
       transform-origin: left center;
@@ -68,7 +68,7 @@
   }
 
   &__label {
-    color: $main-color;
+    color: var(--blue-100);
     text-align: center;
     text-transform: uppercase;
     letter-spacing: 2.5px;
@@ -92,15 +92,15 @@
     transform: rotateY(0deg);
   }
   20% {
-    background: #fff;
+    background: var(--white-100);
   }
   40% {
-    background: #fff;
+    background: var(--white-100);
     -webkit-transform: rotateY(-180deg);
     transform: rotateY(-180deg);
   }
   100% {
-    background: #fff;
+    background: var(--white-100);
     -webkit-transform: rotateY(-180deg);
     transform: rotateY(-180deg);
   }
@@ -111,14 +111,14 @@
     transform: rotateY(0deg);
   }
   20% {
-    background: #fff;
+    background: var(--white-100);
   }
   40% {
-    background: $main-color;
+    background: var(--blue-100);
     transform: rotateY(-180deg);
   }
   100% {
-    background: #fff;
+    background: var(--white-100);
     transform: rotateY(-180deg);
   }
 }

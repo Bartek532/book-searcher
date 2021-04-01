@@ -79,7 +79,7 @@ export default defineComponent({
   label {
     position: relative;
     @include flex;
-    border: 2px solid $shadow-color;
+    border: 2px solid var(--gray-100);
     border-radius: 15px;
 
     .input__label {
@@ -87,15 +87,15 @@ export default defineComponent({
       top: 50%;
       transform: translateY(-50%);
       left: 7px;
-      background-color: #fff;
+      background-color: var(--white-100);
       padding: 3px 10px;
       border-radius: 30px;
-      color: $shadow-color;
+      color: var(--gray-100);
       transition: 0.3s;
       pointer-events: none;
 
       &--active {
-        color: #000;
+        color: var(--black-100);
         transform: translate(6px, -38px);
         font-size: 0.84rem;
         transition: 0.3s;

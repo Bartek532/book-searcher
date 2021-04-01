@@ -47,7 +47,7 @@ export default defineComponent({
     Button,
     Input,
     PasswordInput,
-    Modal
+    Modal,
   },
   setup() {
     interface User {
@@ -72,7 +72,7 @@ export default defineComponent({
         store.dispatch("setModal", {
           show: true,
           type: "error",
-          message: err.response.data.message
+          message: err.response.data.message,
         });
       } finally {
         loading.value = false;
@@ -81,24 +81,24 @@ export default defineComponent({
 
     async function modifyUserData() {
       const filteredFields = Object.entries(userInfo).filter(
-        item => item[1] && item[1].length
+        (item) => item[1] && item[1].length,
       );
       loading.value = true;
       try {
         await axios.post(
           "/api/users/user/modify",
-          Object.fromEntries(filteredFields)
+          Object.fromEntries(filteredFields),
         );
         store.dispatch("setModal", {
           show: true,
           type: "success",
-          message: "Zmieniono dane użytkownika."
+          message: "Zmieniono dane użytkownika.",
         });
       } catch (err) {
         store.dispatch("setModal", {
           show: true,
           type: "error",
-          message: err.response.data.message
+          message: err.response.data.message,
         });
       } finally {
         loading.value = false;
@@ -108,7 +108,7 @@ export default defineComponent({
     getUserInformation();
 
     return { loading, userInfo, modifyUserData };
-  }
+  },
 });
 </script>
 
@@ -127,7 +127,7 @@ $nth: nth($list, $imgKey);
   &__info {
     @include flex;
     flex-flow: column wrap;
-    border-bottom: 1px solid $shadow-color;
+    border-bottom: 1px solid var(--gray-100);
     width: 75%;
     padding-bottom: 20px;
     max-width: 370px;
@@ -135,7 +135,7 @@ $nth: nth($list, $imgKey);
       width: 100px;
       height: 100px;
       border-radius: 50%;
-      color: #fff;
+      color: var(--white-100);
       font-weight: 600;
       font-size: 3.3rem;
       background-color: $nth;
@@ -150,7 +150,7 @@ $nth: nth($list, $imgKey);
     }
 
     &__email {
-      color: $shadow-color;
+      color: var(--gray-100);
       margin: 3px 0;
     }
   }

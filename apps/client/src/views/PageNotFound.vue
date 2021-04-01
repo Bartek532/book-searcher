@@ -16,12 +16,12 @@
       </defs>
       <g fill="none" fill-rule="evenodd">
         <path
-          fill="#FFF"
+          fill="var(--white-100)"
           d="M0 0H1366V800H0z"
           transform="translate(-448 -157)"
         />
         <g transform="translate(-448 -157) translate(448 157)">
-          <mask id="prefix__b" fill="#fff">
+          <mask id="prefix__b" fill="var(--white-100)">
             <use xlink:href="#prefix__a" />
           </mask>
           <use fill="#F6F6F7" xlink:href="#prefix__a" />

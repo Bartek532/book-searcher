@@ -60,11 +60,11 @@ export default defineComponent({
 .container {
   @include flex;
   flex-flow: column wrap;
-  background: #fff;
+  background: var(--white-100);
   width: 84vw;
   padding-bottom: 30px;
   &__title {
-    border-bottom: 3px solid $main-color;
+    border-bottom: 3px solid var(--blue-100);
     padding-bottom: 5px;
     margin-top: 40px;
   }
@@ -92,7 +92,7 @@ export default defineComponent({
     align-items: center;
 
     .form {
-      box-shadow: $box-shadow;
+      box-shadow: var(--primary-shadow);
       border-radius: 10px;
       padding: 20px 20px 35px 35px;
       margin-top: 10px;

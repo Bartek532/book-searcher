@@ -3,7 +3,7 @@
     <Button
       text="Pokaż wszystko"
       class="places__btn"
-      @click="$router.push(`/ksiazki?room=${selectedRoom}`)"
+      @click="$router.push({ path: '/ksiazki', query: { room: selectedRoom } })"
     />
     <div class="fields">
       <Field

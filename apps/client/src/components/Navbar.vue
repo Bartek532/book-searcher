@@ -141,7 +141,7 @@ export default defineComponent({
   position: fixed;
   bottom: 0;
   right: 0;
-  background: linear-gradient(90deg, #5368ea, $main-color);
+  background: linear-gradient(90deg, #5368ea, var(--blue-100));
   width: 100%;
   z-index: 90;
   border-radius: 15px 15px 0 0;
@@ -169,21 +169,21 @@ export default defineComponent({
 
     &__label {
       text-transform: uppercase;
-      color: $inactive-color;
+      color: var(--blue-200);
       font-size: 0.75rem;
     }
   }
 
   &__icon path {
-    fill: $inactive-color;
+    fill: var(--blue-200);
     transition: fill 0.5s ease-in-out;
   }
 
   .router-link-active .tab__icon path {
-    fill: #fff;
+    fill: var(--white-100);
   }
   .router-link-active .tab__item__label {
-    color: #fff;
+    color: var(--white-100);
   }
 }
 
@@ -210,21 +210,21 @@ export default defineComponent({
       &__label {
         font-weight: 600;
         font-size: 1rem;
-        color: #000;
+        color: var(--black-100);
         margin: 0 10px;
       }
 
       &__login {
-        background: linear-gradient(90deg, #5368ea, $main-color);
+        background: linear-gradient(90deg, #5368ea, var(--blue-100));
         padding: 9px 17px;
 
         .tab__item__label {
-          color: #fff;
+          color: var(--white-100);
         }
 
         &::before {
           @include pseudo;
-          box-shadow: 0 4px 7px 0 rgba($main-color, 0.65);
+          box-shadow: 0 4px 7px 0 rgba(var(--blue-100-rgb), 0.65);
           opacity: 1;
           transition: opacity 0.3s;
         }
@@ -244,7 +244,7 @@ export default defineComponent({
         top: 90%;
         height: 8%;
         z-index: 2;
-        background: $main-color;
+        background: var(--blue-100);
         border-radius: 20px;
         transform: scaleX(0);
         transition: transform 0.3s;
@@ -253,7 +253,7 @@ export default defineComponent({
       &.router-link-active {
         &.tab__item__login {
           .tab__item__label {
-            color: #fff;
+            color: var(--white-100);
           }
 
           &::after {
@@ -265,7 +265,7 @@ export default defineComponent({
           transition: transform 0.3s;
         }
         .tab__item__label {
-          color: #000;
+          color: var(--black-100);
         }
       }
       &:hover::after {

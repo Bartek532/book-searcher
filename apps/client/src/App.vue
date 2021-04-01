@@ -6,7 +6,7 @@
 </template>
 
 <script lang="ts">
-//import { useRoute, useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import Navbar from "./components/Navbar.vue";
 //import { ref, watch } from "vue";
 export default {
@@ -14,17 +14,20 @@ export default {
     Navbar,
   },
   setup() {
-    /*
-    const route = useRoute();
     const router = useRouter();
-    const showNavbar = ref(true);
 
-    router.afterEach(to => {
+    router.afterEach((to) => {
       document.title = to.meta.title
         ? to.meta.title + " | Book searcher "
         : "Book searcher";
     });
 
+    /*
+    const route = useRoute();
+
+    const showNavbar = ref(true);
+
+   
     function navbar() {
       if (window.innerWidth < 700) {
         showNavbar.value = true;
@@ -67,7 +70,6 @@ export default {
 * {
   box-sizing: border-box;
   font-family: "Montserrat", sans-serif;
-  -webkit-tap-highlight-color: transparent;
 }
 
 html {
@@ -89,29 +91,9 @@ body {
   @include flex;
 }
 
-.error {
-  color: $warning-color;
-  font-size: 0.7rem;
-  margin-top: 3px;
-}
-
-.title {
-  font-weight: 600;
-  width: 100%;
-  @include flex;
-  transform: translateY(50px);
-
-  span {
-    border-bottom: 3px solid $main-color;
-    text-transform: uppercase;
-    width: fit-content;
-    font-size: 2.2rem;
-  }
-}
-
 a {
   text-decoration: none;
-  color: #000;
+  color: var(--black-100);
 }
 
 input[type="search"]::-ms-clear {

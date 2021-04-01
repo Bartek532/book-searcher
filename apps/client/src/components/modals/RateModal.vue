@@ -31,12 +31,12 @@ export default defineComponent({
   name: "RateModal",
   components: {
     Rate,
-    Button
+    Button,
   },
   setup() {
     const rate = ref(1);
     return { rate };
-  }
+  },
 });
 </script>
 
@@ -48,7 +48,7 @@ export default defineComponent({
     width: 85vw;
     max-width: 300px;
     height: 190px;
-    background-color: #fff;
+    background-color: var(--white-100);
     border-radius: 10px;
     position: relative;
 

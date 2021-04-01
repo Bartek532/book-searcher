@@ -18,6 +18,9 @@ import { createBookSlug } from "../../utils";
 import { validationSchemas } from "../../validationSchemas";
 
 export const getAllBooks = async (req: Request, res: Response) => {
+  const page = req.query.page || 1;
+  const perPage = req.query.perPage || 30;
+
   res.status(200).json(await fetchBooks());
 };
 

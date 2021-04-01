@@ -56,7 +56,10 @@ export default defineComponent({
     const query = ref("");
 
     const search = () => {
-      router.push(`/ksiazki?q=${prepareQueryToSearch(query.value)}`);
+      router.push({
+        path: "/ksiazki",
+        query: { q: prepareQueryToSearch(query.value) },
+      });
     };
 
     const searchAnimation = () => {
@@ -118,12 +121,12 @@ export default defineComponent({
     height: 55px;
     border-radius: 50%;
     position: relative;
-    box-shadow: 1px 4px 5px 0 $shadow-color;
+    box-shadow: 1px 4px 5px 0 var(--gray-100);
     transition: box-shadow 0.3s;
     @include flex(flex-start);
 
     &--active {
-      box-shadow: 2px 4px 5px 0 rgba($main-color, 0.8);
+      box-shadow: 2px 4px 5px 0 rgba(var(--blue-100-rgb), 0.8);
       transition: 0.3s;
     }
 
@@ -148,7 +151,7 @@ export default defineComponent({
       background-color: transparent;
       outline: 0 none;
       &:focus svg path {
-        fill: #000;
+        fill: var(--black-100);
       }
     }
   }

@@ -4,7 +4,7 @@
       <div class="field__icon">
         <img v-lazy="require(`../assets/svgs/rooms/${img}.svg`)" :alt="label" />
       </div>
-      <button class="field__label">{{ label }}</button>
+      <span class="field__label">{{ label }}</span>
     </article>
   </router-link>
 </template>
@@ -42,7 +42,7 @@ export default defineComponent({
   border-radius: 10px;
   @include flex(space-between);
   flex-flow: column wrap;
-  background-color: #fff;
+  background-color: var(--white-100);
   border: 2px solid rgba(0, 0, 0, 0.08);
   cursor: pointer;
   transition: all 0.3s;
@@ -51,7 +51,7 @@ export default defineComponent({
   &::after {
     border-radius: 10px;
     @include pseudo;
-    box-shadow: $box-shadow;
+    box-shadow: var(--primary-shadow);
     transition: opacity 0.3s;
     opacity: 0;
   }

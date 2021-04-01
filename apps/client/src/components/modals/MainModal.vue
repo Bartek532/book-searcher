@@ -38,7 +38,7 @@ export default defineComponent({
     }
 
     return { accept, cancel };
-  }
+  },
 });
 </script>
 
@@ -75,7 +75,7 @@ export default defineComponent({
     width: 80vw;
     max-width: 470px;
     min-height: 300px;
-    background-color: #fff;
+    background-color: var(--white-100);
     position: relative;
     border-radius: 10px;
     padding: 20px 37px;
@@ -96,21 +96,21 @@ export default defineComponent({
     }
 
     &__cancel {
-      border: 1px solid $main-color;
-      color: $main-color;
-      background-color: #fff;
+      border: 1px solid var(--blue-100);
+      color: var(--blue-100);
+      background-color: var(--white-100);
     }
 
     &__ok {
-      background-color: $main-color;
-      color: #fff;
-      border: 1px solid $main-color;
+      background-color: var(--blue-100);
+      color: var(--white-100);
+      border: 1px solid var(--blue-100);
       transition: 0.3s;
 
       &:hover {
-        background-color: #fff;
+        background-color: var(--white-100);
         transition: 0.3s;
-        color: $main-color;
+        color: var(--blue-100);
       }
     }
   }

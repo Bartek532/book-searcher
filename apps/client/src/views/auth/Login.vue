@@ -43,12 +43,12 @@ export default defineComponent({
     Input,
     Password,
     Modal,
-    LoadingModal
+    LoadingModal,
   },
   setup() {
     const loginData = reactive({
       email: "",
-      password: ""
+      password: "",
     });
     const store = useStore();
     const router = useRouter();
@@ -78,7 +78,7 @@ export default defineComponent({
           store.dispatch("setModal", {
             show: true,
             type: "error",
-            message: store.state.error
+            message: store.state.error,
           });
         }
       }
@@ -97,7 +97,7 @@ export default defineComponent({
     });
 
     return { loginData, login, loading };
-  }
+  },
 });
 </script>
 
@@ -113,7 +113,7 @@ export default defineComponent({
   &__label {
     font-size: 3rem;
     padding: 0 30px;
-    color: #000;
+    color: var(--black-100);
     text-align: center;
     span {
       font-size: 2rem;

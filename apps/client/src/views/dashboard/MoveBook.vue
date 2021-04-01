@@ -96,7 +96,7 @@ export default defineComponent({
     Select,
     Button,
     LoadingModal,
-    Modal
+    Modal,
   },
   setup() {
     const store = useStore();
@@ -114,7 +114,7 @@ export default defineComponent({
       modalOpen.value = true;
       data.id = identifier;
       activeBook.value = store.state.results.find(
-        ({ id }: { id: number }) => id === identifier
+        ({ id }: { id: number }) => id === identifier,
       );
     }
 
@@ -141,13 +141,13 @@ export default defineComponent({
         store.dispatch("setModal", {
           show: true,
           type: "success",
-          message: "Zmieniono położenie."
+          message: "Zmieniono położenie.",
         });
       } catch (err) {
         store.dispatch("setModal", {
           show: true,
           type: "error",
-          message: err.response.data.message
+          message: err.response.data.message,
         });
       } finally {
         loading.value = false;
@@ -167,9 +167,9 @@ export default defineComponent({
       closeModal,
       openMoveModal,
       activeBook,
-      loading
+      loading,
     };
-  }
+  },
 });
 </script>
 
@@ -205,7 +205,7 @@ export default defineComponent({
     width: 80vw;
     max-width: 470px;
     min-height: 320px;
-    background-color: #fff;
+    background-color: var(--white-100);
     position: relative;
     border-radius: 10px;
     padding: 40px 37px;
@@ -255,7 +255,7 @@ export default defineComponent({
     .active-location {
       margin-top: 30px;
       &__label {
-        color: $main-color;
+        color: var(--blue-100);
       }
 
       .position {

@@ -84,7 +84,7 @@ export default defineComponent({
   }
 
   &__input:focus + &__label {
-    outline: 1px solid $main-color;
+    outline: 1px solid var(--blue-100);
   }
 
   &__label {
@@ -105,7 +105,7 @@ export default defineComponent({
     position: absolute;
     right: -12px;
     top: -10px;
-    background-color: #fff;
+    background-color: var(--white-100);
     opacity: 0;
   }
 
@@ -114,7 +114,7 @@ export default defineComponent({
   }
 
   &__input:checked ~ &__label {
-    border: 2px solid $main-color;
+    border: 2px solid var(--blue-100);
   }
 }
 

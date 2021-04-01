@@ -9,7 +9,7 @@
     >
       <path
         d="M12 6.87903L4.939 13.939L7.061 16.061L12 11.121L16.939 16.061L19.061 13.939L12 6.87903Z"
-        fill="#fff"
+        fill="var(--white-100)"
       />
     </svg>
   </button>
@@ -30,13 +30,13 @@ export default defineComponent({
     });
 
     return { isScrolled, scroll };
-  }
+  },
 });
 </script>
 
 <style lang="scss" scoped>
 .scroll-to-top-button {
-  background-color: $main-color;
+  background-color: var(--blue-100);
   width: 44px;
   height: 44px;
   border-radius: 50%;

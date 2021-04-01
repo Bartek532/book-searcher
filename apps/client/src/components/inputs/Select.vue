@@ -14,16 +14,16 @@ export default defineComponent({
   props: {
     name: {
       type: String,
-      required: true
+      required: true,
     },
     values: {
       type: Array,
-      required: true
-    }
+      required: true,
+    },
   },
   setup() {
     return { polishTranslate };
-  }
+  },
 });
 </script>
 
@@ -31,7 +31,7 @@ export default defineComponent({
 select {
   border: 2px solid lightgray;
   padding: 8px 15px;
-  background-color: #fff;
+  background-color: var(--white-100);
   border-radius: 5px;
 }
 </style>

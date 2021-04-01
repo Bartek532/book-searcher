@@ -29,6 +29,14 @@ export default {
         store.dispatch("searchByQuery", decodeURIComponent(route.query.q));
       }
 
+      if (Object.keys(route.query).includes("tags")) {
+        return store.dispatch("advancedSearch", {
+          tags: route.query.tags,
+          title: route.query.name,
+          author: route.query.author,
+        });
+      }
+
       const availableFilters = [
         "id",
         "name",
@@ -48,14 +56,6 @@ export default {
             .map((item) => item.join("="))
             .join("&"),
         );
-      }
-
-      if (route.query.tags) {
-        store.dispatch("advancedSearch", {
-          tags: route.query.tags,
-          title: route.query.name,
-          author: route.query.author,
-        });
       }
     };
 

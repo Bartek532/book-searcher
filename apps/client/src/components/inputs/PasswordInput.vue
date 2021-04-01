@@ -3,7 +3,7 @@
     <label for="password__input" :style="{ borderColor: inputColor }">
       <span
         :class="{
-          'input__label--active': inputFocused || modelValue.length > 0
+          'input__label--active': inputFocused || modelValue.length > 0,
         }"
         :style="{ color: inputColor }"
         >{{ placeholder }}</span
@@ -30,12 +30,12 @@ export default defineComponent({
   props: {
     modelValue: {
       type: String,
-      required: true
+      required: true,
     },
     placeholder: {
       type: String,
-      default: "Hasło"
-    }
+      default: "Hasło",
+    },
   },
   setup(prp, ctx) {
     const inputFocused = ref(false);
@@ -63,7 +63,7 @@ export default defineComponent({
     });
 
     return { validatePassword, error, inputFocused, inputColor };
-  }
+  },
 });
 </script>
 
@@ -76,7 +76,7 @@ export default defineComponent({
   label {
     position: relative;
     @include flex;
-    border: 2px solid $shadow-color;
+    border: 2px solid var(--gray-100);
     border-radius: 15px;
 
     span {
@@ -85,14 +85,14 @@ export default defineComponent({
       transform: translateY(-50%);
       left: 7px;
       z-index: -1;
-      background-color: #fff;
+      background-color: var(--white-100);
       padding: 3px 10px;
       border-radius: 30px;
-      color: $shadow-color;
+      color: var(--gray-100);
       transition: 0.3s;
 
       &.input__label--active {
-        color: #000;
+        color: var(--black-100);
         transform: translate(6px, -35px);
         font-size: 0.84rem;
         transition: 0.3s;
@@ -110,7 +110,7 @@ export default defineComponent({
   }
 
   .error {
-    color: $warning-color;
+    color: var(--red-100);
     font-size: 0.7rem;
     margin-top: 3px;
   }

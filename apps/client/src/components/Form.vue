@@ -70,7 +70,7 @@ export default defineComponent({
     Select,
     Rate,
     Image,
-    Button
+    Button,
   },
   setup(prp, ctx) {
     const book = new FormData();
@@ -98,7 +98,7 @@ export default defineComponent({
         ];
       book.set(
         "place",
-        selectedRoomPlaces.value[selectedRoomPlaces.value.length - 1]
+        selectedRoomPlaces.value[selectedRoomPlaces.value.length - 1],
       );
       book.set("room", e.target.value);
     }
@@ -144,9 +144,9 @@ export default defineComponent({
       series,
       seriesShow,
 
-      onSubmit
+      onSubmit,
     };
-  }
+  },
 });
 </script>
 <style lang="scss" scoped>
@@ -200,7 +200,7 @@ span {
 
 h3 {
   align-self: flex-start;
-  border-bottom: 2px solid $main-color;
+  border-bottom: 2px solid var(--blue-100);
   padding: 0 20px 5px 3px;
   margin-bottom: 10px;
   font-weight: 600;
@@ -247,8 +247,8 @@ h3 {
     transition: 0.3s;
 
     &:focus {
-      border: 2px solid $main-color;
-      box-shadow: 0 0 12px 1px $main-color;
+      border: 2px solid var(--blue-100);
+      box-shadow: 0 0 12px 1px var(--blue-100);
       transition: 0.3s;
     }
   }
@@ -273,7 +273,7 @@ h3 {
   }
   .form {
     position: relative;
-    background-color: #fff;
+    background-color: var(--white-100);
     padding: 50px;
     z-index: 100;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,

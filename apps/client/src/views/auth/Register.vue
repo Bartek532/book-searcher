@@ -47,13 +47,13 @@ export default defineComponent({
     Input,
     Password,
     Modal,
-    LoadingModal
+    LoadingModal,
   },
   setup() {
     const registerData = reactive({
       name: "",
       password: "",
-      email: ""
+      email: "",
     });
     const registerSuccess = ref(false);
     const store = useStore();
@@ -65,7 +65,7 @@ export default defineComponent({
       const errors = document.querySelectorAll(".error");
       if (
         !errors.length &&
-        Object.values(registerData).filter(i => i !== "").length >= 3
+        Object.values(registerData).filter((i) => i !== "").length >= 3
       ) {
         loading.value = true;
 
@@ -84,14 +84,14 @@ export default defineComponent({
           store.dispatch("setModal", {
             show: true,
             type: "success",
-            message: "Twoje konto zostało utworzone, sprawdź email!"
+            message: "Twoje konto zostało utworzone, sprawdź email!",
           });
         } else {
           registerSuccess.value = false;
           store.dispatch("setModal", {
             show: true,
             type: "error",
-            message: store.state.error
+            message: store.state.error,
           });
         }
       }
@@ -106,9 +106,9 @@ export default defineComponent({
       registerSuccess,
       register,
       error,
-      loading
+      loading,
     };
-  }
+  },
 });
 </script>
 
@@ -124,7 +124,7 @@ export default defineComponent({
   &__label {
     font-size: 3rem;
     padding: 0 30px;
-    color: #000;
+    color: var(--black-100);
     text-align: center;
     span {
       font-size: 2rem;

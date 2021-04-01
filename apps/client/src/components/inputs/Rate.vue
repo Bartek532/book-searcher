@@ -37,13 +37,13 @@ export default defineComponent({
     }
 
     return { rate, giveRate };
-  }
+  },
 });
 </script>
 
 <style lang="scss" scoped>
 .stars__star--active svg path {
-  fill: $main-color;
+  fill: var(--blue-100);
 }
 
 .stars {

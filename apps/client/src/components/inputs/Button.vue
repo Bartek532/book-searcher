@@ -18,9 +18,9 @@ export default defineComponent({
 <style lang="scss" scoped>
 button {
   padding: 12px 65px;
-  background: linear-gradient(90deg, #5368ea, $main-color);
+  background: linear-gradient(90deg, #5368ea, var(--blue-100));
   border: 0 none;
-  color: #fff;
+  color: var(--white-100);
   font-weight: 600;
   letter-spacing: 1.2px;
   border-radius: 30px;
@@ -34,7 +34,7 @@ button {
   &::after {
     @include pseudo;
     border-radius: 30px;
-    box-shadow: 0 4px 7px 0 rgba($main-color, 0.65);
+    box-shadow: 0 4px 7px 0 rgba(var(--blue-100-rgb), 0.65);
     opacity: 1;
     transition: opacity 0.3s;
   }

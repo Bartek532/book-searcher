@@ -92,7 +92,7 @@ export default defineComponent({
 
   &::after {
     @include pseudo;
-    box-shadow: $box-shadow;
+    box-shadow: var(--primary-shadow);
     transition: opacity 0.3s;
     opacity: 1;
   }
@@ -111,11 +111,11 @@ export default defineComponent({
 
   &__rates {
     margin-top: 11px;
-    background-color: rgba($main-color, 0.3);
+    background-color: rgba(var(--blue-100-rgb), 0.3);
     @include flex;
     font-weight: 600;
     font-size: 0.7rem;
-    color: $main-color;
+    color: var(--blue-100);
     padding: 2px 14px 2px 10px;
     border-radius: 13px;
 

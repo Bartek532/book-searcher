@@ -35,7 +35,7 @@
             {{ book.name }}
           </span>
           <router-link
-            :to="`/ksiazki?tags=&author=${encodeURIComponent(book.author)}`"
+            :to="`/ksiazki?author=${encodeURIComponent(book.author)}`"
             class="result__info__data__author"
           >
             {{ book.author }}
@@ -44,7 +44,10 @@
             class="result__info__data__series"
             v-if="book.series"
             @click="
-              $router.push(`/ksiazki?series=${encodeURIComponent(book.series)}`)
+              $router.push({
+                path: '/ksiazki',
+                query: { series: encodeURIComponent(book.series) },
+              })
             "
           >
             {{ book.series }}
@@ -81,7 +84,10 @@
           <span class="result__places__place">
             <img src="../assets/svgs/icons/place.svg" alt="" />
             <router-link
-              :to="`/ksiazki?room=${book.room}&place=${book.place}`"
+              :to="{
+                path: '/ksiazki',
+                query: { room: book.room, place: book.place },
+              }"
               class="text"
             >
               {{ capitalize(polishTranslate[book.place]) }}
@@ -97,10 +103,12 @@
           v-for="tag in book.BookTag"
           :key="tag.tagName"
           :text="tag.tagName"
-          @click="$router.push(`/ksiazki?tags=${tag.tagName}`)"
+          @click="
+            $router.push({ path: '/ksiazki', query: { tags: tag.tagName } })
+          "
         />
       </div>
-      <Button text="Szukaj więcej" @click="$router.push({ path: '/search' })" />
+      <Button text="Szukaj więcej" @click="$router.push({ path: '/szukaj' })" />
     </section>
     <RateModal
       :slug="slug"
@@ -297,10 +305,10 @@ export default defineComponent({
 
     &__bookmark {
       path {
-        stroke: $inactive-color;
+        stroke: var(--blue-200);
       }
       &--active path {
-        fill: $inactive-color;
+        fill: var(--blue-200);
       }
     }
 
@@ -364,11 +372,11 @@ export default defineComponent({
 
       &__rates {
         margin-top: 11px;
-        background-color: rgba($main-color, 0.3);
+        background-color: rgba(var(--blue-100-rgb), 0.3);
         @include flex;
         font-weight: 600;
         font-size: 0.7rem;
-        color: $main-color;
+        color: var(--blue-100);
         padding: 3px 14px 3px 8px;
         border-radius: 13px;
 
@@ -409,7 +417,7 @@ export default defineComponent({
       .text {
         font-weight: 600;
         font-size: 0.8rem;
-        color: #000;
+        color: var(--black-100);
         letter-spacing: 0.7px;
         margin: 0 8px;
 
@@ -430,7 +438,7 @@ export default defineComponent({
   .result {
     &__container {
       border-radius: 15px;
-      box-shadow: $box-shadow;
+      box-shadow: var(--primary-shadow);
       margin-top: 30px;
     }
   }
@@ -445,7 +453,7 @@ export default defineComponent({
 
     &__container {
       backdrop-filter: blur(20px);
-      color: #fff;
+      color: var(--white-100);
       border-radius: 15px;
 
       .back {
@@ -458,11 +466,11 @@ export default defineComponent({
         color: lightgray;
       }
       &__rates {
-        color: $inactive-color;
-        background-color: rgba($inactive-color, 0.2);
+        color: var(--blue-200);
+        background-color: rgba(var(--blue-200), 0.2);
 
         &__star path {
-          fill: $inactive-color;
+          fill: var(--blue-200);
         }
       }
     }
@@ -480,7 +488,7 @@ export default defineComponent({
     }
 
     &__description {
-      color: #fff;
+      color: var(--white-100);
     }
   }
 }

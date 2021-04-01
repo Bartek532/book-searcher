@@ -1,5 +1,5 @@
 <template>
-  <div class="back" @click="$router.go(-1)">
+  <button class="back" @click="$router.go(-1)">
     <svg
       class="back__icon"
       width="15"
@@ -16,7 +16,7 @@
         stroke-linejoin="round"
       />
     </svg>
-  </div>
+  </button>
 </template>
 
 <style lang="scss" scoped>
@@ -25,5 +25,7 @@
   top: 20px;
   left: 30px;
   cursor: pointer;
+  border: 0 none;
+  background-color: transparent;
 }
 </style>
