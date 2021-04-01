@@ -18,10 +18,10 @@ import { createBookSlug } from "../../utils";
 import { validationSchemas } from "../../validationSchemas";
 
 export const getAllBooks = async (req: Request, res: Response) => {
-  const page = req.query.page || 1;
-  const perPage = req.query.perPage || 30;
+  const lastReturnedBookId = Number(req.query.lastId) || 0;
+  const perPage = Number(req.query.perPage) || 30;
 
-  res.status(200).json(await fetchBooks());
+  res.status(200).json(await fetchBooks(lastReturnedBookId, perPage));
 };
 
 export const getBook = async (req: Request, res: Response) => {

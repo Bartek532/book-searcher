@@ -1,17 +1,39 @@
 import type { File } from "formidable";
 import type { Book } from "@book-searcher/types";
 import cloudinary from "cloudinary";
-import { PrismaClient } from "@prisma/client";
+import type { Pagination } from "../../types";
+import { PrismaClient, Prisma } from "@prisma/client";
 import { tags as bookTags } from "@book-searcher/data";
+import { generatePaginationOptions } from "../../utils";
 
 const prisma = new PrismaClient();
 
-export const fetchBooks = () => {
+export const fetchBooks = (lastFetchedBookId: number, perPage: number) => {
   return prisma.book.findMany({
+    where: { id: { gt: lastFetchedBookId } },
     include: { UserBookRate: true, BookTag: true },
-    orderBy: { place: "asc" },
+    take: perPage,
   });
 };
+
+/*
+
+export const fetchBooks = async (pagination: Pagination) => {
+  const query = {
+    orderBy: { place: "asc" as Prisma.SortOrder },
+  };
+
+  const totalCount = await prisma.book.count(query);
+
+  const results = await prisma.book.findMany({
+    ...query,
+    ...generatePaginationOptions(pagination),
+  });
+
+  return { results, totalCount };
+};
+
+*/
 
 export const fetchBook = (slug: string) => {
   return prisma.book.findFirst({

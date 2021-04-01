@@ -9685,6 +9685,11 @@ pretty-error@^2.0.2:
     lodash "^4.17.20"
     renderkid "^2.0.4"
 
+prisma-offset-pagination@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/prisma-offset-pagination/-/prisma-offset-pagination-0.0.3.tgz#c46aef5590579f9acbedc604fc1ddaa3f02da648"
+  integrity sha512-fgBxMpuD4J0zQY9W4oR2S2uOSnRnUkEClehRKm3g6NaDqMe5wjFu9omv/ngZaLrd2E5wrUMP/tHxkQ0WV0bjeA==
+
 process-nextick-args@~2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/process-nextick-args/-/process-nextick-args-2.0.1.tgz#7820d9b16120cc55ca9ae7792680ae7dba6d7fe2"
