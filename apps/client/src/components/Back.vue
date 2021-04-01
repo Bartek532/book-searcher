@@ -23,7 +23,7 @@
 .back {
   position: absolute;
   top: 20px;
-  left: 30px;
+  left: 20px;
   cursor: pointer;
   border: 0 none;
   background-color: transparent;

@@ -293,14 +293,14 @@ export default defineComponent({
     position: relative;
     flex-flow: column wrap;
     width: 100%;
-    max-width: 400px;
+    max-width: 500px;
     padding: 70px 30px 30px 30px;
   }
 
   &__icons {
     position: absolute;
     top: 20px;
-    right: 30px;
+    right: 20px;
     cursor: pointer;
 
     &__bookmark {
@@ -328,8 +328,8 @@ export default defineComponent({
       max-width: 40%;
 
       img {
-        width: 100%;
-        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
       }
     }
 
@@ -396,8 +396,8 @@ export default defineComponent({
 
     p {
       padding: 0 5px;
-      font-size: 0.95rem;
-      line-height: 1.55rem;
+      font-size: 0.9rem;
+      line-height: 1.65rem;
       margin: 5px 0;
     }
   }
@@ -440,6 +440,16 @@ export default defineComponent({
       border-radius: 15px;
       box-shadow: var(--primary-shadow);
       margin-top: 30px;
+    }
+
+    &__info {
+      &__image {
+        max-width: 35%;
+      }
+
+      &__data {
+        max-width: 50%;
+      }
     }
   }
 }
