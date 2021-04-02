@@ -1,10 +1,8 @@
 import type { File } from "formidable";
 import type { Book } from "@book-searcher/types";
 import cloudinary from "cloudinary";
-import type { Pagination } from "../../types";
-import { PrismaClient, Prisma } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 import { tags as bookTags } from "@book-searcher/data";
-import { generatePaginationOptions } from "../../utils";
 
 const prisma = new PrismaClient();
 
@@ -16,25 +14,6 @@ export const fetchBooks = (lastFetchedBookId: number, perPage: number) => {
   });
 };
 
-/*
-
-export const fetchBooks = async (pagination: Pagination) => {
-  const query = {
-    orderBy: { place: "asc" as Prisma.SortOrder },
-  };
-
-  const totalCount = await prisma.book.count(query);
-
-  const results = await prisma.book.findMany({
-    ...query,
-    ...generatePaginationOptions(pagination),
-  });
-
-  return { results, totalCount };
-};
-
-*/
-
 export const fetchBook = (slug: string) => {
   return prisma.book.findFirst({
     where: {
@@ -45,28 +24,14 @@ export const fetchBook = (slug: string) => {
   });
 };
 
-export const fetchSeries = async () => {
-  const series = await prisma.book.findMany({
-    select: { series: true },
-    distinct: ["series"],
-  });
-
-  return series.filter(({ series }) => series).map((item) => item.series);
-};
-
-export const fetchBooksBySeries = (series: string) => {
+export const fetchBooksByQuery = (
+  query: string,
+  lastFetchedBookId: number,
+  perPage: number,
+) => {
   return prisma.book.findMany({
     where: {
-      series,
-    },
-    include: { UserBookRate: true, BookTag: true },
-    orderBy: { place: "asc" },
-  });
-};
-
-export const fetchBooksByQuery = (query: string) => {
-  return prisma.book.findMany({
-    where: {
+      id: { gt: lastFetchedBookId },
       OR: [
         {
           name: {
@@ -95,29 +60,36 @@ export const fetchBooksByQuery = (query: string) => {
       ],
     },
     include: { UserBookRate: true, BookTag: true },
-    orderBy: { place: "asc" },
+    take: perPage,
   });
 };
 
 export const fetchBooksByFilters = (
   filters: Record<string, string | number>,
+  lastFetchedBookId: number,
+  perPage: number,
 ) => {
   return prisma.book.findMany({
-    where: { ...filters },
+    where: { ...filters, id: { gt: lastFetchedBookId } },
     include: { UserBookRate: true, BookTag: true },
-    orderBy: { place: "asc" },
+    take: perPage,
   });
 };
 
-export const advancedFetchBooks = (query: {
-  name?: string;
-  author?: string;
-  tags: string[];
-}) => {
+export const advancedFetchBooks = (
+  query: {
+    name?: string;
+    author?: string;
+    tags: string[];
+  },
+  lastFetchedBookId: number,
+  perPage: number,
+) => {
   if (query.tags && query.tags.length) {
     return prisma.book.findMany({
       where: {
         AND: [
+          { id: { gt: lastFetchedBookId } },
           { BookTag: { some: { tagName: { in: query.tags } } } },
           {
             AND: [
@@ -128,19 +100,20 @@ export const advancedFetchBooks = (query: {
         ],
       },
       include: { UserBookRate: true, BookTag: true },
-      orderBy: { place: "asc" },
+      take: perPage,
     });
   }
 
   return prisma.book.findMany({
     where: {
       AND: [
+        { id: { gt: lastFetchedBookId } },
         { name: { contains: query.name || "", mode: "insensitive" } },
         { author: { contains: query.author || "", mode: "insensitive" } },
       ],
     },
     include: { UserBookRate: true, BookTag: true },
-    orderBy: { place: "asc" },
+    take: perPage,
   });
 };
 

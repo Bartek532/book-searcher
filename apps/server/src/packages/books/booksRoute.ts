@@ -4,7 +4,6 @@ import {
   searchBooks,
   getAllBooks,
   getBook,
-  searchBySeries,
   moveBook,
   rateBook,
   createBook,
@@ -18,7 +17,6 @@ const router = express.Router();
 
 router.get("/search", catchAsync(searchBooks));
 router.get("/", catchAsync(getAllBooks));
-router.get("/series", catchAsync(searchBySeries));
 router.post(
   "/rate",
   validateAuth,

@@ -2,8 +2,6 @@ import { Request, Response } from "express";
 import {
   fetchBooks,
   fetchBook,
-  fetchBooksBySeries,
-  fetchSeries,
   fetchBooksByQuery,
   fetchBooksByFilters,
   advancedFetchBooks,
@@ -28,25 +26,28 @@ export const getBook = async (req: Request, res: Response) => {
   res.status(200).json(await fetchBook(req.params.slug));
 };
 
-export const searchBySeries = async (req: Request, res: Response) => {
-  if (req.body.series) {
-    return res.status(200).json(await fetchBooksBySeries(req.params.series));
-  }
-
-  return res.status(200).json(await fetchSeries());
-};
-
 export const searchBooks = async (req: Request, res: Response) => {
+  const lastReturnedBookId = Number(req.query.lastId) || 0;
+  const perPage = Number(req.query.perPage) || 30;
+
   if (req.query.type === "basic") {
     if (req.query.q) {
-      const data = await fetchBooksByQuery(req.query.q as string);
+      const data = await fetchBooksByQuery(
+        req.query.q as string,
+        lastReturnedBookId,
+        perPage,
+      );
       return res.status(200).json(data);
     }
 
     const filters = validateFilters(req.query);
 
     if (Object.keys(filters).length) {
-      const data = await fetchBooksByFilters(filters);
+      const data = await fetchBooksByFilters(
+        filters,
+        lastReturnedBookId,
+        perPage,
+      );
       return res.status(200).json(data);
     }
 
@@ -60,7 +61,9 @@ export const searchBooks = async (req: Request, res: Response) => {
       author: req.query.author as string,
       tags: req.query.tags ? (req.query.tags as string).split(" ") : [],
     };
-    return res.status(200).json(await advancedFetchBooks(query));
+    return res
+      .status(200)
+      .json(await advancedFetchBooks(query, lastReturnedBookId, perPage));
   }
 
   return res.status(400).json({ message: "Nieprawidłowy typ wyszukiwania. " });
