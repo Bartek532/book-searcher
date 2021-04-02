@@ -293,7 +293,7 @@ export default defineComponent({
     position: relative;
     flex-flow: column wrap;
     width: 100%;
-    max-width: 500px;
+    max-width: 470px;
     padding: 70px 30px 30px 30px;
   }
 

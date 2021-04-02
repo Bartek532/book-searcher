@@ -4,9 +4,6 @@
       class="results"
       v-if="!$store.state.loading && $store.state.results.length"
     >
-      <span class="results__count"
-        >Wyniki: <strong>{{ $store.state.results.length }}</strong></span
-      >
       <section class="results__books">
         <Result
           v-for="result in $store.state.results.slice(0, 270)"
@@ -58,6 +55,7 @@ export default {
     width: 100%;
     @include flex;
     flex-wrap: wrap;
+    margin-top: 25px;
   }
 }
 </style>

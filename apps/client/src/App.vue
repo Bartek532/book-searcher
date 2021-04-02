@@ -70,6 +70,11 @@ export default {
 * {
   box-sizing: border-box;
   font-family: "Montserrat", sans-serif;
+
+  &::selection {
+    background-color: var(--orange-100);
+    color: var(--white-100);
+  }
 }
 
 html {
