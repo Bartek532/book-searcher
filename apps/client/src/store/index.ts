@@ -9,6 +9,7 @@ const store = createStore({
   state: {
     loading: false,
     results: [] as Book[],
+    lastBookApiCallAddress: "",
     error: "",
     isLogIn: false,
     modal: {
@@ -31,6 +32,9 @@ const store = createStore({
     [types.SET_LOGIN_STATUS](state, value: boolean) {
       state.isLogIn = value;
     },
+    [types.SET_LAST_API_ADDRESS](state, url: string) {
+      state.lastBookApiCallAddress = url;
+    },
     [types.SET_MODAL_STATUS](
       state,
       data: {
@@ -47,9 +51,11 @@ const store = createStore({
   actions: {
     async getAllBooks({ commit }) {
       commit(types.SET_LOADING_STATUS, true);
+      const url = "/api/books";
       try {
-        const { data }: { data: Book[] } = await fetcher("/api/books", "GET");
+        const { data }: { data: Book[] } = await fetcher(url, "GET");
         commit(types.UPDATE_RESULTS, data);
+        commit(types.SET_LAST_API_ADDRESS, url);
         commit(types.SET_ERRORS, "");
       } catch (err) {
         console.error(err);
@@ -60,12 +66,11 @@ const store = createStore({
     },
     async searchByQuery({ commit }, query) {
       commit(types.SET_LOADING_STATUS, true);
+      const url = `/api/books/search?type=basic&q=${query}`;
       try {
-        const { data }: { data: Book[] } = await fetcher(
-          `/api/books/search?type=basic&q=${query}`,
-          "GET",
-        );
+        const { data }: { data: Book[] } = await fetcher(url, "GET");
         commit(types.UPDATE_RESULTS, data);
+        commit(types.SET_LAST_API_ADDRESS, url);
         commit(types.SET_ERRORS, "");
       } catch (err) {
         console.error(err);
@@ -76,15 +81,14 @@ const store = createStore({
     },
     async searchByFilters({ commit }, path: string) {
       commit(types.SET_LOADING_STATUS, true);
+      const url = `/api/books/search?type=basic&${path}`;
       try {
-        const { data }: { data: Book[] } = await fetcher(
-          `/api/books/search?type=basic&${path}`,
-          "GET",
-        );
+        const { data }: { data: Book[] } = await fetcher(url, "GET");
         commit(types.UPDATE_RESULTS, data);
+        commit(types.SET_LAST_API_ADDRESS, url);
         commit(types.SET_ERRORS, "");
       } catch (err) {
-        console.error(err.message);
+        console.error(err);
         commit(types.SET_ERRORS, err);
       } finally {
         commit(types.SET_LOADING_STATUS, false);
@@ -92,16 +96,15 @@ const store = createStore({
     },
     async advancedSearch({ commit }, { tags, title, author }) {
       commit(types.SET_LOADING_STATUS, true);
+      const url = `/api/books/search?type=advanced&${buildAdvancedQuery(
+        tags.split(" "),
+        author,
+        title,
+      )}`;
       try {
-        const { data }: { data: Book[] } = await fetcher(
-          `/api/books/search?type=advanced&${buildAdvancedQuery(
-            tags.split(" "),
-            author,
-            title,
-          )}`,
-          "GET",
-        );
+        const { data }: { data: Book[] } = await fetcher(url, "GET");
         commit(types.UPDATE_RESULTS, data);
+        commit(types.SET_LAST_API_ADDRESS, url);
         commit(types.SET_ERRORS, "");
       } catch (err) {
         console.log(err);

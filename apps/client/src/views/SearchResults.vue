@@ -5,7 +5,7 @@
   </main>
 </template>
 
-<script>
+<script lang="ts">
 import SearchInput from "../components/inputs/SearchInput.vue";
 import Results from "../components/Results.vue";
 import { useStore } from "vuex";
@@ -26,7 +26,10 @@ export default {
       }
 
       if (route.query.q) {
-        store.dispatch("searchByQuery", decodeURIComponent(route.query.q));
+        store.dispatch(
+          "searchByQuery",
+          decodeURIComponent(route.query.q as string),
+        );
       }
 
       if (Object.keys(route.query).includes("tags")) {

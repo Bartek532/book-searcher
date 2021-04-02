@@ -7,7 +7,7 @@
         <figure class="book__page"></figure>
       </div>
 
-      <h1 class="loader__label">Czytanie</h1>
+      <span class="loader__label">Czytanie</span>
     </div>
   </div>
 </template>
