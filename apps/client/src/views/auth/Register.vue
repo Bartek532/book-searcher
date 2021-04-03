@@ -139,12 +139,10 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .register {
-  min-height: 100vh;
-  min-width: 100vw;
+  width: 100%;
   @include flex;
   flex-flow: column wrap;
-  background: transparent;
-  padding-top: 100px;
+  padding-top: 150px;
 
   &__label {
     font-size: 2.1rem;
@@ -172,10 +170,11 @@ export default defineComponent({
 
 @media all and (min-width: 370px) {
   .register__label {
-    font-size: 2.3rem;
+    font-size: 2.6rem;
+    padding: 0 20px;
 
     .smaller {
-      font-size: 2rem;
+      font-size: 2.2rem;
     }
   }
 }
@@ -184,6 +183,7 @@ export default defineComponent({
   .register {
     flex-flow: row nowrap;
     min-height: 80vh;
+    padding-top: 100px;
 
     &__label {
       font-size: 4rem;
@@ -199,7 +199,7 @@ export default defineComponent({
     }
 
     &__form {
-      max-width: 30%;
+      max-width: 40%;
     }
   }
 }

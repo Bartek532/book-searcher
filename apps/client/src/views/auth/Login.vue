@@ -118,12 +118,11 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .login {
-  min-height: 100vh;
-  min-width: 100vw;
+  width: 100%;
   @include flex;
   flex-flow: column wrap;
   padding: 30px 0;
-  padding-top: 100px;
+  padding-top: 150px;
 
   &__label {
     font-size: 2.1rem;
@@ -185,7 +184,7 @@ export default defineComponent({
     }
 
     &__form {
-      max-width: 30%;
+      max-width: 40%;
     }
   }
 }

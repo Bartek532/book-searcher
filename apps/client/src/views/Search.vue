@@ -99,6 +99,10 @@ export default defineComponent({
         @include flex(space-between);
         flex-flow: row nowrap;
         width: 100%;
+
+        .input {
+          max-width: 290px;
+        }
       }
     }
   }
