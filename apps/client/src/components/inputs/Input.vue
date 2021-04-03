@@ -1,15 +1,16 @@
 <template>
   <div class="input">
-    <label :for="name" :style="{ borderColor: inputColor }">
+    <label :style="{ borderColor: inputColor }" class="input__label">
       <span
         :class="[
           {
-            'input__label--active': inputFocused || modelValue?.length,
+            'input__label__placeholder--active':
+              inputFocused || modelValue?.length,
           },
-          'input__label',
+          'input__label__placeholder',
         ]"
         :style="{ color: inputColor }"
-        >{{ name }}</span
+        >{{ placeholder }}</span
       >
       <input
         :value="modelValue"
@@ -17,9 +18,7 @@
         @focus="inputFocused = true"
         @blur="inputFocused = false"
         :type="type"
-        :name="name"
-        :id="name"
-        class="input__input"
+        class="input__label__input"
       />
     </label>
     <span class="error input__error" v-if="error">{{ error }}</span>
@@ -27,12 +26,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onUpdated } from "vue";
-import { HTMLInputEvent } from "../../types";
+import { defineComponent, ref, computed } from "vue";
 export default defineComponent({
   name: "Input",
   props: {
-    name: {
+    placeholder: {
       type: String,
       required: true,
     },
@@ -55,15 +53,17 @@ export default defineComponent({
   },
   setup(prp) {
     const inputFocused = ref(false);
-    const inputColor = ref("#bebebe");
+    const inputColor = computed(() => {
+      if (!prp.validate || !prp.modelValue) {
+        return "var(--gray-100)";
+      }
 
-    if (prp.validate && prp.error) {
-      inputColor.value = "red";
-    }
+      if (prp.validate && prp.error) {
+        return "var(--red-100)";
+      }
 
-    if (prp.validate) {
-      inputColor.value = "green";
-    }
+      return "var(--green-100)";
+    });
 
     return { inputFocused, inputColor };
   },
@@ -76,13 +76,13 @@ export default defineComponent({
   max-width: 290px;
   margin-top: 30px;
 
-  label {
+  &__label {
     position: relative;
     @include flex;
     border: 2px solid var(--gray-100);
     border-radius: 15px;
 
-    .input__label {
+    &__placeholder {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
@@ -103,7 +103,7 @@ export default defineComponent({
       }
     }
 
-    .input__input {
+    &__input {
       width: 100%;
       border: 0 none;
       padding: 19px 17px 19px 17px;
@@ -111,6 +111,13 @@ export default defineComponent({
       border-radius: 15px;
       outline: 0 none;
     }
+  }
+
+  &__error {
+    color: var(--red-100);
+    font-size: 0.8rem;
+    padding: 5px;
+    display: block;
   }
 }
 </style>

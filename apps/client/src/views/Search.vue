@@ -4,8 +4,8 @@
     <form @submit.prevent="onSubmit" class="form">
       <div class="form__inputs">
         <div>
-          <Input v-model="title" name="Tytuł" :validate="false" />
-          <Input v-model="author" name="Autor" :validate="false" />
+          <Input v-model="title" placeholder="Tytuł" :validate="false" />
+          <Input v-model="author" placeholder="Autor" :validate="false" />
         </div>
         <Tags v-model="tags" class="tags" />
       </div>
@@ -30,7 +30,7 @@ export default defineComponent({
   },
   setup() {
     const router = useRouter();
-    const { handleSubmit, values, errors } = useForm({
+    const { handleSubmit } = useForm({
       initialValues: { title: "", author: "", tags: [] },
     });
 
@@ -49,8 +49,6 @@ export default defineComponent({
       author,
       tags,
       onSubmit,
-      errors,
-      values,
     };
   },
 });

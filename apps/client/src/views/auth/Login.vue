@@ -1,51 +1,69 @@
 <template>
-  <div class="login" @keyup.enter="login">
+  <section class="login">
     <h2 class="login__label">
-      <span>Witaj z powrotem, </span><br />
+      <span class="smaller">Witaj z powrotem, </span>
       Zaloguj się!
     </h2>
     <form class="login__form" @submit.prevent="login">
       <Input
-        class="login__input login__input__email"
         type="email"
-        name="Adres email"
-        placeholder="example@example.com"
-        v-model="loginData.email"
+        placeholder="Email"
+        :error="errors?.email"
+        v-model="email"
       />
-      <Password
-        v-model="loginData.password"
-        class="login__input login__input__password"
-      /><br />
+      <Input
+        type="password"
+        placeholder="Hasło"
+        :error="errors?.password"
+        v-model="password"
+      />
       <Button text="Zaloguj się" class="login__button" />
-      <router-link to="/auth/register" class="create-account"
+      <router-link to="rejestracja" class="create-account"
         >Utwórz konto</router-link
       >
     </form>
     <LoadingModal v-if="loading" />
     <Modal />
-  </div>
+  </section>
 </template>
 
 <script lang="ts">
 import Button from "../../components/inputs/Button.vue";
 import Input from "../../components/inputs/Input.vue";
-import Password from "../../components/inputs/PasswordInput.vue";
 import LoadingModal from "../../components/modals/LoadingModal.vue";
 import Modal from "../../components/modals/MainModal.vue";
 import loginAnimation from "../../animations/loginAnimation";
 import { reactive, onMounted, ref, defineComponent } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
+import { useField, useForm } from "vee-validate";
+import { loginSchema } from "../../utils/validationSchemas";
 
 export default defineComponent({
   components: {
     Button,
     Input,
-    Password,
     Modal,
     LoadingModal,
   },
   setup() {
+    const { handleSubmit, errors } = useForm({
+      validationSchema: loginSchema,
+    });
+
+    const { value: email } = useField("email");
+    const { value: password } = useField("password");
+
+    const login = handleSubmit((data) => {
+      console.log(data);
+    });
+
+    onMounted(() => {
+      loginAnimation();
+    });
+
+    return { errors, login, email, password };
+    /*
     const loginData = reactive({
       email: "",
       password: "",
@@ -92,11 +110,8 @@ export default defineComponent({
 
     isLoggedIn();
 
-    onMounted(() => {
-      loginAnimation();
-    });
-
     return { loginData, login, loading };
+    */
   },
 });
 </script>
@@ -107,16 +122,18 @@ export default defineComponent({
   min-width: 100vw;
   @include flex;
   flex-flow: column wrap;
-  background: transparent;
-  padding-top: 60px;
+  padding: 30px 0;
+  padding-top: 100px;
 
   &__label {
-    font-size: 3rem;
+    font-size: 2.1rem;
     padding: 0 30px;
     color: var(--black-100);
+    @include flex;
     text-align: center;
-    span {
-      font-size: 2rem;
+    flex-flow: column wrap;
+    .smaller {
+      font-size: 1.3rem;
       text-transform: none;
     }
   }
@@ -127,20 +144,24 @@ export default defineComponent({
     flex-flow: column wrap;
 
     .create-account {
-      margin-top: 60px;
+      margin-top: 55px;
       font-weight: 600;
       text-decoration: underline;
       cursor: pointer;
+
+      &:hover {
+        text-decoration: none;
+      }
     }
   }
 }
 
-@media all and (max-width: 370px) {
+@media all and (min-width: 370px) {
   .login__label {
-    font-size: 2.1rem;
+    font-size: 3rem;
 
-    span {
-      font-size: 1.7rem;
+    .smaller {
+      font-size: 1.9rem;
     }
   }
 }
@@ -148,14 +169,19 @@ export default defineComponent({
 @media all and (min-width: 1000px) {
   .login {
     flex-flow: row nowrap;
+    min-height: 80vh;
 
     &__label {
-      font-size: 3.7rem;
+      font-size: 4rem;
       margin-right: 40px;
 
-      span {
-        font-size: 2.7rem;
+      .smaller {
+        font-size: 2.4rem;
       }
+    }
+
+    &__button {
+      margin-top: 35px;
     }
 
     &__form {

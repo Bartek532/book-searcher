@@ -19,8 +19,9 @@ import { useStore } from "vuex";
 import { isInViewport } from "../utils/functions";
 import { fetcher } from "../utils/fetcher";
 import Button from "./inputs/Button.vue";
-import { ref, onUnmounted } from "vue";
-export default {
+import type { Book } from "@book-searcher/types";
+import { ref, onUnmounted, defineComponent } from "vue";
+export default defineComponent({
   components: {
     Button,
   },
@@ -59,7 +60,7 @@ export default {
           store.state.results[store.state.results.length - 1].id;
 
         try {
-          const { data }: { data: any } = await fetcher(
+          const { data }: { data: Book[] } = await fetcher(
             `${
               store.state.lastBookApiCallAddress === "/api/books"
                 ? store.state.lastBookApiCallAddress + "?"
@@ -88,7 +89,7 @@ export default {
 
     return { loading, nextButtonShow, handleNextPage };
   },
-};
+});
 </script>
 
 <style lang="scss" scoped>
