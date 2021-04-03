@@ -18,7 +18,7 @@
         v-model="password"
       />
       <Button text="Zaloguj się" class="login__button" />
-      <router-link to="rejestracja" class="create-account"
+      <router-link to="/rejestracja" class="create-account"
         >Utwórz konto</router-link
       >
     </form>

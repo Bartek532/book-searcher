@@ -65,7 +65,7 @@
       </li>
       <li>
         <router-link
-          :to="!$store.state.isLogIn ? '/auth/logowanie' : '/panel/start'"
+          :to="!$store.state.isLogIn ? '/logowanie' : '/panel/start'"
           class="tab__item tab__item__login"
         >
           <svg

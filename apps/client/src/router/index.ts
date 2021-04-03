@@ -11,7 +11,6 @@ const RoomsHome = () => import("../views/rooms/RoomsHome.vue");
 const Places = () => import("../views/rooms/Places.vue");
 
 //Auth
-const Auth = () => import("../views/auth/Home.vue");
 const Login = () => import("../views/auth/Login.vue");
 const Register = () => import("../views/auth/Register.vue");
 const Activate = () => import("../views/auth/Activate.vue");
@@ -61,23 +60,17 @@ const routes: Array<RouteRecordRaw> = [
     component: Search,
     meta: { title: "Szukaj" },
   },
+  { path: "/logowanie", component: Login, meta: { title: "Logowanie" } },
   {
-    path: "/auth",
-    component: Auth,
-    children: [
-      { path: "logowanie", component: Login, meta: { title: "Logowanie" } },
-      {
-        path: "rejestracja",
-        component: Register,
-        meta: { title: "Rejestracja" },
-      },
-      {
-        path: "aktywacja/:token",
-        component: Activate,
-        props: true,
-        meta: { title: "Aktywacja konta" },
-      },
-    ],
+    path: "/rejestracja",
+    component: Register,
+    meta: { title: "Rejestracja" },
+  },
+  {
+    path: "/aktywacja/:token",
+    component: Activate,
+    props: true,
+    meta: { title: "Aktywacja konta" },
   },
   {
     path: "/panel",
