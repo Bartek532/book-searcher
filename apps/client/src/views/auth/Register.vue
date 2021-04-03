@@ -1,55 +1,82 @@
 <template>
-  <div class="register" @keyup.enter="register">
+  <section class="register">
     <h2 class="register__label">
-      <span>Cześć,</span><br />
+      <span class="smaller">Cześć,</span>
       Zarejestruj się!
     </h2>
     <form class="register__form" @submit.prevent="register">
       <Input
-        name="Nazwa użytkownika"
-        v-model="registerData.name"
-        placeholder="Wiesia123"
-        class="register__input register__input__name"
+        v-model="name"
+        placeholder="Nazwa użytkownika"
+        :error="errors?.name"
       />
       <Input
         type="email"
-        name="Adres email"
-        v-model="registerData.email"
-        placeholder="email@email.com"
-        class="register__input register__input__email"
+        placeholder="Adres email"
+        v-model="email"
+        :error="errors?.email"
       />
-      <Password
-        v-model="registerData.password"
-        class="register__input register__input__password"
+      <Input
+        type="password"
+        placeholder="Hasło"
+        v-model="password"
+        :error="errors?.password"
       />
-      <div class="error repeated-password-error" v-if="error">{{ error }}</div>
-      <Button text="Rejestracja" />
+      <Input
+        type="password"
+        placeholder="Powtórz hasło"
+        v-model="confirmPassword"
+        :error="errors?.confirmPassword"
+      />
+
+      <Button text="Rejestracja" class="register__form__button" />
     </form>
     <LoadingModal v-if="loading" />
     <Modal
       @modal-accepted="registerSuccess && $router.push({ path: '/auth/login' })"
     />
-  </div>
+  </section>
 </template>
 
 <script lang="ts">
 import Button from "../../components/inputs/Button.vue";
 import Input from "../../components/inputs/Input.vue";
-import Password from "../../components/inputs/PasswordInput.vue";
 import Modal from "../../components/modals/MainModal.vue";
-import registerAnimation from "../../animations/registerAnimation";
+import { registerAnimation } from "../../animations/registerAnimation";
 import { reactive, ref, onMounted, defineComponent } from "vue";
 import { useStore } from "vuex";
 import LoadingModal from "../../components/modals/LoadingModal.vue";
+import { useField, useForm } from "vee-validate";
+import { registerSchema } from "../../utils/validationSchemas";
+
 export default defineComponent({
   components: {
     Button,
     Input,
-    Password,
     Modal,
     LoadingModal,
   },
   setup() {
+    const { handleSubmit, errors } = useForm({
+      validationSchema: registerSchema,
+    });
+
+    const { value: name } = useField("name");
+    const { value: email } = useField("email");
+    const { value: password } = useField("password");
+    const { value: confirmPassword } = useField("confirmPassword");
+
+    const register = handleSubmit((data) => {
+      console.log(data);
+    });
+
+    onMounted(() => {
+      registerAnimation();
+    });
+
+    return { errors, register, name, email, password, confirmPassword };
+
+    /*
     const registerData = reactive({
       name: "",
       password: "",
@@ -97,10 +124,7 @@ export default defineComponent({
       }
     }
 
-    onMounted(() => {
-      registerAnimation();
-    });
-
+ 
     return {
       registerData,
       registerSuccess,
@@ -108,6 +132,7 @@ export default defineComponent({
       error,
       loading,
     };
+    */
   },
 });
 </script>
@@ -119,15 +144,18 @@ export default defineComponent({
   @include flex;
   flex-flow: column wrap;
   background: transparent;
-  padding-top: 60px;
+  padding-top: 100px;
 
   &__label {
-    font-size: 3rem;
+    font-size: 2.1rem;
     padding: 0 30px;
     color: var(--black-100);
     text-align: center;
-    span {
-      font-size: 2rem;
+    @include flex;
+    flex-flow: column wrap;
+    margin-bottom: 5px;
+    .smaller {
+      font-size: 1.7rem;
     }
   }
 
@@ -136,18 +164,18 @@ export default defineComponent({
     @include flex;
     flex-flow: column wrap;
 
-    button {
+    &__button {
       margin-top: 40px;
     }
   }
 }
 
-@media all and (max-width: 370px) {
+@media all and (min-width: 370px) {
   .register__label {
-    font-size: 2.1rem;
+    font-size: 2.3rem;
 
-    span {
-      font-size: 1.7rem;
+    .smaller {
+      font-size: 2rem;
     }
   }
 }
@@ -155,18 +183,23 @@ export default defineComponent({
 @media all and (min-width: 1000px) {
   .register {
     flex-flow: row nowrap;
+    min-height: 80vh;
 
     &__label {
-      font-size: 3.7rem;
+      font-size: 4rem;
       margin-right: 40px;
 
-      span {
-        font-size: 2.7rem;
+      .smaller {
+        font-size: 2.4rem;
       }
     }
 
+    &__button {
+      margin-top: 35px;
+    }
+
     &__form {
-      max-width: 35%;
+      max-width: 30%;
     }
   }
 }

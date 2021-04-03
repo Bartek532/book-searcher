@@ -12,14 +12,6 @@
         <form class="account__edit__form" @submit.prevent="modifyUserData">
           <Input name="Nazwa" v-model="userInfo.name" />
           <Input name="Adres email" v-model="userInfo.email" type="email" />
-          <PasswordInput
-            v-model="userInfo.oldPassword"
-            placeholder="Stare hasło"
-          />
-          <PasswordInput
-            v-model="userInfo.newPassword"
-            placeholder="Nowe hasło"
-          />
           <Button text="Zapisz" />
         </form>
       </div>
@@ -38,7 +30,6 @@ import LoadingModal from "../../components/modals/LoadingModal.vue";
 import Modal from "../../components/modals/MainModal.vue";
 import Button from "../../components/inputs/Button.vue";
 import Input from "../../components/inputs/Input.vue";
-import PasswordInput from "../../components/inputs/PasswordInput.vue";
 import { defineComponent, ref, reactive } from "vue";
 import { useStore } from "vuex";
 export default defineComponent({
@@ -46,7 +37,7 @@ export default defineComponent({
     LoadingModal,
     Button,
     Input,
-    PasswordInput,
+
     Modal,
   },
   setup() {

@@ -32,7 +32,7 @@ import Button from "../../components/inputs/Button.vue";
 import Input from "../../components/inputs/Input.vue";
 import LoadingModal from "../../components/modals/LoadingModal.vue";
 import Modal from "../../components/modals/MainModal.vue";
-import loginAnimation from "../../animations/loginAnimation";
+import { loginAnimation } from "../../animations/loginAnimation";
 import { reactive, onMounted, ref, defineComponent } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";

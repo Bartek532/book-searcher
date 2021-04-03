@@ -54,12 +54,12 @@ export default defineComponent({
   setup(prp) {
     const inputFocused = ref(false);
     const inputColor = computed(() => {
-      if (!prp.validate || !prp.modelValue) {
-        return "var(--gray-100)";
+      if (prp.error) {
+        return "var(--red-100)";
       }
 
-      if (prp.validate && prp.error) {
-        return "var(--red-100)";
+      if (!prp.validate || !prp.modelValue) {
+        return "var(--gray-100)";
       }
 
       return "var(--green-100)";
@@ -72,8 +72,8 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .input {
-  width: 80vw;
-  max-width: 290px;
+  width: 85vw;
+  max-width: 310px;
   margin-top: 30px;
 
   &__label {

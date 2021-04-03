@@ -2,7 +2,7 @@ import gsap from "gsap";
 
 const tl = gsap.timeline({});
 
-export default () => {
+export const loginAnimation = () => {
   if (window.innerWidth < 1000) {
     tl.from(".login__label", {
       duration: 0.7,
