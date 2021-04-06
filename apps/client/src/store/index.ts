@@ -7,6 +7,7 @@ import { buildAdvancedQuery } from "../utils/functions";
 
 const store = createStore({
   state: {
+    loadingBooks: false,
     loading: false,
     results: [] as Book[],
     lastBookApiCallAddress: "",
@@ -20,6 +21,9 @@ const store = createStore({
   },
   getters: {},
   mutations: {
+    [types.SET_LOADING_BOOKS_STATUS](state, value: boolean) {
+      state.loadingBooks = value;
+    },
     [types.SET_LOADING_STATUS](state, value: boolean) {
       state.loading = value;
     },
@@ -50,7 +54,7 @@ const store = createStore({
   },
   actions: {
     async getAllBooks({ commit }) {
-      commit(types.SET_LOADING_STATUS, true);
+      commit(types.SET_LOADING_BOOKS_STATUS, true);
       const url = "/api/books";
       try {
         const { data }: { data: Book[] } = await fetcher(url, "GET");
@@ -61,11 +65,11 @@ const store = createStore({
         console.error(err);
         commit(types.SET_ERRORS, err);
       } finally {
-        commit(types.SET_LOADING_STATUS, false);
+        commit(types.SET_LOADING_BOOKS_STATUS, false);
       }
     },
     async searchByQuery({ commit }, query) {
-      commit(types.SET_LOADING_STATUS, true);
+      commit(types.SET_LOADING_BOOKS_STATUS, true);
       const url = `/api/books/search?type=basic&q=${query}`;
       try {
         const { data }: { data: Book[] } = await fetcher(url, "GET");
@@ -76,11 +80,11 @@ const store = createStore({
         console.error(err);
         commit(types.SET_ERRORS, err);
       } finally {
-        commit(types.SET_LOADING_STATUS, false);
+        commit(types.SET_LOADING_BOOKS_STATUS, false);
       }
     },
     async searchByFilters({ commit }, path: string) {
-      commit(types.SET_LOADING_STATUS, true);
+      commit(types.SET_LOADING_BOOKS_STATUS, true);
       const url = `/api/books/search?type=basic&${path}`;
       try {
         const { data }: { data: Book[] } = await fetcher(url, "GET");
@@ -91,11 +95,11 @@ const store = createStore({
         console.error(err);
         commit(types.SET_ERRORS, err);
       } finally {
-        commit(types.SET_LOADING_STATUS, false);
+        commit(types.SET_LOADING_BOOKS_STATUS, false);
       }
     },
     async advancedSearch({ commit }, { tags, title, author }) {
-      commit(types.SET_LOADING_STATUS, true);
+      commit(types.SET_LOADING_BOOKS_STATUS, true);
       const url = `/api/books/search?type=advanced&${buildAdvancedQuery(
         tags.split(" "),
         author,
@@ -110,7 +114,7 @@ const store = createStore({
         console.log(err);
         commit(types.SET_ERRORS, err);
       } finally {
-        commit(types.SET_LOADING_STATUS, false);
+        commit(types.SET_LOADING_BOOKS_STATUS, false);
       }
     },
     async createBook({ commit }, book) {

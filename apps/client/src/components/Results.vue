@@ -2,7 +2,7 @@
   <div>
     <div
       class="results"
-      v-if="!$store.state.loading && $store.state.results.length"
+      v-if="!$store.state.loadingBooks && $store.state.results.length"
     >
       <section class="results__books">
         <Result
@@ -15,7 +15,7 @@
       <ScrollToTopBtn />
       <LoadMore />
     </div>
-    <Loader v-else-if="$store.state.loading" />
+    <Loader v-else-if="$store.state.loadingBooks" />
     <EmptyResults v-else-if="!$store.state.results.length && notFound" />
   </div>
 </template>

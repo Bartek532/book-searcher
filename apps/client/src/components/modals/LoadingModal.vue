@@ -1,5 +1,5 @@
 <template>
-  <div class="modal">
+  <div class="modal" v-if="$store.state.loading">
     <div class="modal__loader">
       <div></div>
       <div></div>
@@ -11,37 +11,43 @@
 
 <style lang="scss" scoped>
 .modal {
+  position: fixed;
+  width: 100vw;
+  height: 120vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+  @include flex;
   &__loader {
     display: inline-block;
     position: relative;
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: 70px;
 
     div {
       box-sizing: border-box;
       display: block;
       position: absolute;
-      width: 64px;
-      height: 64px;
+      width: 54px;
+      height: 54px;
       margin: 8px;
-      border: 8px solid var(--blue-100);
+      border: 6px solid var(--blue-200);
       border-radius: 50%;
-      animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-      border-color: var(--blue-100) transparent transparent transparent;
+      animation: loading 0.7s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+      border-color: var(--blue-200) transparent transparent transparent;
 
       &:nth-child(1) {
-        animation-delay: -0.45s;
+        animation-delay: -0.2s;
       }
       &:nth-child(2) {
-        animation-delay: -0.3s;
+        animation-delay: -0.12s;
       }
       &:nth-child(3) {
-        animation-delay: -0.15s;
+        animation-delay: -0.05s;
       }
     }
   }
 
-  @keyframes lds-ring {
+  @keyframes loading {
     0% {
       transform: rotate(0deg);
     }

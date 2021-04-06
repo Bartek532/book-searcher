@@ -8,6 +8,7 @@
 <script lang="ts">
 import { useRouter } from "vue-router";
 import Navbar from "./components/Navbar.vue";
+
 export default {
   components: {
     Navbar,
