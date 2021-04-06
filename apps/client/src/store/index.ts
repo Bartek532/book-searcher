@@ -14,7 +14,7 @@ const store = createStore({
     isLogIn: false,
     modal: {
       show: false,
-      type: "error",
+      type: "warning",
       message: "",
     },
   },
