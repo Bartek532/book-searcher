@@ -2,7 +2,7 @@
   <router-link :to="`/ksiazki/${data.slug}`">
     <article class="result">
       <div class="result__image">
-        <img v-lazy="data.img" :alt="data.name" />
+        <img :src="data.img" :alt="data.name" loading="lazy" />
       </div>
       <div class="result__info">
         <span class="result__title">

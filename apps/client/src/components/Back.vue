@@ -1,5 +1,6 @@
 <template>
   <button class="back" @click="$router.go(-1)">
+    <span class="sr-only">back</span>
     <svg
       class="back__icon"
       width="15"

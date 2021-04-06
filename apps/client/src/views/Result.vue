@@ -28,7 +28,13 @@
       </div>
       <div class="result__info">
         <div class="result__info__image">
-          <img v-lazy="book.img" :alt="book.name" />
+          <img
+            :src="book.img"
+            :alt="book.name"
+            loading="lazy"
+            width="180"
+            height="130"
+          />
         </div>
         <div class="result__info__data">
           <span class="result__info__data__title">

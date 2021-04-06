@@ -2,7 +2,13 @@
   <router-link :to="path">
     <article class="field">
       <div class="field__icon">
-        <img v-lazy="require(`../assets/svgs/rooms/${img}.svg`)" :alt="label" />
+        <img
+          :src="require(`../assets/svgs/rooms/${img}.svg`)"
+          :alt="label"
+          loading="lazy"
+          width="150"
+          height="120"
+        />
       </div>
       <span class="field__label">{{ label }}</span>
     </article>
