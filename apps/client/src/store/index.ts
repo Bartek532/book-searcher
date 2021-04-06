@@ -135,13 +135,21 @@ const store = createStore({
     ) {
       commit(types.SET_MODAL_STATUS, data);
     },
-    async login({ commit }, loginData) {
+    async login({ commit }, loginData: { email: string; password: string }) {
+      commit(types.SET_LOADING_STATUS, true);
       try {
-        await axios.post("/api/users/login", loginData);
+        const data = await fetcher("/api/users/session", "POST", loginData);
+        console.log(data);
         commit(types.SET_LOGIN_STATUS, true);
         commit(types.SET_ERRORS, "");
       } catch (err) {
-        commit(types.SET_ERRORS, err.response.data.message);
+        commit(types.SET_MODAL_STATUS, {
+          show: true,
+          type: "warning",
+          message: err.message,
+        });
+      } finally {
+        commit(types.SET_LOADING_STATUS, false);
       }
     },
     async register({ commit }, registerData) {
@@ -163,11 +171,11 @@ const store = createStore({
     },
     async isLoggedIn({ commit }) {
       try {
-        await axios.get("/api/users/islogin");
+        await axios.get("/api/users/session/me");
         commit(types.SET_ERRORS, "");
         commit(types.SET_LOGIN_STATUS, true);
       } catch (err) {
-        commit(types.SET_ERRORS, err.response.data.message);
+        commit(types.SET_ERRORS, err);
         commit(types.SET_LOGIN_STATUS, false);
       }
     },

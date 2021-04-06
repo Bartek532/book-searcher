@@ -30,10 +30,10 @@
       width: 54px;
       height: 54px;
       margin: 8px;
-      border: 6px solid var(--blue-200);
+      border: 6px solid var(--blue-100);
       border-radius: 50%;
       animation: loading 0.7s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-      border-color: var(--blue-200) transparent transparent transparent;
+      border-color: var(--blue-100) transparent transparent transparent;
 
       &:nth-child(1) {
         animation-delay: -0.2s;

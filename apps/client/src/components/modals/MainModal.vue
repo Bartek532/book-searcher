@@ -11,8 +11,7 @@
       </div>
       <span class="modal__label">{{ label }}!</span>
       <p class="modal__description">
-        An error has occured while creating an error report. gsgf hjsg fjhsg
-        fjhsgf h sgfhjs fdhjsgjdhf
+        {{ $store.state.modal.message }}
       </p>
       <div class="modal__buttons">
         <button

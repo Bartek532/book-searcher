@@ -22,7 +22,7 @@
         >Utwórz konto</router-link
       >
     </form>
-    <LoadingModal v-if="loading" />
+    <LoadingModal />
     <Modal />
   </section>
 </template>
@@ -47,6 +47,9 @@ export default defineComponent({
     LoadingModal,
   },
   setup() {
+    const store = useStore();
+    const router = useRouter();
+
     const { handleSubmit, errors } = useForm({
       validationSchema: loginSchema,
     });
@@ -54,64 +57,28 @@ export default defineComponent({
     const { value: email } = useField("email");
     const { value: password } = useField("password");
 
-    const login = handleSubmit((data) => {
-      console.log(data);
+    const login = handleSubmit(async (data, { resetForm }) => {
+      await store.dispatch("login", data);
+      resetForm();
+
+      if (store.state.isLogIn) {
+        router.push({ path: "/panel/start" });
+      }
     });
 
     onMounted(() => {
       loginAnimation();
     });
 
-    return { errors, login, email, password };
-    /*
-    const loginData = reactive({
-      email: "",
-      password: "",
-    });
-    const store = useStore();
-    const router = useRouter();
-    const loading = ref(false);
-
-    async function login() {
-      const errors = document.querySelectorAll(".error");
-      if (
-        !errors.length &&
-        loginData.email !== "" &&
-        loginData.password !== ""
-      ) {
-        loading.value = true;
-
-        //Fetch
-        await store.dispatch("login", loginData);
-        loading.value = false;
-
-        //Reset fields
-        loginData.email = "";
-        loginData.password = "";
-
-        //Modal
-        if (store.state.isLogIn) {
-          router.push({ path: "/dashboard/start" });
-        } else {
-          store.dispatch("setModal", {
-            show: true,
-            type: "error",
-            message: store.state.error,
-          });
-        }
-      }
-    }
-
-    async function isLoggedIn() {
+    const isLoggedIn = async () => {
       await store.dispatch("isLoggedIn");
 
-      if (store.state.isLogIn) router.push({ path: "/dashboard/start" });
-    }
+      if (store.state.isLogIn) router.push({ path: "/panel/start" });
+    };
 
     isLoggedIn();
 
-    return { loginData, login, loading };
-    */
+    return { errors, login, email, password };
   },
 });
 </script>
