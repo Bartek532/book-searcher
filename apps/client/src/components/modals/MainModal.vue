@@ -1,4 +1,10 @@
 <template>
+  <div>
+    <vue-final-modal name="modal" v-model="showModal"
+      ><button @click="showModal = false">close modal</button></vue-final-modal
+    >
+    <button @click="showModal = true">Show modal</button>
+    <!--
   <div class="modal" v-if="$store.state.modal.show">
     <div class="modal__window">
       <div class="modal__icon">
@@ -19,10 +25,12 @@
       </div>
     </div>
   </div>
+
+  --></div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 import { useStore } from "vuex";
 export default defineComponent({
   name: "Modal",
@@ -37,7 +45,9 @@ export default defineComponent({
       store.dispatch("setModal", { show: false });
     }
 
-    return { accept, cancel };
+    const showModal = ref(false);
+
+    return { accept, cancel, showModal };
   },
 });
 </script>

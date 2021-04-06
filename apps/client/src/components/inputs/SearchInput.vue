@@ -3,12 +3,20 @@
     <form
       @submit.prevent="search"
       class="search__circle"
-      :class="{ 'search__circle--active': inputFocused }"
+      :class="{ 'search__circle--active': inputFocused || active }"
     >
+      <input
+        type="search"
+        class="search__circle__input"
+        placeholder="Szukaj"
+        @blur="inputFocused = false"
+        @focus="inputFocused = true"
+        v-model="query"
+      />
       <button
-        class="search__circle__icon"
-        :type="buttonType"
-        @click="searchAnimation"
+        class="search__circle__submit"
+        @focus="inputFocused = true"
+        @blur="inputFocused = false"
       >
         <span class="sr-only">Search</span>
         <svg
@@ -24,23 +32,14 @@
           />
         </svg>
       </button>
-      <input
-        type="search"
-        class="search__circle__input"
-        placeholder="Szukaj"
-        @blur="inputFocused = false"
-        @focus="inputFocused = true"
-        v-model="query"
-      />
     </form>
   </div>
 </template>
 
 <script lang="ts">
-import { ref, defineComponent, onMounted } from "vue";
+import { ref, defineComponent } from "vue";
 import { prepareQueryToSearch } from "../../utils/functions";
 import { useRouter } from "vue-router";
-import gsap from "gsap";
 export default defineComponent({
   name: "SearchInput",
   props: {
@@ -49,9 +48,8 @@ export default defineComponent({
       default: false,
     },
   },
-  setup(prp) {
+  setup() {
     const inputFocused = ref(false);
-    const buttonType = ref(prp.active ? "submit" : "button");
     const router = useRouter();
     const query = ref("");
 
@@ -62,50 +60,10 @@ export default defineComponent({
       });
     };
 
-    const searchAnimation = () => {
-      const tl = gsap.timeline();
-      tl.addLabel("search")
-        .to(".search__circle", 0.6, {
-          width: "80vw",
-          maxWidth: "370px",
-          borderRadius: "20px",
-        })
-        .to(
-          ".search__circle__input",
-          0.6,
-          {
-            transformOrigin: "50% 0",
-            scaleX: 1,
-          },
-          "search",
-        )
-        .to(
-          ".search__circle__icon",
-          0.6,
-          {
-            left: "90%",
-            rotate: "360",
-          },
-          "search",
-        );
-
-      setTimeout(() => {
-        buttonType.value = "submit";
-      }, 0);
-    };
-
-    onMounted(() => {
-      if (prp.active) {
-        searchAnimation();
-      }
-    });
-
     return {
       inputFocused,
-      searchAnimation,
       search,
       query,
-      buttonType,
     };
   },
 });
@@ -116,42 +74,63 @@ export default defineComponent({
   margin-top: 30px;
   position: relative;
   z-index: 10;
-  &__circle {
-    width: 55px;
-    height: 55px;
-    border-radius: 50%;
-    position: relative;
-    box-shadow: 1px 4px 5px 0 var(--gray-100);
-    transition: box-shadow 0.3s;
-    @include flex(flex-start);
+  @include flex;
+  width: 85vw;
+  max-width: 350px;
 
-    &--active {
-      box-shadow: 2px 4px 5px 0 rgba(var(--blue-100-rgb), 0.8);
-      transition: 0.3s;
-    }
+  &__circle {
+    --size: 55px;
+    width: var(--size);
+    height: var(--size);
+    overflow: hidden;
+    border-radius: 100px;
+    position: relative;
+    display: flex;
+    padding: 5px;
+    transition: width 0.4s;
+    box-shadow: 1px 3px 5px 0 var(--gray-100);
 
     &__input {
-      width: 65vw;
-      max-width: 300px;
-      transform: scaleX(0);
-      border-radius: 20px 0 0 20px;
-      padding: 3px 20px;
-      border: 0 none;
-      border-right: 2px solid lightgray;
-      outline: 0 none;
-    }
-    &__icon {
+      border: 0;
+      padding: 0.25em 1em 0.25em 1.3em;
+      flex-grow: 1;
+      outline: 0;
+      z-index: 2;
       position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: transparent;
+      opacity: 0;
       cursor: pointer;
-      z-index: 100;
-      border: 0 none;
-      background-color: transparent;
+    }
+
+    &__submit {
+      font-size: 1.5rem;
+      margin-left: auto;
+      background: 0;
+      border: 0;
+      cursor: pointer;
+      border-radius: 50%;
+      width: calc(var(--size) - 10px);
+      height: calc(var(--size) - 10px);
       outline: 0 none;
+
       &:focus svg path {
-        fill: var(--black-100);
+        fill: #000;
+      }
+    }
+
+    &--active {
+      width: 100%;
+      border-radius: 20px;
+
+      .search__circle__input {
+        opacity: 1;
+        z-index: initial;
+        cursor: initial;
+        width: calc(100% - var(--size));
       }
     }
   }

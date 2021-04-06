@@ -16,7 +16,7 @@ export default {
     const router = useRouter();
     router.afterEach((to) => {
       document.title = to.meta.title
-        ? to.meta.title + " | Book searcher "
+        ? to.meta.title + " · Book searcher "
         : "Book searcher";
     });
   },

@@ -48,7 +48,7 @@ export default defineComponent({
   height: 30px;
   @include flex;
   bottom: 82px;
-  right: 10px;
+  right: 15px;
   border: 1px solid var(--gray-100);
   cursor: pointer;
   background-color: transparent;
