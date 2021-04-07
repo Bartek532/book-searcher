@@ -31,9 +31,11 @@
 
       <Button text="Rejestracja" class="register__form__button" />
     </form>
-    <LoadingModal v-if="loading" />
+    <LoadingModal />
     <Modal
-      @modal-accepted="registerSuccess && $router.push({ path: '/auth/login' })"
+      @modal-cancelled="
+        !$store.state.error && $router.push({ path: '/auth/login' })
+      "
     />
   </section>
 </template>
@@ -43,7 +45,7 @@ import Button from "../../components/inputs/Button.vue";
 import Input from "../../components/inputs/Input.vue";
 import Modal from "../../components/modals/MainModal.vue";
 import { registerAnimation } from "../../animations/registerAnimation";
-import { reactive, ref, onMounted, defineComponent } from "vue";
+import { onMounted, defineComponent } from "vue";
 import { useStore } from "vuex";
 import LoadingModal from "../../components/modals/LoadingModal.vue";
 import { useField, useForm } from "vee-validate";
@@ -57,6 +59,7 @@ export default defineComponent({
     LoadingModal,
   },
   setup() {
+    const store = useStore();
     const { handleSubmit, errors } = useForm({
       validationSchema: registerSchema,
     });
@@ -66,8 +69,9 @@ export default defineComponent({
     const { value: password } = useField("password");
     const { value: confirmPassword } = useField("confirmPassword");
 
-    const register = handleSubmit((data) => {
-      console.log(data);
+    const register = handleSubmit(async (data, { resetForm }) => {
+      resetForm();
+      return await store.dispatch("register", data);
     });
 
     onMounted(() => {
@@ -75,64 +79,6 @@ export default defineComponent({
     });
 
     return { errors, register, name, email, password, confirmPassword };
-
-    /*
-    const registerData = reactive({
-      name: "",
-      password: "",
-      email: "",
-    });
-    const registerSuccess = ref(false);
-    const store = useStore();
-
-    const error = ref("");
-    const loading = ref(false);
-
-    async function register() {
-      const errors = document.querySelectorAll(".error");
-      if (
-        !errors.length &&
-        Object.values(registerData).filter((i) => i !== "").length >= 3
-      ) {
-        loading.value = true;
-
-        //Fetch
-        await store.dispatch("register", registerData);
-        loading.value = false;
-
-        //Reset fields
-        registerData.name = "";
-        registerData.password = "";
-        registerData.email = "";
-
-        //Modal
-        if (!store.state.error) {
-          registerSuccess.value = true;
-          store.dispatch("setModal", {
-            show: true,
-            type: "success",
-            message: "Twoje konto zostało utworzone, sprawdź email!",
-          });
-        } else {
-          registerSuccess.value = false;
-          store.dispatch("setModal", {
-            show: true,
-            type: "error",
-            message: store.state.error,
-          });
-        }
-      }
-    }
-
- 
-    return {
-      registerData,
-      registerSuccess,
-      register,
-      error,
-      loading,
-    };
-    */
   },
 });
 </script>

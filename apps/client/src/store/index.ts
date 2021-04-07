@@ -1,7 +1,7 @@
 import { createStore } from "vuex";
 import axios from "axios";
 import { types } from "./mutation-types";
-import type { Book } from "@book-searcher/types";
+import type { Book, User } from "@book-searcher/types";
 import { fetcher } from "../utils/fetcher";
 import { buildAdvancedQuery } from "../utils/functions";
 
@@ -143,6 +143,7 @@ const store = createStore({
         commit(types.SET_LOGIN_STATUS, true);
         commit(types.SET_ERRORS, "");
       } catch (err) {
+        commit(types.SET_ERRORS, err.message);
         commit(types.SET_MODAL_STATUS, {
           show: true,
           type: "warning",
@@ -152,12 +153,25 @@ const store = createStore({
         commit(types.SET_LOADING_STATUS, false);
       }
     },
-    async register({ commit }, registerData) {
+    async register({ commit }, registerData: User) {
+      commit(types.SET_LOADING_STATUS, true);
       try {
-        await axios.post("/api/users/register", registerData);
+        await fetcher("/api/users", "POST", registerData);
         commit(types.SET_ERRORS, "");
+        commit(types.SET_MODAL_STATUS, {
+          show: true,
+          type: "success",
+          message: "Wysłano email z linkiem aktywacyjnym. Zaloguj się!",
+        });
       } catch (err) {
-        commit(types.SET_ERRORS, err.response.data.message);
+        commit(types.SET_ERRORS, err.message);
+        commit(types.SET_MODAL_STATUS, {
+          show: true,
+          type: "warning",
+          message: err.message,
+        });
+      } finally {
+        commit(types.SET_LOADING_STATUS, false);
       }
     },
     async logout({ commit }) {

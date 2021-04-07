@@ -43,7 +43,7 @@ export default defineComponent({
       store.dispatch("setModal", { show: false });
     };
     const cancel = () => {
-      ctx.emit("modal-canceled");
+      ctx.emit("modal-cancelled");
       store.dispatch("setModal", { show: false });
     };
 

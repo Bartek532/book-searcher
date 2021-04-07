@@ -33,7 +33,7 @@ import Input from "../../components/inputs/Input.vue";
 import LoadingModal from "../../components/modals/LoadingModal.vue";
 import Modal from "../../components/modals/MainModal.vue";
 import { loginAnimation } from "../../animations/loginAnimation";
-import { reactive, onMounted, ref, defineComponent } from "vue";
+import { onMounted, defineComponent } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 import { useField, useForm } from "vee-validate";
@@ -59,11 +59,12 @@ export default defineComponent({
 
     const login = handleSubmit(async (data, { resetForm }) => {
       await store.dispatch("login", data);
-      resetForm();
 
       if (store.state.isLogIn) {
-        router.push({ path: "/panel/start" });
+        return router.push({ path: "/panel/start" });
       }
+
+      return resetForm();
     });
 
     onMounted(() => {

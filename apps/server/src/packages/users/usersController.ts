@@ -43,9 +43,12 @@ export const register = async (req: Request, res: Response) => {
     return res.status(409).json({ message: "Konto już istnieje." });
   }
 
-  if (!passwordRegex.test(req.body.password)) {
+  if (
+    !passwordRegex.test(req.body.password) ||
+    req.body.password !== req.body.confirmPassword
+  ) {
     return res.status(400).json({
-      message: "Hasło nie spełnia wymagań.",
+      message: "Błędne dane.",
     });
   }
   const hashedPassword = await bcrypt.hash(req.body.password, 10);
@@ -76,7 +79,7 @@ export const register = async (req: Request, res: Response) => {
 };
 
 export const logout = (req: Request, res: Response) => {
-  req.session.destroy(err => {
+  req.session.destroy((err) => {
     res.status(400).json({ message: err });
   });
 };
@@ -105,7 +108,7 @@ export const activateAccount = async (req: Request, res: Response) => {
 
 export const getUserInfo = async (req: Request, res: Response) => {
   const data = Object.fromEntries(
-    Object.entries(req.session.user!).filter(item => item[0] !== "password"),
+    Object.entries(req.session.user!).filter((item) => item[0] !== "password"),
   );
   res.status(200).json(data);
 };

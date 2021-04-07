@@ -1,5 +1,5 @@
 <template>
-  <div class="modal" v-if="$store.state.loading">
+  <div class="modal" v-if="$store.state.loading || show">
     <div class="modal__loader">
       <div></div>
       <div></div>
@@ -9,11 +9,22 @@
   </div>
 </template>
 
+<script lang="ts">
+export default {
+  props: {
+    show: {
+      type: Boolean,
+      default: false,
+    },
+  },
+};
+</script>
+
 <style lang="scss" scoped>
 .modal {
   position: fixed;
   width: 100vw;
-  height: 120vh;
+  height: 100vh;
   background-color: rgba(0, 0, 0, 0.6);
   z-index: 1000;
   @include flex;
