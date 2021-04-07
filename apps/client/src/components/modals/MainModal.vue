@@ -18,13 +18,18 @@
           class="modal__buttons__ok"
           @click="accept"
           v-if="
-            $store.state.modal.type === 'info' ||
-            $store.state.modal.type === 'question'
+            ['info', 'question', 'success'].includes($store.state.modal.type)
           "
         >
           Kontynuuj
         </button>
-        <button class="modal__buttons__cancel" @click="cancel">Anuluj</button>
+        <button
+          class="modal__buttons__cancel"
+          @click="cancel"
+          v-if="$store.state.modal.type !== 'success'"
+        >
+          Anuluj
+        </button>
       </div>
     </div>
   </div>

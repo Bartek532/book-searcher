@@ -32,11 +32,7 @@
       <Button text="Rejestracja" class="register__form__button" />
     </form>
     <LoadingModal />
-    <Modal
-      @modal-cancelled="
-        !$store.state.error && $router.push({ path: '/auth/login' })
-      "
-    />
+    <Modal @modal-accepted="$router.push({ path: '/auth/login' })" />
   </section>
 </template>
 

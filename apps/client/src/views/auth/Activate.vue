@@ -1,54 +1,52 @@
 <template>
   <Modal
-    @modal-canceled="$router.push({ path: '/' })"
-    @modal-accepted="
-      !$store.state.modal.error
-        ? $router.push({ path: '/auth/login' })
-        : $store.state.modal.message === 'Nie znaleziono użytkownika. '
-        ? $router.push({ path: '/auth/register' })
-        : $router.push({ path: '/auth/login' })
-    "
+    @modal-cancelled="$router.push({ path: '/logowanie' })"
+    @modal-accepted="$router.push({ path: '/logowanie' })"
   />
 </template>
 
 <script lang="ts">
-import axios from "axios";
+import { fetcher } from "../../utils/fetcher";
 import { defineComponent } from "vue";
 import { useStore } from "vuex";
 import Modal from "../../components/modals/MainModal.vue";
 export default defineComponent({
   components: {
-    Modal
+    Modal,
   },
   props: {
     token: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   setup(prp) {
     const store = useStore();
-    async function activateAccount() {
+    const activateAccount = async () => {
       try {
-        const { data } = await axios.post("/api/users/activate", {
-          token: prp.token
-        });
-        store.dispatch("setModal", {
+        const { data }: { data: { message: string } } = await fetcher(
+          "/api/users/activate",
+          "POST",
+          {
+            token: prp.token,
+          },
+        );
+        return store.dispatch("setModal", {
           show: true,
           type: "success",
-          message: data.message
+          message: data.message,
         });
       } catch (err) {
-        store.dispatch("setModal", {
+        return store.dispatch("setModal", {
           show: true,
-          type: "error",
-          message: err.response.data.message
+          type: "warning",
+          message: err.message,
         });
       }
-    }
+    };
 
     activateAccount();
-  }
+  },
 });
 </script>
 
