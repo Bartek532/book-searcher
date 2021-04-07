@@ -49,9 +49,10 @@ body {
 .app {
   position: relative;
   width: 100vw;
-  max-width: 1200px;
+  max-width: 1400px;
   padding-bottom: 85px;
   @include flex;
+  min-height: 100vh;
 }
 
 a {

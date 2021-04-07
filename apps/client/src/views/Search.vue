@@ -59,6 +59,7 @@ export default defineComponent({
   @include flex;
   flex-flow: column wrap;
   background: var(--white-100);
+  align-self: flex-start;
   width: 84vw;
   padding-bottom: 30px;
   &__title {

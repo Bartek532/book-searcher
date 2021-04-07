@@ -56,6 +56,7 @@ export default {
     @include flex;
     flex-wrap: wrap;
     margin-top: 25px;
+    max-width: 1200px;
   }
 }
 </style>

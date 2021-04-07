@@ -68,7 +68,7 @@ const store = createStore({
         commit(types.SET_LOADING_BOOKS_STATUS, false);
       }
     },
-    async searchByQuery({ commit }, query) {
+    async searchByQuery({ commit }, query: string) {
       commit(types.SET_LOADING_BOOKS_STATUS, true);
       const url = `/api/books/search?type=basic&q=${query}`;
       try {
@@ -98,7 +98,10 @@ const store = createStore({
         commit(types.SET_LOADING_BOOKS_STATUS, false);
       }
     },
-    async advancedSearch({ commit }, { tags, title, author }) {
+    async advancedSearch(
+      { commit },
+      { tags, title, author }: Record<string, string>,
+    ) {
       commit(types.SET_LOADING_BOOKS_STATUS, true);
       const url = `/api/books/search?type=advanced&${buildAdvancedQuery(
         tags.split(" "),
@@ -138,8 +141,7 @@ const store = createStore({
     async login({ commit }, loginData: { email: string; password: string }) {
       commit(types.SET_LOADING_STATUS, true);
       try {
-        const data = await fetcher("/api/users/session", "POST", loginData);
-        console.log(data);
+        await fetcher("/api/users/session", "POST", loginData);
         commit(types.SET_LOGIN_STATUS, true);
         commit(types.SET_ERRORS, "");
       } catch (err) {
@@ -176,16 +178,16 @@ const store = createStore({
     },
     async logout({ commit }) {
       try {
-        await axios.get("/api/users/logout");
+        await fetcher("/api/users/session", "DELETE");
         commit(types.SET_ERRORS, "");
         commit(types.SET_LOGIN_STATUS, false);
       } catch (err) {
-        commit(types.SET_ERRORS, err.response.data.message);
+        commit(types.SET_ERRORS, err.message);
       }
     },
     async isLoggedIn({ commit }) {
       try {
-        await axios.get("/api/users/session/me");
+        await fetcher("/api/users/session/me", "GET");
         commit(types.SET_ERRORS, "");
         commit(types.SET_LOGIN_STATUS, true);
       } catch (err) {

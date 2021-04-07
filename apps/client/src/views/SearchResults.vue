@@ -73,5 +73,6 @@ export default {
 .main {
   @include flex;
   flex-flow: column wrap;
+  align-self: flex-start;
 }
 </style>

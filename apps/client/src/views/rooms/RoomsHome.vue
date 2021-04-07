@@ -36,7 +36,6 @@ export default {
 
 <style lang="scss" scoped>
 .rooms {
-  min-height: 80vh;
   padding: 30px 0;
   @include flex;
   flex-flow: column wrap;

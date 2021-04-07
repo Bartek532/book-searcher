@@ -196,7 +196,6 @@ export default {};
 }
 
 .main {
-  min-height: 600px;
   margin: 0px auto;
   width: auto;
   max-width: 460px;

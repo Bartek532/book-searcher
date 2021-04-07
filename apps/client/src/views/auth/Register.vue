@@ -124,7 +124,6 @@ export default defineComponent({
 @media all and (min-width: 1000px) {
   .register {
     flex-flow: row nowrap;
-    min-height: 80vh;
     padding-top: 100px;
 
     &__label {

@@ -50,7 +50,6 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .places {
-  min-height: 80vh;
   padding: 30px 0;
   @include flex;
   flex-flow: column wrap;

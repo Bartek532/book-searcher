@@ -136,7 +136,6 @@ export default defineComponent({
 @media all and (min-width: 1000px) {
   .login {
     flex-flow: row nowrap;
-    min-height: 80vh;
 
     &__label {
       font-size: 4rem;
