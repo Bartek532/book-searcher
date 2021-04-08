@@ -1,6 +1,8 @@
 <template>
   <div class="not-found">
-    <span class="label">Niestety, nie znaleźliśmy tego czego szukasz :(</span>
+    <span class="label"
+      >Niestety, nie znaleźliśmy tego czego szukasz &#128580;</span
+    >
     <svg
       width="600"
       height="300"

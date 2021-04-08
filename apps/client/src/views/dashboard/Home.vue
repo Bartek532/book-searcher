@@ -134,7 +134,7 @@ export default {
 
 @media all and (min-width: 1100px) {
   .options {
-    padding: 0 250px;
+    padding: 0 10px;
   }
 }
 </style>

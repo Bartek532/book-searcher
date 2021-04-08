@@ -1,5 +1,5 @@
 <template>
-  <div class="result__background">
+  <div class="result">
     <section class="result__container" v-if="!loading">
       <BackButton />
       <div class="result__icons">
@@ -294,6 +294,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .result {
+  align-self: flex-start;
   &__container {
     @include flex;
     position: relative;
@@ -331,8 +332,7 @@ export default defineComponent({
 
     &__image {
       margin-right: 30px;
-      max-width: 40%;
-
+      width: 40%;
       img {
         max-width: 100%;
         height: 100%;
@@ -343,6 +343,7 @@ export default defineComponent({
       @include flex(center, flex-start);
       flex-flow: column wrap;
       min-width: 40%;
+      max-width: 50%;
 
       &__title {
         font-weight: 600;

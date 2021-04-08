@@ -83,6 +83,7 @@ export default defineComponent({
     font-size: 1rem;
     margin-bottom: 7px;
     cursor: pointer;
+    padding: 0;
   }
 
   &__icon--active svg {

@@ -41,6 +41,7 @@ export default defineComponent({
     modelValue: {
       type: String,
       required: true,
+      default: "",
     },
     validate: {
       type: Boolean,

@@ -93,14 +93,14 @@ export default defineComponent({
   padding-top: 150px;
 
   &__label {
-    font-size: 2.1rem;
+    font-size: 2.4rem;
     padding: 0 30px;
     color: var(--black-100);
     @include flex;
     text-align: center;
     flex-flow: column wrap;
     .smaller {
-      font-size: 1.3rem;
+      font-size: 1.5rem;
       text-transform: none;
     }
   }
