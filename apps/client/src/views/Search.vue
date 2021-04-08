@@ -4,8 +4,18 @@
     <form @submit.prevent="onSubmit" class="form">
       <div class="form__inputs">
         <div>
-          <Input v-model="title" placeholder="Tytuł" :validate="false" />
-          <Input v-model="author" placeholder="Autor" :validate="false" />
+          <Input
+            v-model="title"
+            placeholder="Tytuł"
+            :validate="false"
+            name="title"
+          />
+          <Input
+            v-model="author"
+            placeholder="Autor"
+            :validate="false"
+            name="author"
+          />
         </div>
         <Tags v-model="tags" class="tags" />
       </div>

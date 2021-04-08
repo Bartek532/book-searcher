@@ -51,6 +51,10 @@ export default defineComponent({
       type: String,
       default: "",
     },
+    name: {
+      type: String,
+      required: true,
+    },
   },
   setup(prp) {
     const inputFocused = ref(false);

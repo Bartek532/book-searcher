@@ -10,12 +10,14 @@
         placeholder="Email"
         :error="errors?.email"
         v-model="email"
+        name="email"
       />
       <Input
         type="password"
         placeholder="Hasło"
         :error="errors?.password"
         v-model="password"
+        name="current-password"
       />
       <Button text="Zaloguj się" class="login__button" />
       <router-link to="/rejestracja" class="create-account"

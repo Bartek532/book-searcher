@@ -9,24 +9,28 @@
         v-model="name"
         placeholder="Nazwa użytkownika"
         :error="errors?.name"
+        name="name"
       />
       <Input
         type="email"
         placeholder="Adres email"
         v-model="email"
         :error="errors?.email"
+        name="email"
       />
       <Input
         type="password"
         placeholder="Hasło"
         v-model="password"
         :error="errors?.password"
+        name="new-password"
       />
       <Input
         type="password"
         placeholder="Powtórz hasło"
         v-model="confirmPassword"
         :error="errors?.confirmPassword"
+        name="repeat-password"
       />
 
       <Button text="Rejestracja" class="register__form__button" />

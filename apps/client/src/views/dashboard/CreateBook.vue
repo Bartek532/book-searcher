@@ -1,6 +1,5 @@
 <template>
   <div>
-    <Form @form-submitted="createBook" />
     <Modal
       @modal-accepted="$router.go(-1)"
       @modal-canceled="$store.state.modal.error ? '' : $router.go()"
@@ -10,18 +9,17 @@
 </template>
 
 <script lang="ts">
-import Form from "../../components/Form.vue";
 import Modal from "../../components/modals/MainModal.vue";
 import LoadingModal from "../../components/modals/LoadingModal.vue";
 import { useStore } from "vuex";
 import { ref, defineComponent } from "vue";
 export default defineComponent({
   components: {
-    Form,
     Modal,
-    LoadingModal
+    LoadingModal,
   },
   setup() {
+    /*
     const store = useStore();
     const loading = ref(false);
 
@@ -70,7 +68,8 @@ export default defineComponent({
       createBook,
       loading
     };
-  }
+    */
+  },
 });
 </script>
 

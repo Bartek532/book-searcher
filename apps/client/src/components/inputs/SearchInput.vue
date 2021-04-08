@@ -9,6 +9,7 @@
         type="search"
         class="search__circle__input"
         placeholder="Szukaj"
+        name="search"
         @blur="inputFocused = false"
         @focus="inputFocused = true"
         v-model="query"
