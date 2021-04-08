@@ -1,10 +1,11 @@
 <template>
   <div class="stars">
-    <span
+    <button
       v-for="star in [1, 2, 3, 4, 5, 6]"
       :key="star"
-      @click="giveRate(star)"
-      :class="['stars__star', { 'stars__star--active': rate >= star }]"
+      @click="$emit('update:modelValue', star)"
+      :class="['stars__star', { 'stars__star--active': modelValue >= star }]"
+      type="button"
     >
       <svg
         width="28"
@@ -20,7 +21,7 @@
           stroke-width="57"
         />
       </svg>
-    </span>
+    </button>
   </div>
 </template>
 
@@ -28,15 +29,11 @@
 import { defineComponent, ref } from "vue";
 export default defineComponent({
   name: "Rate",
-  setup(prp, ctx) {
-    const rate = ref(1);
-
-    function giveRate(star: number) {
-      rate.value = star;
-      ctx.emit("rate-given", rate.value);
-    }
-
-    return { rate, giveRate };
+  props: {
+    modelValue: {
+      type: Number,
+      default: 1,
+    },
   },
 });
 </script>
@@ -49,5 +46,12 @@ export default defineComponent({
 .stars {
   @include flex;
   cursor: pointer;
+
+  &__star {
+    border: 0 none;
+    background-color: transparent;
+    cursor: pointer;
+    outline: 0 none;
+  }
 }
 </style>

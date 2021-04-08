@@ -43,10 +43,6 @@ export default defineComponent({
       required: true,
       default: "",
     },
-    validate: {
-      type: Boolean,
-      default: true,
-    },
     error: {
       type: String,
       default: "",
@@ -63,7 +59,7 @@ export default defineComponent({
         return "var(--red-100)";
       }
 
-      if (!prp.validate || !prp.modelValue) {
+      if (!prp.modelValue) {
         return "var(--gray-100)";
       }
 

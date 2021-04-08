@@ -1,14 +1,15 @@
 <template>
   <div class="file">
-    <label for="file" class="file__label">
+    <label class="file__label">
       <input
         type="file"
-        name="file"
-        id="file"
-        @change="uploadFile"
+        name="image"
+        id="image"
+        @change="handleUploadFile"
         class="file__label__input"
-      /><br />
-      <img v-if="image" :src="image" alt="image" class="file__label__preview" />
+        accept="image/*"
+      />
+      <img v-if="image" :src="image" alt="" class="file__label__preview" />
       <div class="file__label__icon">
         <span class="file__label__icon__label">Dodaj zdjęcie</span>
         <svg
@@ -30,7 +31,7 @@
         </svg>
       </div>
     </label>
-    <div v-if="error" class="error file__error">{{ error }}</div>
+    <span v-if="error" class="file__error">{{ error }}</span>
   </div>
 </template>
 <script lang="ts">
@@ -41,14 +42,19 @@ export default defineComponent({
   setup(prp, ctx) {
     const image = ref("");
     const error = ref("");
-    const imageTypes = ["image/jpeg", "image/png", "image/jpg", "image/webp"];
-    function uploadFile(e: HTMLInputEvent) {
+    const availableImageTypes = [
+      "image/jpeg",
+      "image/png",
+      "image/jpg",
+      "image/webp",
+    ];
+    const handleUploadFile = (e: HTMLInputEvent) => {
       const file = e.target.files ? e.target.files[0] : "";
       if (!file) {
         error.value = "Dodaj obraz.";
         image.value = "";
       } else {
-        if (!imageTypes.includes((file as File).type)) {
+        if (!availableImageTypes.includes((file as File).type)) {
           error.value = "Nieodpowiedni plik.";
         } else {
           error.value = "";
@@ -56,47 +62,51 @@ export default defineComponent({
         }
       }
 
-      ctx.emit("file-uploaded", file);
-    }
+      ctx.emit("image-uploaded", file);
+    };
 
     return {
-      uploadFile,
+      handleUploadFile,
       image,
-      error
+      error,
     };
-  }
+  },
 });
 </script>
 
 <style lang="scss" scoped>
 .file {
   width: 100%;
-  margin-top: 15px;
-  @include flex(center, flex-start);
-  flex-flow: column wrap;
+  max-width: 126px;
+  height: 180px;
 
   &__label {
-    display: inline-block;
-    width: 34vw;
-    max-width: 126px;
-    height: 180px;
+    @include flex;
+    width: 100%;
+    height: 100%;
     border-radius: 10px;
-    border: 1.5px solid lightgray;
+    border: 1.5px solid var(--gray-100);
     position: relative;
+    cursor: pointer;
+
+    &:focus-within {
+      border: 1px solid var(--blue-100);
+    }
+
     &__input {
-      display: none;
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+      height: 0;
+      width: 0;
     }
 
     &__icon {
       @include flex;
       flex-flow: column wrap;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      color: gray;
-      font-size: 0.84rem;
-      margin-bottom: 7px;
+      font-size: 0.88rem;
+      color: var(--gray-100);
+      padding: 0 20px;
       text-align: center;
 
       &__icon {
@@ -105,21 +115,16 @@ export default defineComponent({
     }
 
     &__preview {
-      width: 34vw;
-      max-width: 126px;
-      height: 182px;
-      position: absolute;
-      top: -1.9px;
-      left: -1.5px;
-      z-index: 10;
+      @include pseudo;
       border-radius: 10px;
     }
   }
-}
 
-@media all and (min-width: 720px) {
-  .file {
-    margin-right: 40px;
+  &__error {
+    color: var(--red-100);
+    font-size: 0.8rem;
+    padding: 5px;
+    display: block;
   }
 }
 </style>
