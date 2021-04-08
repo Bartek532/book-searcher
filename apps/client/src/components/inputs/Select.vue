@@ -1,13 +1,21 @@
 <template>
-  <select :name="name" :id="name">
+  <select
+    :name="name"
+    :id="name"
+    class="select"
+    :value="modelValue"
+    @change="$emit('update:modelValue', $event.target.value)"
+  >
+    <option :value="null" selected>Wybierz {{ label }}</option>
     <option v-for="value in values" :key="value" :value="value">
       {{ polishTranslate[value] }}
     </option>
   </select>
+  <span class="select__error" v-if="error">{{ error }}</span>
 </template>
 
 <script lang="ts">
-import { polishTranslate } from "../../data";
+import { polishTranslate } from "@book-searcher/data";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "Select",
@@ -16,9 +24,21 @@ export default defineComponent({
       type: String,
       required: true,
     },
+    label: {
+      type: String,
+      required: true,
+    },
+    error: {
+      type: String,
+      default: "",
+    },
     values: {
       type: Array,
       required: true,
+    },
+    modelValue: {
+      type: String,
+      default: "",
     },
   },
   setup() {
@@ -28,8 +48,8 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-select {
-  border: 2px solid lightgray;
+.select {
+  border: 2px solid var(--gray-100);
   padding: 8px 15px;
   background-color: var(--white-100);
   border-radius: 5px;

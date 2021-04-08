@@ -14,7 +14,31 @@
         name="author"
       />
 
+      <Input
+        placeholder="Cykl"
+        v-model="series"
+        :error="errors?.series"
+        name="series"
+        v-if="tags?.includes('series')"
+      />
+
       <Image @image-uploaded="book.set('image', $event)" />
+
+      <Select
+        v-model="room"
+        :values="rooms"
+        name="rooms"
+        label="pokój"
+        :error="errors?.room"
+      />
+
+      <Select
+        v-model="place"
+        :values="places[room]"
+        name="places"
+        label="miejsce"
+        :error="errors?.place"
+      />
 
       <Rate v-model="rate" />
       <Tags v-model="tags" />
@@ -38,9 +62,11 @@ import Input from "../../components/inputs/Input.vue";
 import Button from "../../components/inputs/Button.vue";
 import Rate from "../../components/inputs/Rate.vue";
 import Image from "../../components/inputs/Image.vue";
+import Select from "../../components/inputs/Select.vue";
 import Tags from "../../components/Tags.vue";
+import { rooms, places } from "@book-searcher/data";
 import { useStore } from "vuex";
-import { ref, defineComponent } from "vue";
+import { ref, defineComponent, watch } from "vue";
 import { useForm, useField } from "vee-validate";
 export default defineComponent({
   components: {
@@ -51,6 +77,7 @@ export default defineComponent({
     Rate,
     Tags,
     Image,
+    Select,
   },
   setup() {
     const { handleSubmit, errors } = useForm();
@@ -66,7 +93,11 @@ export default defineComponent({
         book.set(item[0], JSON.stringify(item[1])),
       );
 
-      console.log(book.get("image"));
+      if (!(tags.value as string[])?.includes("series")) {
+        book.set("series", "");
+      }
+
+      console.log(book.get("room"), book.get("place"));
     });
 
     const { value: name } = useField("name");
@@ -74,8 +105,27 @@ export default defineComponent({
     const { value: rate } = useField("rate");
     const { value: tags } = useField("tags");
     const { value: description } = useField("description");
+    const { value: series } = useField("series");
+    const { value: room } = useField("room");
+    const { value: place, resetField: resetPlace } = useField("place");
 
-    return { name, author, rate, tags, description, errors, createBook, book };
+    watch(room, () => resetPlace());
+
+    return {
+      name,
+      author,
+      rate,
+      tags,
+      description,
+      series,
+      rooms,
+      room,
+      place,
+      places,
+      errors,
+      createBook,
+      book,
+    };
     /*
     const store = useStore();
     const loading = ref(false);
