@@ -26,7 +26,7 @@
       </div>
 
       <div class="form__select-file-inputs">
-        <Image @image-uploaded="book.set('image', $event)" />
+        <Image @image-uploaded="book.set('img', $event)" />
 
         <div class="selects">
           <div class="select">
@@ -78,10 +78,7 @@
 
       <Button text="Dodaj" class="form__submit-btn" />
     </form>
-    <Modal
-      @modal-accepted="$router.go(-1)"
-      @modal-canceled="$store.state.modal.error ? '' : $router.go()"
-    />
+    <Modal @modal-accepted="$router.go(-1)" />
     <LoadingModal />
   </main>
 </template>
@@ -112,24 +109,34 @@ export default defineComponent({
     Select,
   },
   setup() {
-    const { handleSubmit, errors } = useForm({ validationSchema: bookSchema });
+    const { handleSubmit, errors } = useForm({
+      validationSchema: bookSchema,
+    });
+    const store = useStore();
 
     const book = new FormData();
 
-    const createBook = handleSubmit((data) => {
-      if (!book.get("image")) {
+    const createBook = handleSubmit(async (data) => {
+      if (!book.get("img")) {
         return;
       }
 
       Object.entries(data).forEach((item) =>
-        book.set(item[0], JSON.stringify(item[1])),
+        book.set(
+          item[0],
+          typeof item[1] === "string" ? item[1] : JSON.stringify(item[1]),
+        ),
       );
+
+      if (book.get("rate") === "undefined") {
+        book.set("rate", "3");
+      }
 
       if (!(tags.value as string[])?.includes("series")) {
         book.set("series", "");
       }
 
-      console.log(book.get("series"));
+      return await store.dispatch("createBook", book);
     });
 
     const { value: name } = useField("name");
@@ -158,56 +165,6 @@ export default defineComponent({
       createBook,
       book,
     };
-    /*
-    const store = useStore();
-    const loading = ref(false);
-
-    async function createBook(data: FormData) {
-      let formLength = 0;
-      data.forEach(item => {
-        if (item) {
-          formLength++;
-        }
-      });
-
-      const errors = document.querySelectorAll(".error");
-      const tags = JSON.parse(data.get("tags") as string);
-      if (tags && tags.includes("series")) {
-        formLength--;
-      }
-
-      if (errors.length === 0 && formLength >= 8) {
-        loading.value = true;
-        await store.dispatch("createBook", data);
-        loading.value = false;
-
-        if (!store.state.error) {
-          store.dispatch("setModal", {
-            show: true,
-            type: "success",
-            message: "Książka została dodana!"
-          });
-        } else {
-          store.dispatch("setModal", {
-            show: true,
-            type: "error",
-            message: store.state.error
-          });
-        }
-      } else {
-        store.dispatch("setModal", {
-          show: true,
-          type: "error",
-          message: "Wypełnij poprawnie formularz!"
-        });
-      }
-    }
-
-    return {
-      createBook,
-      loading
-    };
-    */
   },
 });
 </script>

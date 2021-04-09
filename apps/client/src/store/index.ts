@@ -120,12 +120,26 @@ const store = createStore({
         commit(types.SET_LOADING_BOOKS_STATUS, false);
       }
     },
-    async createBook({ commit }, book) {
+    async createBook({ commit }, book: FormData) {
+      commit(types.SET_LOADING_STATUS, true);
       try {
-        await axios.post("/api/books", book);
+        const data = await fetcher("/api/books", "POST", book);
+        console.log(data);
         commit(types.SET_ERRORS, "");
+        commit(types.SET_MODAL_STATUS, {
+          show: true,
+          type: "success",
+          message: "Dodano książkę!",
+        });
       } catch (err) {
-        commit(types.SET_ERRORS, err.response.data.message);
+        commit(types.SET_ERRORS, err.message);
+        commit(types.SET_MODAL_STATUS, {
+          show: true,
+          type: "warning",
+          message: err.message,
+        });
+      } finally {
+        commit(types.SET_LOADING_STATUS, false);
       }
     },
     setModal(

@@ -5,7 +5,6 @@ export const sessionConfig = {
     secure: false,
     sameSite: "lax" as const,
     httpOnly: true,
-    maxAge: 600000,
   },
   resave: true,
   saveUninitialized: false,

@@ -41,7 +41,7 @@ export default defineComponent({
   name: "File",
   setup(prp, ctx) {
     const image = ref("");
-    const error = ref("");
+    const error = ref("Dodaj obraz.");
     const availableImageTypes = [
       "image/jpeg",
       "image/png",

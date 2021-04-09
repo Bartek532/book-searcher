@@ -26,7 +26,7 @@ type HTTPMethod =
 export const fetcher = async (
   path: string,
   method: HTTPMethod,
-  data?: Record<string, unknown>,
+  data?: Record<string, unknown> | FormData,
 ): Promise<any> => {
   try {
     return await axios({

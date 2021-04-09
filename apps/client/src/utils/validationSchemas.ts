@@ -50,6 +50,7 @@ export const bookSchema = yup.object({
     .required("Opis jest wymagany."),
   room: yup.string().required("Wybierz pokój."),
   place: yup.string().required("Wybierz miejsce."),
+  rate: yup.number().integer().positive().min(1).max(6),
   tags: yup.array().of(yup.string()),
   series: yup.string().when("tags", {
     is: (tags: string[]) => tags?.includes("series"),
