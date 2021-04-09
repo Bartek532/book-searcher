@@ -34,3 +34,16 @@ export const registerSchema = yup.object({
     .required("Powtórz swoje hasło.")
     .oneOf([yup.ref("password"), null], "Hasła się nie zgadzają."),
 });
+
+export const bookSchema = yup.object({
+  name: yup
+    .string()
+    .min(3, "Pole tytuł musi zawierać conajmniej 3 znaki.")
+    .required("Tytuł książki jest wymagany."),
+  author: yup
+    .string()
+    .min(3, "Pole autor musi zawierać conajmniej 3 znaki.")
+    .required("Autor książki jest wymagany."),
+  room: yup.string().required("Wybierz pokój."),
+  place: yup.string().required("Wybierz miejsce."),
+});

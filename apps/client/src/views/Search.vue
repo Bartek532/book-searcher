@@ -1,6 +1,6 @@
 <template>
   <main class="container">
-    <h2 class="container__title">Znajdź książkę</h2>
+    <h1 class="container__title">Znajdź książkę</h1>
     <form @submit.prevent="onSubmit" class="form">
       <div class="form__inputs">
         <div>
@@ -76,6 +76,7 @@ export default defineComponent({
     border-bottom: 3px solid var(--blue-100);
     padding-bottom: 5px;
     margin-top: 40px;
+    font-size: 1.6rem;
   }
   .form {
     width: 100%;

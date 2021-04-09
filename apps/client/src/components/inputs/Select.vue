@@ -2,7 +2,7 @@
   <select
     :name="name"
     :id="name"
-    class="select"
+    class="select__input"
     :value="modelValue"
     @change="$emit('update:modelValue', $event.target.value)"
   >
@@ -49,9 +49,18 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .select {
-  border: 2px solid var(--gray-100);
-  padding: 8px 15px;
-  background-color: var(--white-100);
-  border-radius: 5px;
+  &__input {
+    border: 2px solid var(--gray-100);
+    padding: 8px 15px;
+    background-color: var(--white-100);
+    border-radius: 5px;
+  }
+  &__error {
+    color: var(--red-100);
+    font-size: 0.8rem;
+    padding: 3px;
+    display: block;
+    align-self: flex-start;
+  }
 }
 </style>

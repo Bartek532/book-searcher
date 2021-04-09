@@ -32,7 +32,7 @@ export default defineComponent({
   props: {
     modelValue: {
       type: Number,
-      default: 1,
+      default: 3,
     },
   },
 });
@@ -52,6 +52,7 @@ export default defineComponent({
     background-color: transparent;
     cursor: pointer;
     outline: 0 none;
+    padding: 0 1px;
   }
 }
 </style>
