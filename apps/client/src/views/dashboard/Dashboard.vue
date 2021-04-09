@@ -5,7 +5,6 @@
 <script lang="ts">
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
-import { watch } from "vue";
 export default {
   setup() {
     const store = useStore();
@@ -19,7 +18,7 @@ export default {
       }
     };
 
-    watch(() => store.state.isLogIn, isLoggedIn);
+    isLoggedIn();
   },
 };
 </script>

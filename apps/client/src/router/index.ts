@@ -86,7 +86,11 @@ const routes: Array<RouteRecordRaw> = [
         component: CreateBook,
         meta: { title: "Dodaj książkę " },
       },
-      { path: "biblioteka", component: Library, meta: { title: "Biblioteka" } },
+      {
+        path: "biblioteka",
+        component: Library,
+        meta: { title: "Biblioteka" },
+      },
       {
         path: "library/:slug",
         component: Result,
@@ -98,7 +102,11 @@ const routes: Array<RouteRecordRaw> = [
         component: MoveBook,
         meta: { title: "Przenieś książkę " },
       },
-      { path: "konto", component: User, meta: { title: "Ustawienia konta" } },
+      {
+        path: "konto",
+        component: User,
+        meta: { title: "Ustawienia konta" },
+      },
     ],
   },
   {
