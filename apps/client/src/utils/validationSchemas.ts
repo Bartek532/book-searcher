@@ -44,6 +44,18 @@ export const bookSchema = yup.object({
     .string()
     .min(3, "Pole autor musi zawierać conajmniej 3 znaki.")
     .required("Autor książki jest wymagany."),
+  description: yup
+    .string()
+    .min(10, "Opis musi zawierać conajmniej 10 znaków.")
+    .required("Opis jest wymagany."),
   room: yup.string().required("Wybierz pokój."),
   place: yup.string().required("Wybierz miejsce."),
+  tags: yup.array().of(yup.string()),
+  series: yup.string().when("tags", {
+    is: (tags: string[]) => tags?.includes("series"),
+    then: yup
+      .string()
+      .min(3, "Pole cykl musi zawierać conajmniej 3 znaki.")
+      .required("Cykl jest wymagany."),
+  }),
 });

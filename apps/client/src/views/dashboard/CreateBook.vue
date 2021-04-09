@@ -45,7 +45,7 @@
             <span class="select__label">Miejsce</span>
             <Select
               v-model="place"
-              :values="places[room]"
+              :values="places[room] || []"
               name="places"
               label="miejsce"
               :error="errors?.place"
@@ -63,11 +63,20 @@
         </div>
         <label class="textarea">
           <span class="textarea__label">Opis</span>
-          <textarea v-model="description" rows="10"></textarea>
+          <textarea
+            v-model="description"
+            rows="10"
+            :style="{
+              borderColor: errors.description ? 'var(--red-100)' : '#000',
+            }"
+          ></textarea>
+          <span class="textarea__error" v-if="errors?.description">{{
+            errors.description
+          }}</span>
         </label>
       </div>
 
-      <Button text="Dodaj" />
+      <Button text="Dodaj" class="form__submit-btn" />
     </form>
     <Modal
       @modal-accepted="$router.go(-1)"
@@ -89,7 +98,7 @@ import Tags from "../../components/Tags.vue";
 import { rooms, places } from "@book-searcher/data";
 import { bookSchema } from "../../utils/validationSchemas";
 import { useStore } from "vuex";
-import { ref, defineComponent, watch } from "vue";
+import { defineComponent, watch } from "vue";
 import { useForm, useField } from "vee-validate";
 export default defineComponent({
   components: {
@@ -120,7 +129,7 @@ export default defineComponent({
         book.set("series", "");
       }
 
-      console.log(book.get("room"), book.get("place"));
+      console.log(book.get("series"));
     });
 
     const { value: name } = useField("name");
@@ -206,7 +215,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 .add-book {
   width: 100%;
-  padding: 32px;
+  padding: 20px;
   align-self: flex-start;
   @include flex;
   flex-flow: column wrap;
@@ -228,6 +237,7 @@ export default defineComponent({
     flex-wrap: wrap;
     width: 100%;
     margin-top: 30px;
+    max-width: 330px;
 
     .selects {
       flex: 0 1 170px;
@@ -262,6 +272,7 @@ export default defineComponent({
     @include flex;
     flex-flow: column wrap;
     width: 100%;
+    max-width: 330px;
 
     .rate {
       @include flex(space-between);
@@ -291,16 +302,23 @@ export default defineComponent({
         width: 100%;
         padding: 9px 14px;
         resize: none;
+        border: 1px solid #000;
+      }
+
+      &__error {
+        color: var(--red-100);
+        font-size: 0.8rem;
+        padding: 5px;
+        display: block;
       }
     }
   }
 }
 
-@media all and (min-width: 370px) {
+@media all and (min-width: 340px) {
   .form {
     &__select-file-inputs {
       @include flex(space-between);
-      max-width: 100%;
       margin-bottom: 25px;
       .selects {
         @include flex(center, flex-start);
@@ -309,6 +327,29 @@ export default defineComponent({
           margin: 8px 0;
         }
       }
+    }
+
+    .tags {
+      justify-self: center;
+    }
+  }
+}
+
+@media all and (min-width: 800px) {
+  .add-book .title {
+    margin-bottom: 25px;
+  }
+  .form {
+    grid-template-columns: 1fr 1fr;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
+      rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
+    padding: 40px 50px 50px 50px;
+    max-width: 900px;
+    grid-gap: 30px 0;
+    border-radius: 30px;
+
+    .form__submit-btn {
+      grid-column: 1 / span 2;
     }
   }
 }
