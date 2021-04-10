@@ -54,6 +54,7 @@ export default defineComponent({
     padding: 8px 15px;
     background-color: var(--white-100);
     border-radius: 5px;
+    cursor: pointer;
   }
   &__error {
     color: var(--red-100);

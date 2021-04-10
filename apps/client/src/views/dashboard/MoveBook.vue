@@ -1,80 +1,60 @@
 <template>
-  <div class="page">
-    <h1 class="title"><span>Zmień miejsce</span></h1>
-    <SearchInput />
-    <Results
-      class="all-books"
-      @result-clicked="openMoveModal($event.id)"
-      :notFound="false"
-    />
-    <div class="move-modal" v-if="modalOpen">
-      <div class="move-modal__window">
-        <div class="move-modal__window__close" @click="closeModal">
-          <svg
-            width="30"
-            height="30"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M6.22499 4.81099C6.03639 4.62883 5.78378 4.52803 5.52159 4.53031C5.25939 4.53259 5.00858 4.63776 4.82317 4.82317C4.63776 5.00858 4.53259 5.25939 4.53031 5.52158C4.52804 5.78378 4.62883 6.03638 4.81099 6.22499L10.586 12L4.80999 17.775C4.71448 17.8672 4.6383 17.9776 4.58589 18.0996C4.53348 18.2216 4.50589 18.3528 4.50474 18.4856C4.50358 18.6184 4.52889 18.75 4.57917 18.8729C4.62945 18.9958 4.7037 19.1075 4.79759 19.2014C4.89149 19.2953 5.00314 19.3695 5.12603 19.4198C5.24893 19.4701 5.38061 19.4954 5.51339 19.4942C5.64617 19.4931 5.77739 19.4655 5.89939 19.4131C6.0214 19.3607 6.13174 19.2845 6.22399 19.189L12 13.414L17.775 19.189C17.9636 19.3711 18.2162 19.4719 18.4784 19.4697C18.7406 19.4674 18.9914 19.3622 19.1768 19.1768C19.3622 18.9914 19.4674 18.7406 19.4697 18.4784C19.4719 18.2162 19.3711 17.9636 19.189 17.775L13.414 12L19.189 6.22499C19.3711 6.03638 19.4719 5.78378 19.4697 5.52158C19.4674 5.25939 19.3622 5.00858 19.1768 4.82317C18.9914 4.63776 18.7406 4.53259 18.4784 4.53031C18.2162 4.52803 17.9636 4.62883 17.775 4.81099L12 10.586L6.22499 4.80999V4.81099Z"
-              fill="#bebebe"
-            />
-          </svg>
-        </div>
-        <section class="move-modal__window__section current-location">
+  <main class="move">
+    <h1 class="title">Zmień miejsce</h1>
+    <SearchInput @search="filterBooks" />
+    <Results @result-clicked="openMoveModal" />
+    <div class="move__modal" v-if="modalOpen">
+      <div class="move__modal__window">
+        <button class="move__modal__window__close" @click="modalOpen = false">
+          <img src="../../assets/svgs/icons/close.svg" alt="close" />
+        </button>
+        <section class="move__modal__window__section current-location">
           <h2 class="current-location__label">Obecne położenie</h2>
           <article class="current-location__content">
             <div class="position">
-              <span class="position__label">Pokój</span
-              ><span class="position__text">{{
-                polishTranslate[activeBook.room]
+              <h3 class="position__label">Pokój</h3>
+              <span class="position__text">{{
+                polishTranslate[selectedBook.room]
               }}</span>
             </div>
             <div class="position">
-              <span class="position__label">Miejsce</span
-              ><span class="position__text">{{
-                polishTranslate[activeBook.place]
+              <h3 class="position__label">Miejsce</h3>
+              <span class="position__text">{{
+                polishTranslate[selectedBook.place]
               }}</span>
             </div>
           </article>
         </section>
 
-        <section class="move-modal__window__section active-location">
+        <form class="move__modal__window__form active-location">
           <h2 class="active-location__label">Nowe położenie</h2>
-          <article class="active-location__content">
+          <fieldset class="active-location__content">
             <div class="position">
-              <span class="position__label">Pokój</span>
+              <h3 class="position__label">Pokój</h3>
               <Select
                 name="rooms"
                 :values="rooms"
-                @change="selectRoom"
                 class="position__select"
+                label="pokój"
               />
             </div>
             <div class="position">
-              <span class="position__label">Miejsce</span
-              ><Select
+              <h3 class="position__label">Miejsce</h3>
+              <Select
                 name="places"
-                :values="places[data.room]"
+                :values="rooms"
                 class="position__select"
-                @change="data.place = $event.target.value"
+                label="miejsce"
               />
             </div>
-          </article>
-        </section>
-
-        <Button text="Zapisz" @click="moveBook" />
+          </fieldset>
+          <Button text="Zapisz" @click="moveBook" />
+        </form>
       </div>
     </div>
-    <div class="not-found" v-if="!$store.state.results.length">
-      <span class="bold">Niestety</span>, nie znaleźliśmy tego czego szukasz :(
-      <span class="again">Spróbuj ponownie!</span>
-    </div>
-    <LoadingModal v-if="loading" />
+    <LoadingModal />
     <Modal />
-  </div>
+  </main>
 </template>
 
 <script lang="ts">
@@ -86,20 +66,50 @@ import Button from "../../components/inputs/Button.vue";
 import Select from "../../components/inputs/Select.vue";
 import LoadingModal from "../../components/modals/LoadingModal.vue";
 import Modal from "../../components/modals/MainModal.vue";
-import { rooms, places, polishTranslate } from "../../data";
+import { rooms, places, polishTranslate } from "@book-searcher/data";
+import type { Book } from "@book-searcher/types";
 import { HTMLInputEvent } from "../../types";
 import { useStore } from "vuex";
 export default defineComponent({
   components: {
     Results,
     SearchInput,
-    Select,
-    Button,
     LoadingModal,
     Modal,
+    Button,
+    Select,
   },
   setup() {
     const store = useStore();
+    const selectedBook = ref({});
+    const modalOpen = ref(false);
+
+    store.dispatch("getAllBooks");
+
+    const filterBooks = async (e: HTMLInputEvent) => {
+      return await store.dispatch("searchByQuery", e.target.value);
+    };
+
+    const openMoveModal = (slug: string) => {
+      modalOpen.value = true;
+      selectedBook.value = store.state.results.find(
+        (item: Book) => item.slug === slug,
+      );
+
+      console.log(selectedBook);
+    };
+
+    return {
+      filterBooks,
+      selectedBook,
+      modalOpen,
+      openMoveModal,
+      rooms,
+      places,
+      polishTranslate,
+    };
+
+    /*
     const modalOpen = ref(false);
     const activeBook = ref({});
     const data = reactive({ room: "bedroom", place: "wardrobe" } as {
@@ -107,22 +117,6 @@ export default defineComponent({
       room: string;
       place: string;
     });
-
-    const loading = ref(false);
-
-    function openMoveModal(identifier: number) {
-      modalOpen.value = true;
-      data.id = identifier;
-      activeBook.value = store.state.results.find(
-        ({ id }: { id: number }) => id === identifier,
-      );
-    }
-
-    function closeModal() {
-      modalOpen.value = false;
-      data.room = "bedroom";
-      data.place = "wardrobe";
-    }
 
     function selectRoom(e: HTMLInputEvent) {
       data.room = e.target.value;
@@ -169,35 +163,118 @@ export default defineComponent({
       activeBook,
       loading,
     };
+    */
   },
 });
 </script>
 
 <style lang="scss" scoped>
-.page {
+.move {
   @include flex;
   flex-flow: column wrap;
-}
+  align-self: flex-start;
 
-.all-books {
-  width: 100%;
-  transform: translateY(-35px);
-}
+  .title {
+    border-bottom: 3px solid var(--blue-100);
+    margin-bottom: 0;
+  }
 
-.search {
-  transform: translateY(40px);
-}
+  &__modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 100;
+    @include flex;
 
-.move-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgb(0, 0, 0);
-  background-color: rgba(0, 0, 0, 0.4);
-  z-index: 100;
-  @include flex;
+    &__window {
+      @include flex;
+      flex-flow: column wrap;
+      width: 90vw;
+      max-width: 470px;
+      /*min-height: 320px;*/
+      background-color: var(--white-100);
+      position: relative;
+      border-radius: 10px;
+      padding: 30px 37px;
+
+      &__close {
+        position: absolute;
+        top: 10px;
+        right: 7px;
+        cursor: pointer;
+        border: 0 none;
+        background-color: transparent;
+      }
+
+      .current-location,
+      .active-location {
+        @include flex;
+        flex-flow: column wrap;
+        width: 100%;
+        &__label {
+          font-size: 1.2rem;
+          text-transform: uppercase;
+          font-weight: 700;
+        }
+
+        &__content {
+          width: 100%;
+          max-width: 260px;
+          @include flex(space-between);
+          flex-wrap: wrap;
+          padding: 15px 0;
+
+          .position {
+            @include flex;
+            flex-flow: column wrap;
+            flex: 0 1 120px;
+            margin: 4px;
+
+            &__label {
+              font-size: 0.93rem;
+              font-weight: 600;
+              margin: 0;
+              margin-bottom: 3px;
+            }
+
+            &__text {
+              text-transform: capitalize;
+            }
+          }
+        }
+      }
+
+      .active-location {
+        margin-top: 10px;
+
+        &__label {
+          color: var(--blue-100);
+        }
+
+        &__content {
+          border: 0 none;
+          padding: 0;
+          @include flex;
+
+          .position {
+            margin: 7px;
+
+            &__label {
+              margin-bottom: 5px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+/*
+.move__modal {
+
 
   &__window {
     @include flex;
@@ -252,21 +329,7 @@ export default defineComponent({
       }
     }
 
-    .active-location {
-      margin-top: 30px;
-      &__label {
-        color: var(--blue-100);
-      }
 
-      .position {
-        margin: 7px;
-      }
-
-      .position__label {
-        margin-bottom: 5px;
-      }
-    }
-  }
 }
 
 .not-found {
@@ -287,4 +350,5 @@ export default defineComponent({
     color: #0466c8;
   }
 }
+*/
 </style>

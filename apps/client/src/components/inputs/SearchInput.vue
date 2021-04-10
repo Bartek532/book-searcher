@@ -49,16 +49,13 @@ export default defineComponent({
       default: false,
     },
   },
-  setup() {
+  setup(prp, ctx) {
     const inputFocused = ref(false);
     const router = useRouter();
     const query = ref("");
 
     const search = () => {
-      router.push({
-        path: "/ksiazki",
-        query: { q: prepareQueryToSearch(query.value) },
-      });
+      ctx.emit("search", prepareQueryToSearch(query.value));
     };
 
     return {
@@ -93,14 +90,13 @@ export default defineComponent({
 
     &__input {
       border: 0;
-      padding: 0.25em 1em 0.25em 1.3em;
+      padding: 0.25em 1em;
       flex-grow: 1;
       outline: 0;
       z-index: 2;
       position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
+      top: 50%;
+      transform: translateY(-55%);
       width: 100%;
       background: transparent;
       opacity: 0;

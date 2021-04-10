@@ -1,51 +1,105 @@
 <template>
-  <router-link :to="`/ksiazki/${data.slug}`">
-    <article class="result">
-      <div class="result__image">
-        <img :src="data.img" :alt="data.name" loading="lazy" />
-      </div>
-      <div class="result__info">
-        <span class="result__title">
-          {{
-            data.name.length > 36 ? data.name.slice(0, 33) + "..." : data.name
-          }}
-        </span>
-        <span class="result__author">
-          {{
-            data.author.length > 24
-              ? data.author.slice(0, 22) + "..."
-              : data.author
-          }}
-        </span>
+  <article class="result">
+    <div class="result__image">
+      <img :src="data.img" :alt="data.name" loading="lazy" />
+    </div>
+    <div class="result__info">
+      <span class="result__title">
+        {{ data.name.length > 36 ? data.name.slice(0, 33) + "..." : data.name }}
+      </span>
+      <span class="result__author">
+        {{
+          data.author.length > 24
+            ? data.author.slice(0, 22) + "..."
+            : data.author
+        }}
+      </span>
 
-        <div class="result__rates">
-          <div class="result__rates__star">
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 7 7"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M5.95531 2.72367L4.38147 2.48415L3.67792 0.990544C3.6587 0.94965 3.62709 0.916546 3.58803 0.896423C3.49009 0.845792 3.37108 0.887985 3.32211 0.990544L2.61856 2.48415L1.04471 2.72367C1.00132 2.73017 0.961648 2.75159 0.931274 2.78404C0.894554 2.82356 0.87432 2.87674 0.875017 2.93187C0.875715 2.98701 0.897287 3.0396 0.934994 3.07809L2.07369 4.24065L1.80467 5.88226C1.79836 5.92044 1.8024 5.95972 1.81632 5.99563C1.83024 6.03153 1.85349 6.06264 1.88344 6.08541C1.91338 6.10819 1.94882 6.12172 1.98573 6.12448C2.02265 6.12723 2.05956 6.1191 2.09229 6.10101L3.50001 5.32597L4.90774 6.10101C4.94617 6.12243 4.9908 6.12957 5.03357 6.12178C5.14143 6.1023 5.21395 5.9952 5.19536 5.88226L4.92633 4.24065L6.06503 3.07809C6.09602 3.04628 6.11648 3.00474 6.12268 2.9593C6.13942 2.84571 6.06379 2.74055 5.95531 2.72367Z"
-                fill="#2524E9"
-              />
-            </svg>
-          </div>
-          <div class="result__rates__rate">
-            {{
-              (
-                data.UserBookRate.reduce((acc, { rate }) => acc + rate, 0) /
-                data.UserBookRate.length
-              ).toFixed(1)
-            }}
-            / 6
-          </div>
+      <div class="result__rates">
+        <img
+          class="result__rates__star"
+          src="../assets/svgs/icons/star-small.svg"
+          alt="star"
+        />
+        <div class="result__rates__rate">
+          {{
+            (
+              data.UserBookRate.reduce((acc, { rate }) => acc + rate, 0) /
+              data.UserBookRate.length
+            ).toFixed(1)
+          }}
+          / 6
         </div>
       </div>
-    </article>
-  </router-link>
+    </div>
+    <button class="result__btn">
+      <svg
+        width="22"
+        height="22"
+        viewBox="0 0 22 22"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        v-if="$route.path === '/panel/przenies'"
+      >
+        <path
+          d="M4 8L1 11L4 14"
+          stroke="#2524e9"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M8 4L11 1L14 4"
+          stroke="#2524e9"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M14 18L11 21L8 18"
+          stroke="#2524e9"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M18 8L21 11L18 14"
+          stroke="#2524e9"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M1 11H21"
+          stroke="#2524e9"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M11 1V21"
+          stroke="#2524e9"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+
+      <svg
+        width="7"
+        height="12"
+        viewBox="0 0 11 20"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        v-else
+      >
+        <path
+          d="M2.16672 19.9167C1.83571 19.9173 1.51493 19.8021 1.26005 19.5909C1.1166 19.4719 0.998025 19.3259 0.911109 19.161C0.824194 18.9962 0.770649 18.8159 0.753542 18.6303C0.736434 18.4448 0.7561 18.2577 0.811414 18.0797C0.866727 17.9018 0.956599 17.7365 1.07588 17.5934L7.42255 10L1.30255 2.39252C1.18488 2.24761 1.097 2.08087 1.04397 1.90189C0.990941 1.72291 0.973808 1.53522 0.993555 1.34959C1.0133 1.16397 1.06954 0.984078 1.15904 0.82026C1.24853 0.656441 1.36952 0.511925 1.51505 0.395017C1.66163 0.266049 1.83328 0.16877 2.01924 0.109286C2.20519 0.0498011 2.40143 0.0293959 2.59565 0.0493495C2.78986 0.0693031 2.97786 0.129185 3.14783 0.225238C3.31781 0.32129 3.46609 0.451439 3.58339 0.607518L10.4259 9.10752C10.6343 9.36101 10.7482 9.67897 10.7482 10.0071C10.7482 10.3352 10.6343 10.6532 10.4259 10.9067L3.34255 19.4067C3.20044 19.5781 3.0199 19.7137 2.81561 19.8023C2.61131 19.8909 2.389 19.9301 2.16672 19.9167Z"
+          fill="#2524e9"
+        />
+      </svg>
+    </button>
+  </article>
 </template>
 
 <script lang="ts">
@@ -67,7 +121,7 @@ export default defineComponent({
   padding: 10px 15px;
   @include flex(space-between);
   width: 90vw;
-  max-width: 700px;
+  max-width: 430px;
   position: relative;
   margin: 7px;
   cursor: pointer;
@@ -122,7 +176,30 @@ export default defineComponent({
 
     &__star {
       margin-right: 3px;
-      transform: translateY(1.2px);
+      transform: translateY(-0.5px);
+    }
+  }
+
+  &__btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1px solid var(--blue-100);
+    background-color: #fff;
+    @include flex;
+    position: absolute;
+    bottom: 11px;
+    right: 11px;
+    cursor: pointer;
+    outline: 0 none;
+
+    &:focus {
+      background-color: var(--blue-100);
+
+      svg path {
+        fill: var(--white-100);
+        stroke: var(--white-100);
+      }
     }
   }
 }

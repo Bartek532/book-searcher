@@ -62,7 +62,7 @@
             <img
               class="result__info__data__rates__star"
               src="../assets/svgs/icons/star-small.svg"
-              alt="rates"
+              alt="star"
             />
             <span class="result__info__data__rates__rate">
               {{

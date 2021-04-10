@@ -73,6 +73,7 @@ export default {
       display: grid;
       grid-template-columns: 1fr 4fr;
       align-items: center;
+      outline: 0 none;
 
       &::after {
         border-radius: 10px;

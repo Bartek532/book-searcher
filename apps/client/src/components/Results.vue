@@ -9,7 +9,7 @@
           v-for="result in $store.state.results.slice(0, 270)"
           :key="result.id"
           :data="result"
-          @click="$emit('result-clicked', result)"
+          @click="$emit('resultClicked', result.slug)"
         />
       </section>
       <ScrollToTopBtn />

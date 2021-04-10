@@ -3,7 +3,14 @@
     <img src="../assets/svgs/logo.svg" alt="logo" class="logo" />
     <h1 class="logo__name">b<span class="logo__name__blue">oo</span>k</h1>
     <h2 class="logo__subname">searcher</h2>
-    <SearchInput />
+    <SearchInput
+      @search="
+        $router.push({
+          path: '/ksiazki',
+          query: { q: $event.target.value },
+        })
+      "
+    />
   </section>
 </template>
 

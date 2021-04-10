@@ -39,10 +39,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.stars__star--active svg path {
-  fill: var(--blue-100);
-}
-
 .stars {
   @include flex;
   cursor: pointer;
@@ -52,7 +48,24 @@ export default defineComponent({
     background-color: transparent;
     cursor: pointer;
     outline: 0 none;
-    padding: 0 1px;
+    padding: 0 2px;
+    transition: transform 0.1s ease-out;
+
+    &:focus {
+      transform: scale(1.2);
+    }
+
+    &--active {
+      transform: scale(1.2);
+
+      svg path {
+        fill: var(--blue-100);
+      }
+
+      &:focus {
+        transform: scale(1.3);
+      }
+    }
   }
 }
 </style>

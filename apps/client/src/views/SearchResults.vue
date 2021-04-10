@@ -1,7 +1,15 @@
 <template>
   <main class="main">
-    <SearchInput active />
-    <Results />
+    <SearchInput
+      active
+      @search="
+        $router.push({
+          path: '/ksiazki',
+          query: { q: $event.target.value },
+        })
+      "
+    />
+    <Results @result-clicked="$router.push({ path: `/ksiazki/${$event}` })" />
   </main>
 </template>
 
