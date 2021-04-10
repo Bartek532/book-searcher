@@ -123,13 +123,36 @@ const store = createStore({
     async createBook({ commit }, book: FormData) {
       commit(types.SET_LOADING_STATUS, true);
       try {
-        const data = await fetcher("/api/books", "POST", book);
-        console.log(data);
+        await fetcher("/api/books", "POST", book);
         commit(types.SET_ERRORS, "");
         commit(types.SET_MODAL_STATUS, {
           show: true,
           type: "success",
           message: "Dodano książkę!",
+        });
+      } catch (err) {
+        commit(types.SET_ERRORS, err.message);
+        commit(types.SET_MODAL_STATUS, {
+          show: true,
+          type: "warning",
+          message: err.message,
+        });
+      } finally {
+        commit(types.SET_LOADING_STATUS, false);
+      }
+    },
+    async moveBook(
+      { commit },
+      data: { id: number; room: string; place: string },
+    ) {
+      commit(types.SET_LOADING_STATUS, true);
+      try {
+        await fetcher("/api/books", "PUT", data);
+        commit(types.SET_ERRORS, "");
+        commit(types.SET_MODAL_STATUS, {
+          show: true,
+          type: "success",
+          message: "Zmieniono położenie książki!",
         });
       } catch (err) {
         commit(types.SET_ERRORS, err.message);

@@ -43,7 +43,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 .scroll-to-top-button {
   position: fixed;
-  z-index: 10000;
+  z-index: 100;
   width: 30px;
   height: 30px;
   @include flex;

@@ -1,4 +1,5 @@
 import * as yup from "yup";
+import { rooms, places } from "@book-searcher/data";
 
 const passwordRegex = /(?=^.{8,}$)(?=.*\d)(?=.*[!@#$%^&*]+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/;
 
@@ -48,8 +49,17 @@ export const bookSchema = yup.object({
     .string()
     .min(10, "Opis musi zawierać conajmniej 10 znaków.")
     .required("Opis jest wymagany."),
-  room: yup.string().required("Wybierz pokój."),
-  place: yup.string().required("Wybierz miejsce."),
+  room: yup
+    .string()
+    .oneOf(rooms, "Wybierz opcję spośród podanych.")
+    .required("Wybierz pokój."),
+  place: yup
+    .mixed()
+    .oneOf(
+      Object.values(places).flat(Infinity),
+      "Wybierz opcję spośród podanych.",
+    )
+    .required("Wybierz miejsce."),
   rate: yup.number().integer().positive().min(1).max(6),
   tags: yup.array().of(yup.string()),
   series: yup.string().when("tags", {
@@ -59,4 +69,18 @@ export const bookSchema = yup.object({
       .min(3, "Pole cykl musi zawierać conajmniej 3 znaki.")
       .required("Cykl jest wymagany."),
   }),
+});
+
+export const moveBookSchema = yup.object({
+  room: yup
+    .string()
+    .oneOf(rooms, "Wybierz opcję spośród podanych.")
+    .required("Wybierz pokój."),
+  place: yup
+    .mixed()
+    .oneOf(
+      Object.values(places).flat(Infinity),
+      "Wybierz opcję spośród podanych.",
+    )
+    .required("Wybierz miejsce."),
 });

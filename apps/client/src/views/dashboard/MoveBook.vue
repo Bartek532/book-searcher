@@ -1,6 +1,6 @@
 <template>
   <main class="move">
-    <h1 class="title">Zmień miejsce</h1>
+    <h1 class="title">Zmień położenie</h1>
     <SearchInput @search="filterBooks" />
     <Results @result-clicked="openMoveModal" />
     <div class="move__modal" v-if="modalOpen">
@@ -26,40 +26,45 @@
           </article>
         </section>
 
-        <form class="move__modal__window__form active-location">
+        <form
+          class="move__modal__window__form active-location"
+          @submit.prevent="handleMoveBook"
+        >
           <h2 class="active-location__label">Nowe położenie</h2>
           <fieldset class="active-location__content">
             <div class="position">
               <h3 class="position__label">Pokój</h3>
               <Select
-                name="rooms"
+                v-model="room"
                 :values="rooms"
-                class="position__select"
+                name="rooms"
                 label="pokój"
+                :error="errors?.room"
               />
             </div>
             <div class="position">
               <h3 class="position__label">Miejsce</h3>
               <Select
+                v-model="place"
+                :values="places[room] || []"
                 name="places"
-                :values="rooms"
-                class="position__select"
                 label="miejsce"
+                :error="errors?.place"
               />
             </div>
           </fieldset>
-          <Button text="Zapisz" @click="moveBook" />
+          <Button text="Zapisz" />
         </form>
       </div>
     </div>
+
     <LoadingModal />
-    <Modal />
+    <Modal @modal-accepted="$store.dispatch('getAllBooks')" />
   </main>
 </template>
 
 <script lang="ts">
-import axios from "axios";
-import { defineComponent, ref, reactive } from "vue";
+import { defineComponent, ref } from "vue";
 import Results from "../../components/Results.vue";
 import SearchInput from "../../components/inputs/SearchInput.vue";
 import Button from "../../components/inputs/Button.vue";
@@ -70,6 +75,8 @@ import { rooms, places, polishTranslate } from "@book-searcher/data";
 import type { Book } from "@book-searcher/types";
 import { HTMLInputEvent } from "../../types";
 import { useStore } from "vuex";
+import { useForm, useField } from "vee-validate";
+import { moveBookSchema } from "../../utils/validationSchemas";
 export default defineComponent({
   components: {
     Results,
@@ -81,13 +88,19 @@ export default defineComponent({
   },
   setup() {
     const store = useStore();
-    const selectedBook = ref({});
+    const selectedBook = ref({} as Book);
     const modalOpen = ref(false);
+
+    const { handleSubmit, errors } = useForm({
+      validationSchema: moveBookSchema,
+    });
 
     store.dispatch("getAllBooks");
 
     const filterBooks = async (e: HTMLInputEvent) => {
-      return await store.dispatch("searchByQuery", e.target.value);
+      if (e.target?.value) {
+        return await store.dispatch("searchByQuery", e.target?.value);
+      }
     };
 
     const openMoveModal = (slug: string) => {
@@ -95,9 +108,19 @@ export default defineComponent({
       selectedBook.value = store.state.results.find(
         (item: Book) => item.slug === slug,
       );
-
-      console.log(selectedBook);
     };
+
+    const handleMoveBook = handleSubmit(async (data, { resetForm }) => {
+      modalOpen.value = false;
+      resetForm();
+      return await store.dispatch("moveBook", {
+        id: selectedBook.value.id,
+        ...data,
+      });
+    });
+
+    const { value: room } = useField("room");
+    const { value: place } = useField("place");
 
     return {
       filterBooks,
@@ -107,63 +130,11 @@ export default defineComponent({
       rooms,
       places,
       polishTranslate,
+      errors,
+      room,
+      place,
+      handleMoveBook,
     };
-
-    /*
-    const modalOpen = ref(false);
-    const activeBook = ref({});
-    const data = reactive({ room: "bedroom", place: "wardrobe" } as {
-      id: number;
-      room: string;
-      place: string;
-    });
-
-    function selectRoom(e: HTMLInputEvent) {
-      data.room = e.target.value;
-      const availablePlaces =
-        places[
-          data.room as "bedroom" | "living-room" | "corridor" | "carriage-room"
-        ];
-      data.place = availablePlaces[availablePlaces.length - 1];
-    }
-
-    async function moveBook() {
-      modalOpen.value = false;
-      loading.value = true;
-      try {
-        await axios.put("/api/books/move", data);
-        store.dispatch("setModal", {
-          show: true,
-          type: "success",
-          message: "Zmieniono położenie.",
-        });
-      } catch (err) {
-        store.dispatch("setModal", {
-          show: true,
-          type: "error",
-          message: err.response.data.message,
-        });
-      } finally {
-        loading.value = false;
-      }
-    }
-
-    store.dispatch("getAllBooks");
-
-    return {
-      rooms,
-      places,
-      polishTranslate,
-      data,
-      selectRoom,
-      moveBook,
-      modalOpen,
-      closeModal,
-      openMoveModal,
-      activeBook,
-      loading,
-    };
-    */
   },
 });
 </script>
@@ -173,6 +144,7 @@ export default defineComponent({
   @include flex;
   flex-flow: column wrap;
   align-self: flex-start;
+  padding-top: 15px;
 
   .title {
     border-bottom: 3px solid var(--blue-100);
@@ -187,7 +159,7 @@ export default defineComponent({
     height: 100%;
     background-color: rgb(0, 0, 0);
     background-color: rgba(0, 0, 0, 0.5);
-    z-index: 100;
+    z-index: 1000;
     @include flex;
 
     &__window {
@@ -199,7 +171,7 @@ export default defineComponent({
       background-color: var(--white-100);
       position: relative;
       border-radius: 10px;
-      padding: 30px 37px;
+      padding: 30px 25px;
 
       &__close {
         position: absolute;
@@ -224,15 +196,15 @@ export default defineComponent({
         &__content {
           width: 100%;
           max-width: 260px;
-          @include flex(space-between);
+          @include flex;
           flex-wrap: wrap;
           padding: 15px 0;
 
           .position {
             @include flex;
             flex-flow: column wrap;
-            flex: 0 1 120px;
-            margin: 4px;
+            flex: 0 1 110px;
+            margin: 7px;
 
             &__label {
               font-size: 0.93rem;
@@ -257,11 +229,13 @@ export default defineComponent({
 
         &__content {
           border: 0 none;
-          padding: 0;
-          @include flex;
+          padding: 6px 0;
+          @include flex(center, flex-start);
+          max-width: 400px;
 
           .position {
             margin: 7px;
+            flex: 0 1 150px;
 
             &__label {
               margin-bottom: 5px;
@@ -272,83 +246,4 @@ export default defineComponent({
     }
   }
 }
-/*
-.move__modal {
-
-
-  &__window {
-    @include flex;
-    flex-flow: column wrap;
-    width: 80vw;
-    max-width: 470px;
-    min-height: 320px;
-    background-color: var(--white-100);
-    position: relative;
-    border-radius: 10px;
-    padding: 40px 37px;
-
-    &__close {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      cursor: pointer;
-    }
-
-    .current-location,
-    .active-location {
-      @include flex;
-      flex-flow: column wrap;
-      width: 100%;
-      &__label {
-        font-size: 1.2rem;
-        text-transform: uppercase;
-        font-weight: 700;
-      }
-
-      &__content {
-        width: 100%;
-        @include flex(space-evenly);
-        flex-wrap: wrap;
-        padding: 15px 0;
-
-        .position {
-          @include flex;
-          flex-flow: column wrap;
-          flex: 0 1 auto;
-          margin: 4px;
-
-          &__label {
-            font-size: 0.93rem;
-            font-weight: 600;
-          }
-
-          &__text {
-            text-transform: capitalize;
-          }
-        }
-      }
-    }
-
-
-}
-
-.not-found {
-  font-size: 1.5rem;
-  line-height: 37px;
-  width: 80%;
-  max-width: 500px;
-  text-align: center;
-  transform: translateY(150px);
-
-  .bold,
-  .again {
-    font-weight: bold;
-  }
-
-  .again {
-    display: block;
-    color: #0466c8;
-  }
-}
-*/
 </style>
