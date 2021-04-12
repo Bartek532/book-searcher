@@ -43,10 +43,7 @@ export const register = async (req: Request, res: Response) => {
     return res.status(409).json({ message: "Konto już istnieje." });
   }
 
-  if (
-    !passwordRegex.test(req.body.password) ||
-    req.body.password !== req.body.confirmPassword
-  ) {
+  if (!passwordRegex.test(req.body.password)) {
     return res.status(400).json({
       message: "Błędne dane.",
     });
@@ -131,8 +128,9 @@ export const modifyUserInfo = async (req: Request, res: Response) => {
 
   res.status(200).json(
     await updateUserInfo({
-      ...req.body,
       id: req.session.user!.id,
+      name: req.body.name,
+      email: req.body.email,
       password: hashedPassword,
     }),
   );

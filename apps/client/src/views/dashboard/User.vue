@@ -1,119 +1,149 @@
 <template>
-  <div>
-    <div class="account">
-      <div class="account__info">
-        <div class="account__info__image">
-          {{ userInfo.name ? userInfo.name[0] : "" }}
-        </div>
-        <div class="account__info__name">{{ userInfo.name }}</div>
-        <div class="account__info__email">{{ userInfo.email }}</div>
+  <main class="account" v-if="Object.entries(user).length">
+    <BackButton />
+    <div class="account__info">
+      <div class="account__info__avatar">
+        {{ user.name ? user.name[0] : "" }}
       </div>
-      <div class="account__edit" v-if="Object.entries(userInfo).length">
-        <form class="account__edit__form" @submit.prevent="modifyUserData">
-          <Input name="Nazwa" v-model="userInfo.name" />
-          <Input name="Adres email" v-model="userInfo.email" type="email" />
-          <Button text="Zapisz" />
-        </form>
-      </div>
+      <span class="account__info__name">{{ user.name }}</span>
+      <span class="account__info__email">{{ user.email }}</span>
     </div>
-    <Modal
-      @modal-canceled="$router.push({ path: '/dashboard/start' })"
-      @modal-accepted="$router.push({ path: '/dashboard/start' })"
-    />
-    <LoadingModal v-if="loading" />
-  </div>
+    <form class="account__edit" @submit.prevent="modifyUserData">
+      <Input
+        placeholder="Imię"
+        :error="errors?.name"
+        v-model="name"
+        name="name"
+      />
+      <Input
+        type="email"
+        placeholder="Email"
+        :error="errors?.email"
+        v-model="email"
+        name="email"
+      />
+      <Input
+        type="password"
+        placeholder="Hasło"
+        :error="errors?.oldPassword"
+        v-model="oldPassword"
+        name="old-password"
+      />
+      <Input
+        type="password"
+        placeholder="Nowe hasło"
+        :error="errors?.newPassword"
+        v-model="newPassword"
+        name="new-password"
+      />
+      <Input
+        type="password"
+        placeholder="Powtórz hasło"
+        :error="errors?.confirmPassword"
+        v-model="confirmPassword"
+        name="confirm-password"
+      />
+      <Button text="Zapisz" class="account__edit__btn" />
+    </form>
+    <Modal @modal-accepted="$router.push({ path: '/panel/start' })" />
+    <LoadingModal :show="loading" />
+  </main>
 </template>
 
 <script lang="ts">
-import axios from "axios";
 import LoadingModal from "../../components/modals/LoadingModal.vue";
 import Modal from "../../components/modals/MainModal.vue";
 import Button from "../../components/inputs/Button.vue";
 import Input from "../../components/inputs/Input.vue";
-import { defineComponent, ref, reactive } from "vue";
+import BackButton from "../../components/Back.vue";
+import { defineComponent, onMounted, watch } from "vue";
 import { useStore } from "vuex";
+import { useUserInfo } from "../../utils/hooks";
+import { useForm, useField } from "vee-validate";
+import { modifyUserSchema } from "../../utils/validationSchemas";
 export default defineComponent({
   components: {
     LoadingModal,
+    Modal,
     Button,
     Input,
-
-    Modal,
+    BackButton,
   },
   setup() {
-    interface User {
-      name: string;
-      email: string;
-      oldPassword: string;
-      newPassword: string;
-    }
-    const loading = ref(false);
+    const { loading, error, load, user } = useUserInfo();
     const store = useStore();
-    const userInfo = reactive({} as User);
 
-    async function getUserInformation() {
-      loading.value = true;
-      try {
-        const { data } = await axios.get("/api/users/user/info");
-        userInfo.name = data.name;
-        userInfo.email = data.email;
-        userInfo.oldPassword = "";
-        userInfo.newPassword = "";
-      } catch (err) {
-        store.dispatch("setModal", {
-          show: true,
-          type: "error",
-          message: err.response.data.message,
-        });
-      } finally {
-        loading.value = false;
-      }
+    if (error.value) {
+      store.dispatch("setModal", {
+        show: true,
+        type: "warning",
+        message: error.value,
+      });
     }
 
-    async function modifyUserData() {
-      const filteredFields = Object.entries(userInfo).filter(
-        (item) => item[1] && item[1].length,
-      );
-      loading.value = true;
-      try {
-        await axios.post(
-          "/api/users/user/modify",
-          Object.fromEntries(filteredFields),
-        );
-        store.dispatch("setModal", {
-          show: true,
-          type: "success",
-          message: "Zmieniono dane użytkownika.",
-        });
-      } catch (err) {
-        store.dispatch("setModal", {
-          show: true,
-          type: "error",
-          message: err.response.data.message,
-        });
-      } finally {
-        loading.value = false;
-      }
-    }
+    const { handleSubmit, errors } = useForm({
+      validationSchema: modifyUserSchema,
+    });
 
-    getUserInformation();
+    const { value: name } = useField("name");
+    const { value: email } = useField("email");
+    const { value: oldPassword } = useField("oldPassword");
+    const { value: newPassword } = useField("newPassword");
+    const { value: confirmPassword } = useField("confirmPassword");
 
-    return { loading, userInfo, modifyUserData };
+    const modifyUserData = handleSubmit((data) => {
+      return store.dispatch("modifyUserData", data);
+    });
+
+    watch(
+      () => user.value,
+      () => {
+        name.value = user.value.name;
+      },
+    );
+
+    watch(
+      () => user.value,
+      () => {
+        email.value = user.value.email;
+      },
+    );
+
+    onMounted(() => {
+      load();
+    });
+
+    return {
+      loading,
+      error,
+      load,
+      user,
+      name,
+      email,
+      oldPassword,
+      newPassword,
+      confirmPassword,
+      errors,
+      handleSubmit,
+      modifyUserData,
+    };
   },
 });
 </script>
 
 <style lang="scss" scoped>
 $imgKey: random(5);
-
 $list: #bc4749, #2a9d8f, #b5838d, #ef476f, #118ab2;
 $nth: nth($list, $imgKey);
 
 .account {
-  width: 100vw;
-  padding: 60px 0 90px 0;
   @include flex;
+  padding: 45px 0 10px 0;
   flex-flow: column wrap;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 20px;
+  position: relative;
 
   &__info {
     @include flex;
@@ -122,7 +152,8 @@ $nth: nth($list, $imgKey);
     width: 75%;
     padding-bottom: 20px;
     max-width: 370px;
-    &__image {
+    text-align: center;
+    &__avatar {
       width: 100px;
       height: 100px;
       border-radius: 50%;
@@ -137,12 +168,13 @@ $nth: nth($list, $imgKey);
     &__name {
       font-weight: 600;
       font-size: 1.1rem;
+      line-height: 1.5rem;
       margin-top: 10px;
     }
 
     &__email {
       color: var(--gray-100);
-      margin: 3px 0;
+      margin: 5px 0;
     }
   }
 
@@ -150,17 +182,18 @@ $nth: nth($list, $imgKey);
     width: 100%;
     @include flex;
     flex-flow: column wrap;
-    margin-top: 20px;
+    margin-top: 10px;
 
-    &__form {
-      width: 90%;
-      @include flex;
-      flex-flow: column wrap;
+    &__btn {
+      margin: 40px 0;
     }
   }
+}
 
-  button {
-    margin-top: 50px;
+@media all and (min-width: 700px) {
+  .account {
+    box-shadow: var(--primary-shadow);
+    margin-top: 30px;
   }
 }
 </style>

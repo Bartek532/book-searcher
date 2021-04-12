@@ -28,6 +28,8 @@ export default {
   background-color: rgba(0, 0, 0, 0.6);
   z-index: 1000;
   @include flex;
+  top: 0;
+  left: 0;
   &__loader {
     display: inline-block;
     position: relative;

@@ -12,13 +12,17 @@ export const validationSchemas = {
     name: Joi.string().min(3).required(),
     email: Joi.string().min(6).required().email(),
     password: Joi.string().min(8).required(),
-    confirmPassword: Joi.string().min(8).required(),
+    confirmPassword: Joi.string().min(8).required().valid(Joi.ref("password")),
   }),
   modifyUser: Joi.object({
     name: Joi.string().min(3).required(),
     email: Joi.string().min(6).required().email(),
-    newPassword: Joi.string().min(8),
-    oldPassword: Joi.string().min(8),
+    newPassword: Joi.string().min(8).required(),
+    oldPassword: Joi.string().min(8).required(),
+    confirmPassword: Joi.string()
+      .min(8)
+      .required()
+      .valid(Joi.ref("newPassword")),
   }),
   book: Joi.object({
     room: Joi.string()

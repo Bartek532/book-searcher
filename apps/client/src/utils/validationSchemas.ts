@@ -84,3 +84,29 @@ export const moveBookSchema = yup.object({
     )
     .required("Wybierz miejsce."),
 });
+
+export const modifyUserSchema = yup.object({
+  name: yup.string().required("Nazwa użytkownika jest wymagana."),
+  email: yup
+    .string()
+    .email("Wprowadź poprawny email.")
+    .required("Email jest wymagany."),
+  oldPassword: yup
+    .string()
+    .matches(
+      passwordRegex,
+      "Hasło musi zawierać dużą i małą literę, cyfrę, znak specjalny oraz mieć conajmniej 8 znaków.",
+    )
+    .required("Hasło jest wymagane."),
+  newPassword: yup
+    .string()
+    .matches(
+      passwordRegex,
+      "Hasło musi zawierać dużą i małą literę, cyfrę, znak specjalny oraz mieć conajmniej 8 znaków.",
+    )
+    .required("Hasło jest wymagane."),
+  confirmPassword: yup
+    .string()
+    .required("Powtórz swoje nowe hasło.")
+    .oneOf([yup.ref("newPassword"), null], "Hasła się nie zgadzają."),
+});

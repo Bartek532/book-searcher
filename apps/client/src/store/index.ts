@@ -232,6 +232,27 @@ const store = createStore({
         commit(types.SET_LOGIN_STATUS, false);
       }
     },
+    async modifyUserData({ commit }, data: User) {
+      commit(types.SET_LOADING_STATUS, true);
+      try {
+        await fetcher("/api/users", "PUT", data);
+        commit(types.SET_ERRORS, "");
+        commit(types.SET_MODAL_STATUS, {
+          show: true,
+          type: "success",
+          message: "Zmieniono dane użytkownika.",
+        });
+      } catch (err) {
+        commit(types.SET_ERRORS, err.message);
+        commit(types.SET_MODAL_STATUS, {
+          show: true,
+          type: "warning",
+          message: err.message,
+        });
+      } finally {
+        commit(types.SET_LOADING_STATUS, false);
+      }
+    },
     async getUserBooks({ commit }) {
       commit(types.SET_LOADING_STATUS, true);
       try {
