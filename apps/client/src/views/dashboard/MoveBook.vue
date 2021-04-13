@@ -71,6 +71,7 @@ import Button from "../../components/inputs/Button.vue";
 import Select from "../../components/inputs/Select.vue";
 import LoadingModal from "../../components/modals/LoadingModal.vue";
 import Modal from "../../components/modals/MainModal.vue";
+import BackButton from "../../components/Back.vue";
 import { rooms, places, polishTranslate } from "@book-searcher/data";
 import type { Book } from "@book-searcher/types";
 import { HTMLInputEvent } from "../../types";

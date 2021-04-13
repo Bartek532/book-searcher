@@ -92,12 +92,6 @@ const routes: Array<RouteRecordRaw> = [
         meta: { title: "Biblioteka" },
       },
       {
-        path: "library/:slug",
-        component: Result,
-        props: true,
-        meta: { title: "Biblioteka" },
-      },
-      {
         path: "przenies",
         component: MoveBook,
         meta: { title: "Przenieś książkę " },

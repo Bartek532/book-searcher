@@ -80,11 +80,6 @@ export const moveBook = async (req: Request, res: Response) => {
 };
 
 export const rateBook = async (req: Request, res: Response) => {
-  const ratedBook = await getBookByUserRate(req.session.user!.id, req.body.id);
-  if (ratedBook) {
-    return res.status(400).json({ message: "Już oceniałeś tą książkę!" });
-  }
-
   await updateBookRates(req.session.user!.id, req.body.id, req.body.rate);
   res.status(200).json({ message: "Dziękujemy za opinię!" });
 };

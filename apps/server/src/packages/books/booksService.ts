@@ -123,11 +123,26 @@ export const getBookByUserRate = (userId: number, bookId: number) => {
   });
 };
 
-export const updateBookRates = (
+export const updateBookRates = async (
   userId: number,
   bookId: number,
   rate: number,
 ) => {
+  const ratedBook = await prisma.userBookRate.findUnique({
+    where: { bookId_userId: { userId, bookId } },
+  });
+
+  if (ratedBook) {
+    return prisma.userBookRate.update({
+      where: { bookId_userId: { userId, bookId } },
+      data: {
+        rate,
+        bookId,
+        userId,
+      },
+    });
+  }
+
   return prisma.userBookRate.create({
     data: {
       rate,

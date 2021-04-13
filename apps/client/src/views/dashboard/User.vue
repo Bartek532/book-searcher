@@ -1,6 +1,5 @@
 <template>
   <main class="account" v-if="Object.entries(user).length">
-    <BackButton />
     <div class="account__info">
       <div class="account__info__avatar">
         {{ user.name ? user.name[0] : "" }}
@@ -55,7 +54,6 @@ import LoadingModal from "../../components/modals/LoadingModal.vue";
 import Modal from "../../components/modals/MainModal.vue";
 import Button from "../../components/inputs/Button.vue";
 import Input from "../../components/inputs/Input.vue";
-import BackButton from "../../components/Back.vue";
 import { defineComponent, onMounted, watch } from "vue";
 import { useStore } from "vuex";
 import { useUserInfo } from "../../utils/hooks";
@@ -67,7 +65,6 @@ export default defineComponent({
     Modal,
     Button,
     Input,
-    BackButton,
   },
   setup() {
     const { loading, error, load, user } = useUserInfo();
@@ -109,9 +106,7 @@ export default defineComponent({
       },
     );
 
-    onMounted(() => {
-      load();
-    });
+    onMounted(() => load());
 
     return {
       loading,

@@ -1,6 +1,6 @@
 <template>
   <div class="result">
-    <section class="result__container" v-if="!loading">
+    <section class="result__container" v-if="!firstLoading">
       <BackButton />
       <div class="result__icons">
         <button class="result__icons__bookmark" @click="manageUserLibrary">
@@ -21,10 +21,7 @@
           </svg>
         </button>
 
-        <button class="result__icons__star" @click="rateModal = true">
-          <span class="sr-only">star</span>
-          <img src="../assets/svgs/icons/star.svg" alt="" />
-        </button>
+        <RateBook :bookId="book.id" @loading="loading = $event" />
       </div>
       <div class="result__info">
         <div class="result__info__image">
@@ -116,19 +113,13 @@
       </div>
       <Button text="Szukaj więcej" @click="$router.push({ path: '/szukaj' })" />
     </section>
-    <RateModal
-      :slug="slug"
-      v-if="rateModal"
-      @close-modal="rateModal = false"
-      @rate-book="rateBook"
-    />
     <Modal
       @modal-accepted="
         $store.state.modal.message.includes('Zaloguj') &&
           $router.push({ path: '/auth/login' })
       "
     />
-    <LoadingModal v-if="loading" />
+    <LoadingModal :show="firstLoading || loading" />
   </div>
 </template>
 
@@ -137,7 +128,7 @@ import axios from "axios";
 import BackButton from "../components/Back.vue";
 import Checkbox from "../components/inputs/Checkbox.vue";
 import Button from "../components/inputs/Button.vue";
-import RateModal from "../components/modals/RateModal.vue";
+import RateBook from "../components/modals/RateModal.vue";
 import LoadingModal from "../components/modals/LoadingModal.vue";
 import Modal from "../components/modals/MainModal.vue";
 import { useStore } from "vuex";
@@ -150,7 +141,7 @@ export default defineComponent({
   components: {
     BackButton,
     Checkbox,
-    RateModal,
+    RateBook,
     Modal,
     LoadingModal,
     Button,
@@ -166,7 +157,8 @@ export default defineComponent({
 
     const router = useRouter();
     const route = useRoute();
-    const loading = ref(true);
+    const firstLoading = ref(true);
+    const loading = ref(false);
 
     const store = useStore();
     const rateModal = ref(false);
@@ -176,7 +168,6 @@ export default defineComponent({
     }
 
     const searchBook = async () => {
-      loading.value = true;
       try {
         const { data }: { data: Book } = await fetcher(
           `/api/books/${prp.slug}`,
@@ -186,7 +177,7 @@ export default defineComponent({
       } catch (err) {
         console.log(err);
       } finally {
-        loading.value = false;
+        firstLoading.value = false;
       }
     };
 
@@ -286,6 +277,7 @@ export default defineComponent({
       capitalize,
       rateModal,
       loading,
+      firstLoading,
       polishTranslate,
     };
   },

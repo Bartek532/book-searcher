@@ -41,7 +41,6 @@ export default defineComponent({
     },
     modelValue: {
       type: Array,
-      required: true,
     },
     check: {
       type: Boolean,
@@ -54,16 +53,18 @@ export default defineComponent({
 
   setup(prp, ctx) {
     const changeCheckbox = (e: HTMLInputEvent) => {
-      if (e.target.checked) {
-        return ctx.emit("update:modelValue", [
-          ...prp.modelValue,
-          e.target.value,
-        ]);
+      if (prp.modelValue) {
+        if (e.target.checked) {
+          return ctx.emit("update:modelValue", [
+            ...prp.modelValue,
+            e.target.value,
+          ]);
+        }
+        return ctx.emit(
+          "update:modelValue",
+          prp.modelValue.filter((item) => item !== e.target.value),
+        );
       }
-      return ctx.emit(
-        "update:modelValue",
-        prp.modelValue.filter((item) => item !== e.target.value),
-      );
     };
     return { polishTranslate, changeCheckbox };
   },
