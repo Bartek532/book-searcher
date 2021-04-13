@@ -175,5 +175,11 @@ export const getUserBook = async (req: Request, res: Response) => {
 };
 
 export const getUserBooks = async (req: Request, res: Response) => {
-  res.status(200).json(await fetchUserLibrary(req.session.user!.id));
+  const lastReturnedBookId = Number(req.query.lastId) || 0;
+  const perPage = Number(req.query.perPage) || 30;
+  res
+    .status(200)
+    .json(
+      await fetchUserLibrary(req.session.user!.id, lastReturnedBookId, perPage),
+    );
 };

@@ -62,9 +62,9 @@ export default defineComponent({
         try {
           const { data }: { data: Book[] } = await fetcher(
             `${
-              store.state.lastBookApiCallAddress === "/api/books"
-                ? store.state.lastBookApiCallAddress + "?"
-                : store.state.lastBookApiCallAddress + "&"
+              store.state.lastBookApiCallAddress.includes("?")
+                ? store.state.lastBookApiCallAddress + "&"
+                : store.state.lastBookApiCallAddress + "?"
             }lastId=${lastResultId}`,
             "GET",
           );

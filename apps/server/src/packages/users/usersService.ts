@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import type {User} from '@book-searcher/types';
+import type { User } from "@book-searcher/types";
 const prisma = new PrismaClient();
 
 export const findUserByEmail = (email: string) => {
@@ -29,45 +29,51 @@ export const activateUser = (id: number) => {
   });
 };
 
-
 export const addUserToken = (userId: number, token: string) => {
   return prisma.userToken.create({
     data: {
       userId,
-      token
+      token,
     },
   });
 };
 
 export const addBookToLibrary = (userId: number, bookId: number) => {
   return prisma.userBookLibrary.create({
-    data: { bookId, userId }
-  })
-}
+    data: { bookId, userId },
+  });
+};
 
 export const fetchUserBook = (userId: number, bookId: number) => {
-  return prisma.userBookLibrary.findUnique({ where: { bookId_userId: { bookId, userId } }})
-}
+  return prisma.userBookLibrary.findUnique({
+    where: { bookId_userId: { bookId, userId } },
+  });
+};
 
-export const fetchUserLibrary = async (id: number) => {
+export const fetchUserLibrary = async (
+  id: number,
+  lastFetchedBookId: number,
+  perPage: number,
+) => {
   const user = await prisma.user.findUnique({
     where: { id },
     include: { UserBookLibrary: true },
   });
 
-  const books = user!.UserBookLibrary.map(item => item.bookId);
+  const books = user!.UserBookLibrary.map((item) => item.bookId);
 
   return await prisma.book.findMany({
-    where: { id: { in: books } },
+    where: { AND: [{ id: { in: books } }, { id: { gt: lastFetchedBookId } }] },
+    take: perPage,
     include: { UserBookRate: true, BookTag: true },
   });
 };
 
 export const addBookToUserLibrary = (userId: number, bookId: number) => {
   return prisma.userBookLibrary.create({
-    data: { bookId, userId }
-  })
-}
+    data: { bookId, userId },
+  });
+};
 
 export const deleteBookFromUserLibrary = (userId: number, bookId: number) => {
   return prisma.userBookLibrary.delete({
@@ -75,9 +81,7 @@ export const deleteBookFromUserLibrary = (userId: number, bookId: number) => {
   });
 };
 
-export const updateUserInfo = (
-  data: User
-) => {
+export const updateUserInfo = (data: User) => {
   return prisma.user.update({
     where: { id: data.id },
     data,
