@@ -8,6 +8,7 @@ import {
   modifyUserInfo,
   checkLoginStatus,
   getUserBooks,
+  getUserBook,
   addBookToUserBooks,
   deleteBookFromUserBooks,
 } from "./usersController";
@@ -43,6 +44,7 @@ router.put(
 );
 
 router.get("/books", validateAuth, catchAsync(getUserBooks));
+router.get("/books/:id", validateAuth, catchAsync(getUserBook));
 router.post("/books", validateAuth, catchAsync(addBookToUserBooks));
 router.delete("/books/:id", validateAuth, catchAsync(deleteBookFromUserBooks));
 

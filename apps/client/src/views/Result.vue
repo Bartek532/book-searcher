@@ -3,7 +3,10 @@
     <section class="result__container" v-if="!firstLoading">
       <BackButton />
       <div class="result__icons">
-        <button class="result__icons__bookmark" @click="manageUserLibrary">
+        <button
+          class="result__icons__bookmark"
+          @click="handleManageUserLibrary"
+        >
           <span class="sr-only">bookmark</span>
           <svg
             width="30"
@@ -11,7 +14,7 @@
             viewBox="0 0 16 16"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            :class="{ 'result__icons__bookmark--active': activeBookmark }"
+            :class="{ 'result__icons__bookmark--active': isBookInUserLibrary }"
           >
             <path
               d="M7.74275 11.5713L3.5 14.1169V3C3.5 2.60218 3.65804 2.22064 3.93934 1.93934C4.22064 1.65804 4.60218 1.5 5 1.5H11C11.3978 1.5 11.7794 1.65804 12.0607 1.93934C12.342 2.22064 12.5 2.60218 12.5 3V14.1169L8.25725 11.5713L8 11.4169L7.74275 11.5713Z"
@@ -124,18 +127,17 @@
 </template>
 
 <script lang="ts">
-import axios from "axios";
 import BackButton from "../components/Back.vue";
 import Checkbox from "../components/inputs/Checkbox.vue";
 import Button from "../components/inputs/Button.vue";
 import RateBook from "../components/modals/RateModal.vue";
 import LoadingModal from "../components/modals/LoadingModal.vue";
 import Modal from "../components/modals/MainModal.vue";
-import { useStore } from "vuex";
-import { useRouter, useRoute } from "vue-router";
-import { ref, defineComponent, onMounted, reactive } from "vue";
+import { ref, defineComponent, onMounted, watch } from "vue";
 import { polishTranslate } from "@book-searcher/data";
 import { fetcher } from "../utils/fetcher";
+import { useUserBooks } from "../utils/hooks";
+import { capitalize } from "../utils/functions";
 import type { Book } from "@book-searcher/types";
 export default defineComponent({
   components: {
@@ -153,19 +155,19 @@ export default defineComponent({
     },
   },
   setup(prp) {
-    const book = ref({});
-
-    const router = useRouter();
-    const route = useRoute();
+    const book = ref({} as Book);
     const firstLoading = ref(true);
     const loading = ref(false);
-
-    const store = useStore();
     const rateModal = ref(false);
+    const isBookInUserLibrary = ref(false);
 
-    function capitalize(val: string) {
-      return val.slice(0, 1).toUpperCase() + val.slice(1);
-    }
+    const {
+      loading: libraryLoading,
+      addToUserBooks,
+      deleteFromUserBooks,
+      getUserBook,
+      book: userBook,
+    } = useUserBooks();
 
     const searchBook = async () => {
       try {
@@ -174,6 +176,10 @@ export default defineComponent({
           "GET",
         );
         book.value = data;
+        await getUserBook(book.value.id);
+        if (Object.keys(userBook.value).length) {
+          isBookInUserLibrary.value = true;
+        }
       } catch (err) {
         console.log(err);
       } finally {
@@ -181,96 +187,26 @@ export default defineComponent({
       }
     };
 
+    const handleManageUserLibrary = () => {
+      if (isBookInUserLibrary.value) {
+        isBookInUserLibrary.value = false;
+        return deleteFromUserBooks(book.value.id);
+      }
+
+      isBookInUserLibrary.value = true;
+      return addToUserBooks(book.value.id);
+    };
+
     searchBook();
-
-    //Search book
-    //Rate book
-    /*
-    async function rateBook(rate: number) {
-      rateModal.value = false;
-      loading.value = true;
-      try {
-        await axios.put("/api/books/rate", {
-          rate: rate,
-          id: data.id,
-        });
-        store.dispatch("setModal", {
-          show: true,
-          type: "success",
-          message: "Dziękujemy za opinię!",
-        });
-      } catch (err) {
-        store.dispatch("setModal", {
-          show: true,
-          type: "error",
-          message: err.response.data.message,
-        });
-      } finally {
-        loading.value = false;
-      }
-    }
-
-    //Bookmark book
-    const activeBookmark = ref(route.path.startsWith("/dashboard/library"));
-    async function manageUserLibrary() {
-      const requestData = {
-        url: "/api/books/bookmark",
-        message: "Dodano książkę do biblioteki.",
-      };
-      if (activeBookmark.value) {
-        requestData.url = "/api/users/deleteFromLibrary";
-        requestData.message = "Usunięto książkę z biblioteki.";
-      }
-
-      loading.value = true;
-      try {
-        await axios.put(requestData.url, {
-          id: data.id,
-        });
-        store.dispatch("setModal", {
-          show: true,
-          type: "success",
-          message: requestData.message,
-        });
-        activeBookmark.value = requestData.message.startsWith("Dodano") && true;
-      } catch (err) {
-        store.dispatch("setModal", {
-          show: true,
-          type: "error",
-          message: err.response.data.message,
-        });
-      } finally {
-        loading.value = false;
-      }
-    }
-
-    //Search by tags
-    function searchByTag(tag: string) {
-      router.push({ path: "/results" });
-      store.dispatch("advancedSearch", { tags: [tag] });
-    }
-
-    //Search by series
-    function searchBySeries(series: string) {
-      router.push({ path: "/results" });
-      store.dispatch("searchBySeries", series);
-    }
-
-    //Search by places
-    function searchByRooms(room: string, place: string) {
-      router.push({ path: "/results" });
-      store.dispatch("searchByRooms", { room, place });
-    }
-
-    function searchByAuthor(author: string) {
-      router.push({ path: "/results" });
-      store.dispatch("advancedSearch", { author });
-    }
-    */
 
     onMounted(() => {
       window.scrollTo(0, 0);
     });
+
+    watch(
+      () => libraryLoading.value,
+      () => (loading.value = libraryLoading.value),
+    );
 
     return {
       book,
@@ -279,6 +215,8 @@ export default defineComponent({
       loading,
       firstLoading,
       polishTranslate,
+      isBookInUserLibrary,
+      handleManageUserLibrary,
     };
   },
 });
@@ -303,19 +241,16 @@ export default defineComponent({
     cursor: pointer;
 
     &__bookmark {
+      border: 0 none;
+      background-color: transparent;
+      margin: 0 7px;
+      cursor: pointer;
       path {
         stroke: var(--blue-200);
       }
       &--active path {
         fill: var(--blue-200);
       }
-    }
-
-    &__star,
-    &__bookmark {
-      border: 0 none;
-      background-color: transparent;
-      margin-left: 7px;
     }
   }
 

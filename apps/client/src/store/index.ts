@@ -255,12 +255,19 @@ const store = createStore({
     },
     async getUserBooks({ commit }) {
       commit(types.SET_LOADING_STATUS, true);
+      const url = "/api/users/books";
       try {
-        const { data } = await axios.get("/api/users/library");
+        const { data } = await fetcher(url, "GET");
         commit(types.UPDATE_RESULTS, data);
+        commit(types.SET_LAST_API_ADDRESS, url);
         commit(types.SET_ERRORS, "");
       } catch (err) {
-        commit(types.SET_ERRORS, err.response.data.message);
+        commit(types.SET_ERRORS, err.message);
+        commit(types.SET_MODAL_STATUS, {
+          show: true,
+          type: "warning",
+          message: err.message,
+        });
       } finally {
         commit(types.SET_LOADING_STATUS, false);
       }

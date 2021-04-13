@@ -168,6 +168,12 @@ export const deleteBookFromUserBooks = async (req: Request, res: Response) => {
   res.status(200).json({ message: "Usunięto książkę z biblioteki!" });
 };
 
+export const getUserBook = async (req: Request, res: Response) => {
+  res
+    .status(200)
+    .json(await fetchUserBook(req.session.user!.id, Number(req.params.id)));
+};
+
 export const getUserBooks = async (req: Request, res: Response) => {
   res.status(200).json(await fetchUserLibrary(req.session.user!.id));
 };

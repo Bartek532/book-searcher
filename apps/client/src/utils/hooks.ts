@@ -77,16 +77,36 @@ export const useUserBooks = () => {
   const state = reactive({
     loading: false,
     error: "",
-    books: [] as Book[],
+    book: {} as Book,
   });
 
-  const addToUserBooks = async () => {
+  const getUserBook = async (id: number) => {
     if (state.loading) return;
     state.loading = true;
     try {
-      const { data }: { data: { message: string } } = await fetcher(
+      const { data }: { data: Book } = await fetcher(
+        `/api/users/books/${id}`,
+        "GET",
+      );
+      state.error = "";
+      state.book = data;
+    } catch (e) {
+      state.error = e.message;
+    } finally {
+      state.loading = false;
+    }
+  };
+
+  const addToUserBooks = async (id: number) => {
+    if (state.loading) return;
+    state.loading = true;
+    try {
+      const {
+        data,
+      }: { data: { message: string } } = await fetcher(
         "/api/users/books",
         "POST",
+        { id },
       );
       state.error = "";
       store.dispatch("setModal", {
@@ -106,12 +126,12 @@ export const useUserBooks = () => {
     }
   };
 
-  const deleteFromUserBooks = async (bookId: number) => {
+  const deleteFromUserBooks = async (id: number) => {
     if (state.loading) return;
     state.loading = true;
     try {
       const { data }: { data: { message: string } } = await fetcher(
-        `/api/users/books/${bookId}`,
+        `/api/users/books/${id}`,
         "DELETE",
       );
       state.error = "";
@@ -135,6 +155,7 @@ export const useUserBooks = () => {
   return {
     ...toRefs(state),
     addToUserBooks,
+    getUserBook,
     deleteFromUserBooks,
   };
 };

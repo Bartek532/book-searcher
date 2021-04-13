@@ -31,3 +31,7 @@ export const isInViewport = (element: HTMLElement | Element) => {
     rect.right <= (window.innerWidth || html.clientWidth)
   );
 };
+
+export const capitalize = (val: string) => {
+  return val.slice(0, 1).toUpperCase() + val.slice(1);
+};
