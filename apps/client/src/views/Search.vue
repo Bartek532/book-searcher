@@ -73,7 +73,7 @@ export default defineComponent({
   width: 84vw;
   padding-bottom: 30px;
   &__title {
-    border-bottom: 3px solid var(--blue-100);
+    border-bottom: 4px solid var(--orange-100);
     padding-bottom: 5px;
     margin-top: 40px;
     font-size: 1.6rem;

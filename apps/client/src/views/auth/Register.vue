@@ -36,7 +36,7 @@
       <Button text="Rejestracja" class="register__form__button" />
     </form>
     <LoadingModal />
-    <Modal @modal-accepted="$router.push({ path: '/auth/login' })" />
+    <Modal @modal-accepted="$router.push({ path: '/logowanie' })" />
   </section>
 </template>
 

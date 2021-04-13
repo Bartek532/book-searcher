@@ -148,8 +148,9 @@ export default defineComponent({
   padding-top: 15px;
 
   .title {
-    border-bottom: 3px solid var(--blue-100);
+    border-bottom: 4px solid var(--orange-100);
     margin-bottom: 0;
+    padding-bottom: 2px;
   }
 
   &__modal {

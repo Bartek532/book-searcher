@@ -254,7 +254,7 @@ const store = createStore({
       }
     },
     async getUserBooks({ commit }) {
-      commit(types.SET_LOADING_STATUS, true);
+      commit(types.SET_LOADING_BOOKS_STATUS, true);
       const url = "/api/users/books";
       try {
         const { data } = await fetcher(url, "GET");
@@ -269,7 +269,7 @@ const store = createStore({
           message: err.message,
         });
       } finally {
-        commit(types.SET_LOADING_STATUS, false);
+        commit(types.SET_LOADING_BOOKS_STATUS, false);
       }
     },
   },

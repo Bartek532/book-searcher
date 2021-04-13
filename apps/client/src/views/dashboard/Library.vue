@@ -1,25 +1,23 @@
 <template>
-  <div>
-    <h1 class="title"><span>Moje książki</span></h1>
+  <div class="library">
+    <h1 class="title">Moje książki</h1>
     <Results
       :notFound="false"
-      @result-clicked="
-        $router.push({ path: `/dashboard/library/${$event.slug}` })
-      "
+      @result-clicked="$router.push({ path: `/ksiazki/${$event}` })"
     />
     <div
-      class="empty"
-      v-if="!$store.state.results.length && !$store.state.loading"
+      class="library__empty"
+      v-if="!$store.state.results.length && !$store.state.loadingBooks"
     >
       <span class="why">Dlaczego</span> tu jeszcze nic nie ma? Nie ociągaj się i
-      <router-link to="/" class="add">dodaj</router-link> coś do swojej
+      <router-link to="/ksiazki" class="add">dodaj</router-link> coś do swojej
       biblioteki!
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, onMounted } from "vue";
 import Results from "../../components/Results.vue";
 import { useStore } from "vuex";
 export default defineComponent({
@@ -29,45 +27,47 @@ export default defineComponent({
   setup() {
     const store = useStore();
 
-    store.dispatch("getUserBooks");
+    onMounted(() => store.dispatch("getUserBooks"));
   },
 });
 </script>
 
 <style lang="scss" scoped>
-.delete__title {
-  font-weight: 600;
-  width: 100%;
+.library {
   @include flex;
-  transform: translateY(50px);
-
-  span {
-    border-bottom: 3px solid var(--blue-100);
-    text-transform: uppercase;
-    width: fit-content;
-    font-size: 2.2rem;
-  }
-}
-
-.empty {
-  font-size: 1.5rem;
-  width: 100%;
-  padding: 0 30px;
-  max-width: 500px;
-  text-align: center;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  line-height: 37px;
-
-  .why,
-  .add {
-    font-weight: bold;
+  flex-flow: column wrap;
+  align-self: flex-start;
+  padding-top: 15px;
+  .title {
+    border-bottom: 4px solid var(--orange-100);
+    padding-bottom: 2px;
   }
 
-  .add {
-    color: #0466c8;
+  &__empty {
+    font-size: 1.6rem;
+    width: 100%;
+    padding: 0 20px;
+    max-width: 500px;
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    line-height: 2.3rem;
+
+    .why,
+    .add {
+      font-weight: bold;
+    }
+
+    .add {
+      color: var(--orange-100);
+      text-decoration: underline;
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
   }
 }
 </style>

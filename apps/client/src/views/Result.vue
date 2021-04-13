@@ -116,12 +116,7 @@
       </div>
       <Button text="Szukaj więcej" @click="$router.push({ path: '/szukaj' })" />
     </section>
-    <Modal
-      @modal-accepted="
-        $store.state.modal.message.includes('Zaloguj') &&
-          $router.push({ path: '/auth/login' })
-      "
-    />
+    <Modal />
     <LoadingModal :show="firstLoading || loading" />
   </div>
 </template>

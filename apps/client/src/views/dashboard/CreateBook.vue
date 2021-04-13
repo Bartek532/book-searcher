@@ -177,7 +177,7 @@ export default defineComponent({
   @include flex;
   flex-flow: column wrap;
   .title {
-    border-bottom: 3px solid var(--blue-100);
+    border-bottom: 4px solid var(--orange-100);
     padding-bottom: 5px;
     margin: 15px 0;
     font-size: 1.6rem;
