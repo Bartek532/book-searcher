@@ -19,6 +19,8 @@ import Results from "../components/results/Results.vue";
 import { useStore } from "vuex";
 import { useRoute } from "vue-router";
 import { watch } from "vue";
+import { buildAdvancedQuery } from "../utils/functions";
+
 export default {
   components: {
     SearchInput,
@@ -28,24 +30,31 @@ export default {
     const store = useStore();
     const route = useRoute();
 
-    const search = () => {
+    const handleSearch = () => {
       if (!Object.keys(route.query).length) {
-        store.dispatch("getAllBooks");
+        store.dispatch("searchBooks", "/api/books");
       }
 
       if (route.query.q) {
-        store.dispatch(
-          "searchByQuery",
-          decodeURIComponent(route.query.q as string),
+        return store.dispatch(
+          "searchBooks",
+          `/api/books/search?type=basic&q=${decodeURIComponent(
+            route.query.q as string,
+          )}`,
         );
       }
 
       if (Object.keys(route.query).includes("tags")) {
-        return store.dispatch("advancedSearch", {
-          tags: route.query.tags,
-          title: route.query.name,
-          author: route.query.author,
-        });
+        const tags = (route.query.tags as string)?.split(" ");
+        const path = buildAdvancedQuery(
+          tags,
+          route.query.author as string,
+          route.query.name as string,
+        );
+        return store.dispatch(
+          "searchBooks",
+          `/api/books/search?type=advanced&${path}`,
+        );
       }
 
       const availableFilters = [
@@ -61,18 +70,19 @@ export default {
       if (
         Object.keys(route.query).some((item) => availableFilters.includes(item))
       ) {
-        store.dispatch(
+        const path = Object.entries(route.query)
+          .map((item) => item.join("="))
+          .join("&");
+        return store.dispatch(
           "searchByFilters",
-          Object.entries(route.query)
-            .map((item) => item.join("="))
-            .join("&"),
+          `/api/books/search?type=basic&${path}`,
         );
       }
     };
 
-    search();
+    handleSearch();
 
-    watch(() => route.query, search);
+    watch(() => route.query, handleSearch);
   },
 };
 </script>

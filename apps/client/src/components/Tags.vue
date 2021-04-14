@@ -37,7 +37,7 @@
 
 <script lang="ts">
 import CheckboxInput from "./form/Checkbox.vue";
-import { tags } from "../data";
+import { tags } from "@book-searcher/data";
 import { defineComponent, ref, onUnmounted } from "vue";
 export default defineComponent({
   name: "Tags",

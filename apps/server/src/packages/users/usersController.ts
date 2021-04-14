@@ -108,7 +108,7 @@ export const sendResetEmail = async (req: Request, res: Response) => {
   const user = await findUserByEmail(req.body.email);
 
   if (!user) {
-    return res.status(404).json({ message: "Błąd. " });
+    return res.status(404).json({ message: "Błąd. Spróbuj ponownie poźniej." });
   }
   const data = {
     email: req.body.email,
@@ -124,7 +124,7 @@ export const resetUserPassword = async (req: Request, res: Response) => {
   const user = await findUserByToken(req.body.token);
 
   if (!user) {
-    return res.status(404).json({ message: "Błąd. " });
+    return res.status(404).json({ message: "Błąd. Spróbuj ponownie poźniej." });
   }
 
   const hashedPassword = await bcrypt.hash(req.body.password, 10);

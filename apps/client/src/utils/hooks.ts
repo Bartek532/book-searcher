@@ -1,4 +1,4 @@
-import { ref, reactive, toRefs, toRef } from "vue";
+import { ref, reactive, toRefs } from "vue";
 import { fetcher } from "./fetcher";
 import type { User, Book } from "@book-searcher/types";
 import { useStore } from "vuex";
@@ -32,14 +32,11 @@ export const useUserInfo = () => {
 
 export const useRateBook = () => {
   const store = useStore();
-  const state = reactive({
-    loading: false,
-    error: "",
-  });
+  const loading = ref(false);
 
   const rateBook = async (bookId: number, rate: number) => {
-    if (state.loading) return;
-    state.loading = true;
+    if (loading.value) return;
+    loading.value = true;
     try {
       const {
         data,
@@ -48,26 +45,24 @@ export const useRateBook = () => {
         "POST",
         { id: bookId, rate },
       );
-      state.error = "";
       store.dispatch("setModal", {
         show: true,
         type: "success",
         message: data.message,
       });
     } catch (e) {
-      state.error = e.message;
       store.dispatch("setModal", {
         show: true,
         type: "warning",
         message: e.message,
       });
     } finally {
-      state.loading = false;
+      loading.value = false;
     }
   };
 
   return {
-    ...toRefs(state),
+    loading,
     rateBook,
   };
 };

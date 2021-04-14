@@ -1,9 +1,7 @@
 import { createStore } from "vuex";
-import axios from "axios";
 import { types } from "./mutation-types";
 import type { Book, User } from "@book-searcher/types";
 import { fetcher } from "../utils/fetcher";
-import { buildAdvancedQuery } from "../utils/functions";
 
 const store = createStore({
   state: {
@@ -19,7 +17,6 @@ const store = createStore({
       message: "",
     },
   },
-  getters: {},
   mutations: {
     [types.SET_LOADING_BOOKS_STATUS](state, value: boolean) {
       state.loadingBooks = value;
@@ -53,9 +50,8 @@ const store = createStore({
     },
   },
   actions: {
-    async getAllBooks({ commit }) {
+    async searchBooks({ commit }, url) {
       commit(types.SET_LOADING_BOOKS_STATUS, true);
-      const url = "/api/books";
       try {
         const { data }: { data: Book[] } = await fetcher(url, "GET");
         commit(types.UPDATE_RESULTS, data);
@@ -63,58 +59,6 @@ const store = createStore({
         commit(types.SET_ERRORS, "");
       } catch (err) {
         console.error(err);
-        commit(types.SET_ERRORS, err);
-      } finally {
-        commit(types.SET_LOADING_BOOKS_STATUS, false);
-      }
-    },
-    async searchByQuery({ commit }, query: string) {
-      commit(types.SET_LOADING_BOOKS_STATUS, true);
-      const url = `/api/books/search?type=basic&q=${query}`;
-      try {
-        const { data }: { data: Book[] } = await fetcher(url, "GET");
-        commit(types.UPDATE_RESULTS, data);
-        commit(types.SET_LAST_API_ADDRESS, url);
-        commit(types.SET_ERRORS, "");
-      } catch (err) {
-        console.error(err);
-        commit(types.SET_ERRORS, err);
-      } finally {
-        commit(types.SET_LOADING_BOOKS_STATUS, false);
-      }
-    },
-    async searchByFilters({ commit }, path: string) {
-      commit(types.SET_LOADING_BOOKS_STATUS, true);
-      const url = `/api/books/search?type=basic&${path}`;
-      try {
-        const { data }: { data: Book[] } = await fetcher(url, "GET");
-        commit(types.UPDATE_RESULTS, data);
-        commit(types.SET_LAST_API_ADDRESS, url);
-        commit(types.SET_ERRORS, "");
-      } catch (err) {
-        console.error(err);
-        commit(types.SET_ERRORS, err);
-      } finally {
-        commit(types.SET_LOADING_BOOKS_STATUS, false);
-      }
-    },
-    async advancedSearch(
-      { commit },
-      { tags, title, author }: Record<string, string>,
-    ) {
-      commit(types.SET_LOADING_BOOKS_STATUS, true);
-      const url = `/api/books/search?type=advanced&${buildAdvancedQuery(
-        tags.split(" "),
-        author,
-        title,
-      )}`;
-      try {
-        const { data }: { data: Book[] } = await fetcher(url, "GET");
-        commit(types.UPDATE_RESULTS, data);
-        commit(types.SET_LAST_API_ADDRESS, url);
-        commit(types.SET_ERRORS, "");
-      } catch (err) {
-        console.log(err);
         commit(types.SET_ERRORS, err);
       } finally {
         commit(types.SET_LOADING_BOOKS_STATUS, false);
