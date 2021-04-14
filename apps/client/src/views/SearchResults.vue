@@ -5,7 +5,7 @@
       @search="
         $router.push({
           path: '/ksiazki',
-          query: { q: $event.target.value },
+          query: { q: $event.target?.value },
         })
       "
     />

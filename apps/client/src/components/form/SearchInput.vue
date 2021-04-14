@@ -1,7 +1,7 @@
 <template>
   <div class="search">
     <form
-      @submit.prevent="search"
+      @submit.prevent="handleSearch"
       class="search__circle"
       :class="{ 'search__circle--active': inputFocused || active }"
     >
@@ -40,7 +40,6 @@
 <script lang="ts">
 import { ref, defineComponent } from "vue";
 import { prepareQueryToSearch } from "../../utils/functions";
-import { useRouter } from "vue-router";
 export default defineComponent({
   name: "SearchInput",
   props: {
@@ -51,16 +50,15 @@ export default defineComponent({
   },
   setup(prp, ctx) {
     const inputFocused = ref(false);
-    const router = useRouter();
     const query = ref("");
 
-    const search = () => {
+    const handleSearch = () => {
       ctx.emit("search", prepareQueryToSearch(query.value));
     };
 
     return {
       inputFocused,
-      search,
+      handleSearch,
       query,
     };
   },

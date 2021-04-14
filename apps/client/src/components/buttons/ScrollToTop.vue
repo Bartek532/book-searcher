@@ -18,6 +18,7 @@
 <script lang="ts">
 import { ref, defineComponent, onUnmounted } from "vue";
 export default defineComponent({
+  name: "ScrollToTop",
   setup() {
     const isScrolled = ref(false);
 

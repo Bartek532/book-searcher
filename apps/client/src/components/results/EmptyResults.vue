@@ -1,6 +1,6 @@
 <template>
   <div class="not-found">
-    <span class="label"
+    <span class="not-found__label"
       >Niestety, nie znaleźliśmy tego czego szukasz &#128580;</span
     >
     <svg
@@ -207,6 +207,7 @@ import emptyResultsAnimation from "../../animations/emptyResultsAnimation";
 import { onMounted, defineComponent } from "vue";
 import { useStore } from "vuex";
 export default defineComponent({
+  name: "EmptyResults",
   setup() {
     const store = useStore();
     onMounted(() => {
@@ -226,15 +227,11 @@ export default defineComponent({
   @include flex;
   flex-wrap: wrap;
 
-  .label {
+  &__label {
     text-align: center;
     transform: translateY(-10px);
     font-weight: 600;
     font-size: 1.3rem;
-  }
-  img {
-    width: 100%;
-    height: 100%;
   }
 }
 

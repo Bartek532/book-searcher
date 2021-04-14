@@ -58,18 +58,13 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-.btn {
-  border: 0 none;
-  background-color: transparent;
-  cursor: pointer;
-}
 .modal {
   &__container {
     @include flex;
     flex-flow: column wrap;
     width: 85vw;
     max-width: 300px;
-    height: 190px;
+    padding: 45px 0 35px 0;
     background-color: var(--white-100);
     border-radius: 10px;
     position: relative;
@@ -102,5 +97,11 @@ export default defineComponent({
       transform: scale(1.2);
     }
   }
+}
+
+.btn {
+  border: 0 none;
+  background-color: transparent;
+  cursor: pointer;
 }
 </style>

@@ -6,7 +6,6 @@
         <figure class="book__page"></figure>
         <figure class="book__page"></figure>
       </div>
-
       <span class="loader__label">Czytanie</span>
     </div>
   </div>

@@ -38,7 +38,7 @@
 import { ref, defineComponent } from "vue";
 import { HTMLInputEvent } from "../../types";
 export default defineComponent({
-  name: "File",
+  name: "Image",
   setup(prp, ctx) {
     const image = ref("");
     const error = ref("Dodaj obraz.");

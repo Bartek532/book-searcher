@@ -40,9 +40,7 @@ export default defineComponent({
 .field {
   width: 40vw;
   max-width: 200px;
-  min-height: 120px;
-  height: 58vw;
-  max-height: 250px;
+  height: clamp(120px, 58vw, 250px);
   padding: 35px 10px;
   margin: 10px;
   border-radius: 10px;
@@ -51,7 +49,7 @@ export default defineComponent({
   background-color: var(--white-100);
   border: 2px solid rgba(0, 0, 0, 0.08);
   cursor: pointer;
-  transition: all 0.3s;
+  transition: transform 0.3s;
   position: relative;
 
   &::after {
@@ -65,11 +63,9 @@ export default defineComponent({
   &:hover {
     transform: translateY(-25px) rotate(7deg);
     transform-origin: "100% 100%";
-    transition: transform 0.3s;
 
     &::after {
       opacity: 1;
-      transition: opacity 0.3s;
     }
   }
   &__icon {

@@ -1,33 +1,33 @@
 <template>
-  <div>
-    <div
-      class="results"
-      v-if="!$store.state.loadingBooks && $store.state.results.length"
-    >
-      <section class="results__books">
-        <Result
-          v-for="result in $store.state.results.slice(0, 270)"
-          :key="result.id"
-          :data="result"
-          @click="$emit('resultClicked', result.slug)"
-        />
-      </section>
-      <ScrollToTopBtn />
-      <LoadMore />
+  <section
+    class="results"
+    v-if="!$store.state.loadingBooks && $store.state.results.length"
+  >
+    <div class="results__books">
+      <ResultTile
+        v-for="result in $store.state.results.slice(0, 270)"
+        :key="result.id"
+        :data="result"
+        @click="$emit('resultClicked', result.slug)"
+      />
     </div>
-    <Loader v-else-if="$store.state.loadingBooks" />
-    <EmptyResults v-else-if="!$store.state.results.length && notFound" />
-  </div>
+    <ScrollToTop />
+    <LoadMore />
+  </section>
+  <BookLoader v-else-if="$store.state.loadingBooks" />
+  <EmptyResults v-else-if="!$store.state.results.length && notFound" />
 </template>
 
-<script>
-import Loader from "../loading/Loader.vue";
-import Result from "./ResultTile.vue";
+<script lang="ts">
+import BookLoader from "../loading/BookLoader.vue";
+import ResultTile from "./ResultTile.vue";
 import EmptyResults from "./EmptyResults.vue";
 import LoadMore from "../loading/LoadMore.vue";
-import ScrollToTopBtn from "../buttons/ScrollToTop.vue";
+import ScrollToTop from "../buttons/ScrollToTop.vue";
+import { defineComponent } from "vue";
 
-export default {
+export default defineComponent({
+  name: "Results",
   props: {
     notFound: {
       type: Boolean,
@@ -35,13 +35,13 @@ export default {
     },
   },
   components: {
-    Loader,
-    Result,
+    BookLoader,
+    ResultTile,
     LoadMore,
     EmptyResults,
-    ScrollToTopBtn,
+    ScrollToTop,
   },
-};
+});
 </script>
 
 <style lang="scss" scoped>

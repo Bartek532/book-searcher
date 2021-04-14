@@ -4,7 +4,7 @@
       class="tags__summary"
       @click="tagsOpen = !tagsOpen"
       type="button"
-      v-if="!showTags"
+      v-if="!isTagsShow"
     >
       <div :class="['tags__icon', { 'tags__icon--active': tagsOpen }]">
         <svg
@@ -22,7 +22,7 @@
       </div>
       <span class="tags__label">Tagi</span>
     </button>
-    <div class="tags__checkboxes" v-if="tagsOpen || showTags">
+    <div class="tags__checkboxes" v-if="tagsOpen || isTagsShow">
       <CheckboxInput
         :text="tag"
         v-for="tag in tags"
@@ -46,16 +46,16 @@ export default defineComponent({
   },
   props: {
     modelValue: {
-      type: Array,
+      type: Object as () => string[],
     },
   },
   setup() {
     const checkedTags = ref([]);
     const tagsOpen = ref(false);
-    const showTags = ref(window.innerWidth > 700);
+    const isTagsShow = ref(window.innerWidth > 700);
 
     const handleShowTags = () => {
-      showTags.value = window.innerWidth > 700;
+      isTagsShow.value = window.innerWidth > 700;
     };
 
     window.addEventListener("resize", handleShowTags);
@@ -64,7 +64,7 @@ export default defineComponent({
       window.removeEventListener("resize", handleShowTags);
     });
 
-    return { checkedTags, tags, tagsOpen, showTags };
+    return { checkedTags, tags, tagsOpen, isTagsShow };
   },
 });
 </script>

@@ -4,10 +4,10 @@
       <img :src="data.img" :alt="data.name" loading="lazy" />
     </div>
     <div class="result__info">
-      <span class="result__title">
+      <span class="result__info__title">
         {{ data.name.length > 36 ? data.name.slice(0, 33) + "..." : data.name }}
       </span>
-      <span class="result__author">
+      <span class="result__info__author">
         {{
           data.author.length > 24
             ? data.author.slice(0, 22) + "..."
@@ -15,13 +15,13 @@
         }}
       </span>
 
-      <div class="result__rates">
+      <div class="result__info__rates">
         <img
-          class="result__rates__star"
+          class="result__info__rates__star"
           src="../../assets/svgs/icons/star-small.svg"
           alt="star"
         />
-        <div class="result__rates__rate">
+        <div class="result__info__rates__rate">
           {{
             (
               data.UserBookRate.reduce((acc, { rate }) => acc + rate, 0) /
@@ -106,7 +106,7 @@
 import { defineComponent } from "vue";
 import type { Book } from "@book-searcher/types";
 export default defineComponent({
-  name: "Result",
+  name: "ResultTile",
   props: {
     data: {
       type: Object as () => Book,
@@ -126,24 +126,6 @@ export default defineComponent({
   margin: 7px;
   cursor: pointer;
 
-  &__info {
-    width: 50%;
-    @include flex(space-between, flex-start);
-    flex-flow: column wrap;
-    min-height: 130px;
-  }
-
-  &__title {
-    font-weight: 700;
-    font-size: 1rem;
-  }
-
-  &__author {
-    font-weight: 500;
-    color: rgb(158, 147, 147);
-    font-size: 0.85rem;
-  }
-
   &::after {
     @include pseudo;
     box-shadow: var(--primary-shadow);
@@ -154,6 +136,7 @@ export default defineComponent({
   &:hover::after {
     opacity: 0;
   }
+
   &__image {
     max-width: 40%;
     @include flex;
@@ -164,19 +147,37 @@ export default defineComponent({
     }
   }
 
-  &__rates {
-    margin-top: 11px;
-    background-color: rgba(var(--blue-100-rgb), 0.3);
-    @include flex;
-    font-weight: 600;
-    font-size: 0.7rem;
-    color: var(--blue-100);
-    padding: 2px 14px 2px 10px;
-    border-radius: 13px;
+  &__info {
+    width: 50%;
+    @include flex(space-between, flex-start);
+    flex-flow: column wrap;
+    min-height: 130px;
 
-    &__star {
-      margin-right: 3px;
-      transform: translateY(-0.5px);
+    &__title {
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    &__author {
+      font-weight: 500;
+      color: rgb(158, 147, 147);
+      font-size: 0.85rem;
+    }
+
+    &__rates {
+      margin-top: 11px;
+      background-color: rgba(var(--blue-100-rgb), 0.3);
+      @include flex;
+      font-weight: 600;
+      font-size: 0.7rem;
+      color: var(--blue-100);
+      padding: 2px 14px 2px 10px;
+      border-radius: 13px;
+
+      &__star {
+        margin-right: 3px;
+        transform: translateY(-0.5px);
+      }
     }
   }
 
@@ -212,25 +213,25 @@ export default defineComponent({
     height: 400px;
     margin: 15px;
 
+    &__image {
+      max-width: 100%;
+      max-height: 240px;
+    }
+
     &__info {
       width: 100%;
       min-height: 120px;
       justify-content: flex-start;
-    }
 
-    &__author {
-      padding: 5px 0;
-    }
+      &__author {
+        padding: 5px 0;
+      }
 
-    &__rates {
-      position: absolute;
-      bottom: 15px;
-      left: 15px;
-    }
-
-    &__image {
-      max-width: 100%;
-      max-height: 240px;
+      &__rates {
+        position: absolute;
+        bottom: 15px;
+        left: 15px;
+      }
     }
   }
 }

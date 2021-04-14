@@ -13,20 +13,20 @@
       </p>
       <div class="modal__buttons">
         <button
+          class="modal__buttons__cancel"
+          @click="handleCancelModal"
+          v-if="$store.state.modal.type !== 'success'"
+        >
+          Anuluj
+        </button>
+        <button
           class="modal__buttons__ok"
-          @click="accept"
+          @click="handleAcceptModal"
           v-if="
             ['info', 'question', 'success'].includes($store.state.modal.type)
           "
         >
           Kontynuuj
-        </button>
-        <button
-          class="modal__buttons__cancel"
-          @click="cancel"
-          v-if="$store.state.modal.type !== 'success'"
-        >
-          Anuluj
         </button>
       </div>
     </div>
@@ -34,18 +34,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref } from "vue";
+import { defineComponent, computed } from "vue";
 import { useStore } from "vuex";
 export default defineComponent({
   name: "Modal",
   setup(prp, ctx) {
     const store = useStore();
 
-    const accept = () => {
+    const handleAcceptModal = () => {
       ctx.emit("modal-accepted");
       store.dispatch("setModal", { show: false });
     };
-    const cancel = () => {
+    const handleCancelModal = () => {
       ctx.emit("modal-cancelled");
       store.dispatch("setModal", { show: false });
     };
@@ -71,7 +71,7 @@ export default defineComponent({
       );
     });
 
-    return { accept, cancel, bannerColor, label };
+    return { handleAcceptModal, handleCancelModal, bannerColor, label };
   },
 });
 </script>

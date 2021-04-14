@@ -6,7 +6,7 @@
       <div></div>
     </div>
     <Button
-      v-if="nextButtonShow"
+      v-if="isNextButtonShow"
       @click="handleNextPage"
       text="Następna strona"
       class="btn"
@@ -22,16 +22,17 @@ import Button from "../buttons/Button.vue";
 import type { Book } from "@book-searcher/types";
 import { ref, onUnmounted, defineComponent } from "vue";
 export default defineComponent({
+  name: "LoadMore",
   components: {
     Button,
   },
   setup() {
     const store = useStore();
     const loading = ref(false);
-    const nextButtonShow = ref(false);
+    const isNextButtonShow = ref(false);
 
     const handleNextPage = () => {
-      nextButtonShow.value = false;
+      isNextButtonShow.value = false;
       window.scrollTo(0, 0);
       store.state.results = store.state.results.slice(270, 300);
       window.addEventListener("scroll", fetchMoreBooks);
@@ -45,7 +46,7 @@ export default defineComponent({
       }
 
       if (store.state.results.length >= 300) {
-        nextButtonShow.value = true;
+        isNextButtonShow.value = true;
         window.removeEventListener("scroll", fetchMoreBooks);
         return;
       }
@@ -87,7 +88,7 @@ export default defineComponent({
       window.removeEventListener("scroll", fetchMoreBooks);
     });
 
-    return { loading, nextButtonShow, handleNextPage };
+    return { loading, isNextButtonShow, handleNextPage };
   },
 });
 </script>

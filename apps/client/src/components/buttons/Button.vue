@@ -1,5 +1,5 @@
 <template>
-  <button>{{ text }}</button>
+  <button class="btn">{{ text }}</button>
 </template>
 
 <script lang="ts">
@@ -16,7 +16,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-button {
+.btn {
   padding: 12px 65px;
   background: linear-gradient(90deg, #5368ea, var(--blue-100));
   border: 0 none;
@@ -30,6 +30,7 @@ button {
   cursor: pointer;
   position: relative;
   outline: 0 none;
+  z-index: 1;
 
   &::after {
     @include pseudo;
@@ -52,7 +53,7 @@ button {
 }
 
 @media all and (max-width: 370px) {
-  button {
+  .btn {
     font-size: 0.9rem;
     padding: 12px 50px;
   }

@@ -63,7 +63,7 @@ export default () => {
         ease: Power3.easeOut,
       },
     )
-    .from(".label", {
+    .from(".not-found__label", {
       opacity: 0,
       duration: 0.4,
       y: -100,

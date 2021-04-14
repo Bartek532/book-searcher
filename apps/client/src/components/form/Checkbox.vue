@@ -4,8 +4,8 @@
       type="checkbox"
       name="tag"
       :value="value"
-      :checked="check"
-      @change="changeCheckbox"
+      :checked="checked"
+      @change="handleChangeCheckbox"
       class="checkbox__input"
     />
     <div class="checkbox__label">
@@ -33,16 +33,16 @@ import { defineComponent } from "vue";
 import { polishTranslate } from "@book-searcher/data";
 import type { HTMLInputEvent } from "../../types";
 export default defineComponent({
-  name: "Checbox",
+  name: "Checkbox",
   props: {
     text: {
       type: String,
       required: true,
     },
     modelValue: {
-      type: Array,
+      type: Object as () => string[],
     },
-    check: {
+    checked: {
       type: Boolean,
       default: false,
     },
@@ -52,7 +52,7 @@ export default defineComponent({
   },
 
   setup(prp, ctx) {
-    const changeCheckbox = (e: HTMLInputEvent) => {
+    const handleChangeCheckbox = (e: HTMLInputEvent) => {
       if (prp.modelValue) {
         if (e.target.checked) {
           return ctx.emit("update:modelValue", [
@@ -66,7 +66,7 @@ export default defineComponent({
         );
       }
     };
-    return { polishTranslate, changeCheckbox };
+    return { polishTranslate, handleChangeCheckbox };
   },
 });
 </script>
@@ -93,7 +93,7 @@ export default defineComponent({
     padding: 7px 14px;
     position: relative;
     margin: 5px;
-    border: 2px solid lightgray;
+    border: 2px solid var(--gray-100);
     font-size: 0.9rem;
     cursor: pointer;
   }
