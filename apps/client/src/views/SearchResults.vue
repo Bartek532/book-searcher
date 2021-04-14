@@ -18,10 +18,11 @@ import SearchInput from "../components/form/SearchInput.vue";
 import Results from "../components/results/Results.vue";
 import { useStore } from "vuex";
 import { useRoute } from "vue-router";
-import { watch } from "vue";
+import { watch, defineComponent } from "vue";
 import { buildAdvancedQuery } from "../utils/functions";
 
-export default {
+export default defineComponent({
+  name: "SearchResults",
   components: {
     SearchInput,
     Results,
@@ -32,7 +33,7 @@ export default {
 
     const handleSearch = () => {
       if (!Object.keys(route.query).length) {
-        store.dispatch("searchBooks", "/api/books");
+        return store.dispatch("searchBooks", "/api/books");
       }
 
       if (route.query.q) {
@@ -74,7 +75,7 @@ export default {
           .map((item) => item.join("="))
           .join("&");
         return store.dispatch(
-          "searchByFilters",
+          "searchBooks",
           `/api/books/search?type=basic&${path}`,
         );
       }
@@ -84,7 +85,7 @@ export default {
 
     watch(() => route.query, handleSearch);
   },
-};
+});
 </script>
 
 <style lang="scss" scoped>

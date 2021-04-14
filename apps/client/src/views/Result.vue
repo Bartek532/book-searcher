@@ -1,5 +1,5 @@
 <template>
-  <div class="result">
+  <main class="result">
     <section class="result__container" v-if="!firstLoading">
       <BackButton />
       <div class="result__icons">
@@ -32,7 +32,7 @@
             :src="book.img"
             :alt="book.name"
             loading="lazy"
-            width="180"
+            width="200"
             height="130"
           />
         </div>
@@ -63,6 +63,8 @@
               class="result__info__data__rates__star"
               src="../assets/svgs/icons/star-small.svg"
               alt="star"
+              width="14"
+              height="14"
             />
             <span class="result__info__data__rates__rate">
               {{
@@ -79,7 +81,12 @@
       <div class="result__description">
         <div class="result__places">
           <span class="result__places__room">
-            <img src="../assets/svgs/icons/room.svg" alt="" />
+            <img
+              src="../assets/svgs/icons/room.svg"
+              alt=""
+              width="27"
+              height="27"
+            />
             <router-link
               :to="`/pokoje/${encodeURIComponent(polishTranslate[book.room])}`"
               class="text"
@@ -88,7 +95,12 @@
             </router-link>
           </span>
           <span class="result__places__place">
-            <img src="../assets/svgs/icons/place.svg" alt="" />
+            <img
+              src="../assets/svgs/icons/place.svg"
+              alt=""
+              width="27"
+              height="27"
+            />
             <router-link
               :to="{
                 path: '/ksiazki',
@@ -118,7 +130,7 @@
     </section>
     <Modal />
     <LoadingModal :show="firstLoading || loading" />
-  </div>
+  </main>
 </template>
 
 <script lang="ts">
@@ -135,6 +147,7 @@ import { useUserBooks } from "../utils/hooks";
 import { capitalize } from "../utils/functions";
 import type { Book } from "@book-searcher/types";
 export default defineComponent({
+  name: "Result",
   components: {
     BackButton,
     Checkbox,
@@ -162,6 +175,7 @@ export default defineComponent({
       deleteFromUserBooks,
       getUserBook,
       book: userBook,
+      error,
     } = useUserBooks();
 
     const searchBook = async () => {
@@ -184,12 +198,17 @@ export default defineComponent({
 
     const handleManageUserLibrary = () => {
       if (isBookInUserLibrary.value) {
-        isBookInUserLibrary.value = false;
-        return deleteFromUserBooks(book.value.id);
+        deleteFromUserBooks(book.value.id);
+        if (!error.value) {
+          isBookInUserLibrary.value = false;
+          return;
+        }
       }
-
-      isBookInUserLibrary.value = true;
-      return addToUserBooks(book.value.id);
+      addToUserBooks(book.value.id);
+      if (!error.value) {
+        isBookInUserLibrary.value = true;
+        return;
+      }
     };
 
     searchBook();
@@ -251,6 +270,7 @@ export default defineComponent({
 
   &__info {
     @include flex;
+    padding-top: 10px;
 
     &__image {
       margin-right: 30px;
@@ -264,8 +284,7 @@ export default defineComponent({
     &__data {
       @include flex(center, flex-start);
       flex-flow: column wrap;
-      min-width: 40%;
-      max-width: 50%;
+      width: 45%;
 
       &__title {
         font-weight: 600;
@@ -318,8 +337,7 @@ export default defineComponent({
   }
 
   &__description {
-    border-top: 2px solid lightgray;
-    color: rgb(71, 67, 67);
+    border-top: 2px solid var(--gray-100);
     width: 100%;
     margin-top: 28px;
 
@@ -347,7 +365,7 @@ export default defineComponent({
         font-weight: 600;
         font-size: 0.8rem;
         color: var(--black-100);
-        letter-spacing: 0.7px;
+        letter-spacing: 0.3px;
         margin: 0 8px;
 
         &:hover {
@@ -377,59 +395,9 @@ export default defineComponent({
       }
 
       &__data {
-        max-width: 50%;
+        max-width: 45%;
       }
     }
   }
 }
-
-/*
-@media all and (min-width: 700px) {
-  .result {
-    &__background {
-      @include flex;
-    }
-
-    &__container {
-      backdrop-filter: blur(20px);
-      color: var(--white-100);
-      border-radius: 15px;
-
-      .back {
-        left: 30px;
-      }
-    }
-
-    &__info__data {
-      &__author {
-        color: lightgray;
-      }
-      &__rates {
-        color: var(--blue-200);
-        background-color: rgba(var(--blue-200), 0.2);
-
-        &__star path {
-          fill: var(--blue-200);
-        }
-      }
-    }
-
-    &__places .text {
-      color: #edf6f9;
-    }
-
-    &__bookmark {
-      right: 30px;
-    }
-
-    &__star {
-      right: 75px;
-    }
-
-    &__description {
-      color: var(--white-100);
-    }
-  }
-}
-*/
 </style>

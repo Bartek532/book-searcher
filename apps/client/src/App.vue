@@ -1,5 +1,5 @@
 <template>
-  <div class="app">
+  <div class="wrapper">
     <Navbar />
     <router-view></router-view>
   </div>
@@ -46,7 +46,7 @@ body {
   @include flex;
 }
 
-.app {
+.wrapper {
   position: relative;
   width: 100vw;
   max-width: 1200px;
@@ -143,7 +143,7 @@ input[type="search"]::-webkit-search-results-decoration {
 }
 
 @media all and (min-width: 700px) {
-  .app {
+  .wrapper {
     padding: 80px 0 50px 0;
   }
 }

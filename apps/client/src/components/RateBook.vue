@@ -10,7 +10,12 @@
     </form>
   </div>
   <button class="btn" @click="isModalOpen = true" type="button">
-    <img src="../assets/svgs/icons/star.svg" alt="star" />
+    <img
+      src="../assets/svgs/icons/star.svg"
+      alt="star"
+      width="32"
+      height="32"
+    />
   </button>
 </template>
 

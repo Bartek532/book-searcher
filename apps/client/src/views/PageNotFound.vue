@@ -1,5 +1,5 @@
 <template>
-  <div class="main">
+  <div class="page-not-found">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -122,11 +122,7 @@
   </div>
 </template>
 
-<script>
-export default {};
-</script>
-
-<style scoped>
+<style scoped lang="scss">
 .fundo {
   animation: scales 3s alternate infinite;
   transform-origin: center;
@@ -195,13 +191,11 @@ export default {};
   }
 }
 
-.main {
+.page-not-found {
   margin: 0px auto;
   width: auto;
   max-width: 460px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @include flex;
 }
 
 .path {
@@ -224,7 +218,7 @@ export default {};
 }
 
 @media all and (max-width: 700px) {
-  .main {
+  .page-not-found {
     transform: scale(0.7);
   }
 }

@@ -7,12 +7,12 @@ export default () => {
     y: -50,
   })
     .addLabel("logo")
-    .from(".logo__name", 0.3, {
+    .from(".name", 0.3, {
       opacity: 0,
       x: 50,
     })
     .from(
-      ".logo__subname",
+      ".subname",
       0.3,
       {
         opacity: 0,

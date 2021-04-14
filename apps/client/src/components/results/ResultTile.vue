@@ -149,13 +149,14 @@ export default defineComponent({
 
   &__info {
     width: 50%;
-    @include flex(space-between, flex-start);
+    @include flex(space-evenly, flex-start);
     flex-flow: column wrap;
     min-height: 130px;
 
     &__title {
       font-weight: 700;
       font-size: 1rem;
+      word-break: break-word;
     }
 
     &__author {

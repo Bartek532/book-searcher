@@ -1,7 +1,7 @@
 <template>
   <main class="container">
     <h1 class="container__title">Znajdź książkę</h1>
-    <form @submit.prevent="onSubmit" class="form">
+    <form @submit.prevent="handleSearch" class="form">
       <div class="form__inputs">
         <div>
           <Input
@@ -33,6 +33,7 @@ import { defineComponent } from "vue";
 import { useField, useForm } from "vee-validate";
 import { buildAdvancedQuery } from "../utils/functions";
 export default defineComponent({
+  name: "Search",
   components: {
     Input,
     Tags,
@@ -40,15 +41,13 @@ export default defineComponent({
   },
   setup() {
     const router = useRouter();
-    const { handleSubmit } = useForm({
-      initialValues: { title: "", author: "", tags: [] },
-    });
+    const { handleSubmit } = useForm();
 
     const { value: title } = useField("title");
     const { value: author } = useField("author");
     const { value: tags } = useField("tags");
 
-    const onSubmit = handleSubmit((data) => {
+    const handleSearch = handleSubmit((data) => {
       router.push(
         `/ksiazki?${buildAdvancedQuery(data.tags, data.author, data.title)}`,
       );
@@ -58,7 +57,7 @@ export default defineComponent({
       title,
       author,
       tags,
-      onSubmit,
+      handleSearch,
     };
   },
 });
@@ -73,7 +72,7 @@ export default defineComponent({
   width: 84vw;
   padding-bottom: 30px;
   &__title {
-    border-bottom: 4px solid var(--orange-100);
+    border-bottom: 4px solid var(--blue-100);
     padding-bottom: 5px;
     margin-top: 40px;
     font-size: 1.6rem;
