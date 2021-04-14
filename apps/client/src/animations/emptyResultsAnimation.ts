@@ -6,7 +6,7 @@ export default () => {
   tl.from("#sun", {
     duration: 0.3,
     scale: 0,
-    transformOrigin: "center center"
+    transformOrigin: "center center",
   })
     .addLabel("start")
     .from(
@@ -16,9 +16,9 @@ export default () => {
         scale: 0,
         transformOrigin: "center center",
         stagger: 0.15,
-        ease: Power4.easeOut
+        ease: Power4.easeOut,
       },
-      "start"
+      "start",
     )
     .from(
       "#leafs g",
@@ -27,9 +27,9 @@ export default () => {
         opacity: 0,
         y: -250,
         stagger: 0.15,
-        ease: Power4.easeOut
+        ease: Power4.easeOut,
       },
-      "start"
+      "start",
     )
     .from(
       "#trees g",
@@ -38,15 +38,15 @@ export default () => {
         scaleY: 0,
         transformOrigin: "50% 100%",
         ease: Power2.easeInOut,
-        stagger: 0.1
+        stagger: 0.1,
       },
-      "start"
+      "start",
     )
     .from("#people g", {
       duration: 0.5,
       opacity: 0,
       x: 50,
-      stagger: 0.15
+      stagger: 0.15,
     })
     .fromTo(
       "#hats path",
@@ -54,19 +54,19 @@ export default () => {
         duration: 0.1,
         opacity: 0,
         rotate: "-45deg",
-        x: -30
+        x: -30,
       },
       {
         rotate: 0,
         opacity: 1,
         x: 0,
-        ease: Power3.easeOut
-      }
+        ease: Power3.easeOut,
+      },
     )
     .from(".label", {
       opacity: 0,
       duration: 0.4,
       y: -100,
-      ease: Power3.easeIn
+      ease: Power3.easeIn,
     });
 };

@@ -22,7 +22,7 @@ import { places, polishTranslate } from "@book-searcher/data";
 import { getKeyByValue } from "../../utils/functions";
 import { defineComponent, ref } from "vue";
 import Field from "../../components/Field.vue";
-import Button from "../../components/inputs/Button.vue";
+import Button from "../../components/buttons/Button.vue";
 export default defineComponent({
   components: {
     Field,

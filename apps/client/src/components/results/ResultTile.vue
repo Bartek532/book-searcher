@@ -18,7 +18,7 @@
       <div class="result__rates">
         <img
           class="result__rates__star"
-          src="../assets/svgs/icons/star-small.svg"
+          src="../../assets/svgs/icons/star-small.svg"
           alt="star"
         />
         <div class="result__rates__rate">

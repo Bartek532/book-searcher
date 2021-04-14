@@ -9,7 +9,7 @@
 import { fetcher } from "../../utils/fetcher";
 import { defineComponent } from "vue";
 import { useStore } from "vuex";
-import Modal from "../../components/modals/MainModal.vue";
+import Modal from "../../components/Modal.vue";
 export default defineComponent({
   components: {
     Modal,

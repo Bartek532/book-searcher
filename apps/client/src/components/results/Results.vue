@@ -21,11 +21,11 @@
 </template>
 
 <script>
-import Loader from "./Loader.vue";
+import Loader from "../loading/Loader.vue";
 import Result from "./ResultTile.vue";
 import EmptyResults from "./EmptyResults.vue";
-import LoadMore from "./LoadMore.vue";
-import ScrollToTopBtn from "./ScrollTopButton.vue";
+import LoadMore from "../loading/LoadMore.vue";
+import ScrollToTopBtn from "../buttons/ScrollToTop.vue";
 
 export default {
   props: {

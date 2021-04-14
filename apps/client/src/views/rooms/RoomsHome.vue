@@ -19,7 +19,7 @@
 
 <script lang="ts">
 import Field from "../../components/Field.vue";
-import Button from "../../components/inputs/Button.vue";
+import Button from "../../components/buttons/Button.vue";
 import { rooms, polishTranslate } from "@book-searcher/data";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";

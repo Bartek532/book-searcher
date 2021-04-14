@@ -50,10 +50,10 @@
 </template>
 
 <script lang="ts">
-import LoadingModal from "../../components/modals/LoadingModal.vue";
-import Modal from "../../components/modals/MainModal.vue";
-import Button from "../../components/inputs/Button.vue";
-import Input from "../../components/inputs/Input.vue";
+import LoadingModal from "../../components/loading/LoadingModal.vue";
+import Modal from "../../components/Modal.vue";
+import Button from "../../components/buttons/Button.vue";
+import Input from "../../components/form/Input.vue";
 import { defineComponent, onMounted, watch } from "vue";
 import { useStore } from "vuex";
 import { useUserInfo } from "../../utils/hooks";

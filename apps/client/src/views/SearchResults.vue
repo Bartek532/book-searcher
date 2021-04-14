@@ -14,8 +14,8 @@
 </template>
 
 <script lang="ts">
-import SearchInput from "../components/inputs/SearchInput.vue";
-import Results from "../components/Results.vue";
+import SearchInput from "../components/form/SearchInput.vue";
+import Results from "../components/results/Results.vue";
 import { useStore } from "vuex";
 import { useRoute } from "vue-router";
 import { watch } from "vue";

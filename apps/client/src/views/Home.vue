@@ -16,7 +16,7 @@
 
 <script lang="ts">
 import { onMounted } from "vue";
-import SearchInput from "../components/inputs/SearchInput.vue";
+import SearchInput from "../components/form/SearchInput.vue";
 import homeAnimation from "../animations/homeAnimation";
 export default {
   components: {

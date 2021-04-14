@@ -65,13 +65,13 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import Results from "../../components/Results.vue";
-import SearchInput from "../../components/inputs/SearchInput.vue";
-import Button from "../../components/inputs/Button.vue";
-import Select from "../../components/inputs/Select.vue";
-import LoadingModal from "../../components/modals/LoadingModal.vue";
-import Modal from "../../components/modals/MainModal.vue";
-import BackButton from "../../components/Back.vue";
+import Results from "../../components/results/Results.vue";
+import SearchInput from "../../components/form/SearchInput.vue";
+import Button from "../../components/buttons/Button.vue";
+import Select from "../../components/form/Select.vue";
+import LoadingModal from "../../components/loading/LoadingModal.vue";
+import Modal from "../../components/Modal.vue";
+import BackButton from "../../components/buttons/Back.vue";
 import { rooms, places, polishTranslate } from "@book-searcher/data";
 import type { Book } from "@book-searcher/types";
 import { HTMLInputEvent } from "../../types";

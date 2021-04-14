@@ -41,13 +41,13 @@
 </template>
 
 <script lang="ts">
-import Button from "../../components/inputs/Button.vue";
-import Input from "../../components/inputs/Input.vue";
-import Modal from "../../components/modals/MainModal.vue";
+import Button from "../../components/buttons/Button.vue";
+import Input from "../../components/form/Input.vue";
+import Modal from "../../components/Modal.vue";
 import { registerAnimation } from "../../animations/registerAnimation";
 import { onMounted, defineComponent } from "vue";
 import { useStore } from "vuex";
-import LoadingModal from "../../components/modals/LoadingModal.vue";
+import LoadingModal from "../../components/loading/LoadingModal.vue";
 import { useField, useForm } from "vee-validate";
 import { registerSchema } from "../../utils/validationSchemas";
 

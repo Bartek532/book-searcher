@@ -14,10 +14,10 @@
 </template>
 
 <script lang="ts">
-import Button from "../../components/inputs/Button.vue";
-import Input from "../../components/inputs/Input.vue";
-import Modal from "../../components/modals/MainModal.vue";
-import LoadingModal from "../../components/modals/LoadingModal.vue";
+import Button from "../../components/buttons/Button.vue";
+import Input from "../../components/form/Input.vue";
+import Modal from "../../components/Modal.vue";
+import LoadingModal from "../../components/loading/LoadingModal.vue";
 import { useUserPassword } from "../../utils/hooks";
 import { useForm, useField } from "vee-validate";
 import { forgotPasswordSchema } from "../../utils/validationSchemas";

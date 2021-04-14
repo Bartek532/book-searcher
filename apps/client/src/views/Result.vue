@@ -122,12 +122,12 @@
 </template>
 
 <script lang="ts">
-import BackButton from "../components/Back.vue";
-import Checkbox from "../components/inputs/Checkbox.vue";
-import Button from "../components/inputs/Button.vue";
-import RateBook from "../components/modals/RateModal.vue";
-import LoadingModal from "../components/modals/LoadingModal.vue";
-import Modal from "../components/modals/MainModal.vue";
+import BackButton from "../components/buttons/Back.vue";
+import Checkbox from "../components/form/Checkbox.vue";
+import Button from "../components/buttons/Button.vue";
+import RateBook from "../components/RateBook.vue";
+import LoadingModal from "../components/loading/LoadingModal.vue";
+import Modal from "../components/Modal.vue";
 import { ref, defineComponent, onMounted, watch } from "vue";
 import { polishTranslate } from "@book-searcher/data";
 import { fetcher } from "../utils/fetcher";

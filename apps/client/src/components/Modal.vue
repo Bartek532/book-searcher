@@ -3,9 +3,7 @@
     <div class="modal__window">
       <div class="modal__icon" :style="{ backgroundColor: bannerColor }">
         <img
-          :src="
-            require(`../../assets/svgs/modal/${$store.state.modal.type}.svg`)
-          "
+          :src="require(`../assets/svgs/modal/${$store.state.modal.type}.svg`)"
           :alt="$store.state.modal.type"
         />
       </div>

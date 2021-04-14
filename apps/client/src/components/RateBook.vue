@@ -3,22 +3,22 @@
     <form class="modal__container" @submit.prevent="handleRateBook">
       <div class="modal__container__twine"></div>
       <button class="modal__container__close" @click="isModalOpen = false">
-        <img src="../../assets/svgs/icons/close.svg" alt="close" />
+        <img src="../assets/svgs/icons/close.svg" alt="close" />
       </button>
       <Rate v-model="rate" />
       <Button text="Oceń" />
     </form>
   </div>
   <button class="btn" @click="isModalOpen = true" type="button">
-    <img src="../../assets/svgs/icons/star.svg" alt="star" />
+    <img src="../assets/svgs/icons/star.svg" alt="star" />
   </button>
 </template>
 
 <script lang="ts">
-import Rate from "../inputs/Rate.vue";
-import Button from "../inputs/Button.vue";
+import Rate from "./form/Rate.vue";
+import Button from "./buttons/Button.vue";
 import { defineComponent, ref, watch } from "vue";
-import { useRateBook } from "../../utils/hooks";
+import { useRateBook } from "../utils/hooks";
 import { useForm, useField } from "vee-validate";
 export default defineComponent({
   name: "RateModal",

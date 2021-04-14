@@ -36,7 +36,7 @@
 </template>
 
 <script lang="ts">
-import CheckboxInput from "./inputs/Checkbox.vue";
+import CheckboxInput from "./form/Checkbox.vue";
 import { tags } from "../data";
 import { defineComponent, ref, onUnmounted } from "vue";
 export default defineComponent({

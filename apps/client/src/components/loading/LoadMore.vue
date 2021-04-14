@@ -16,9 +16,9 @@
 
 <script lang="ts">
 import { useStore } from "vuex";
-import { isInViewport } from "../utils/functions";
-import { fetcher } from "../utils/fetcher";
-import Button from "./inputs/Button.vue";
+import { isInViewport } from "../../utils/functions";
+import { fetcher } from "../../utils/fetcher";
+import Button from "../buttons/Button.vue";
 import type { Book } from "@book-searcher/types";
 import { ref, onUnmounted, defineComponent } from "vue";
 export default defineComponent({

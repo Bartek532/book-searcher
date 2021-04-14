@@ -84,13 +84,13 @@
 </template>
 
 <script lang="ts">
-import Modal from "../../components/modals/MainModal.vue";
-import LoadingModal from "../../components/modals/LoadingModal.vue";
-import Input from "../../components/inputs/Input.vue";
-import Button from "../../components/inputs/Button.vue";
-import Rate from "../../components/inputs/Rate.vue";
-import Image from "../../components/inputs/Image.vue";
-import Select from "../../components/inputs/Select.vue";
+import Modal from "../../components/Modal.vue";
+import LoadingModal from "../../components/loading/LoadingModal.vue";
+import Input from "../../components/form/Input.vue";
+import Button from "../../components/buttons/Button.vue";
+import Rate from "../../components/form/Rate.vue";
+import Image from "../../components/form/Image.vue";
+import Select from "../../components/form/Select.vue";
 import Tags from "../../components/Tags.vue";
 import { rooms, places } from "@book-searcher/data";
 import { bookSchema } from "../../utils/validationSchemas";

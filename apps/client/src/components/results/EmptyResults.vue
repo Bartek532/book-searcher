@@ -203,7 +203,7 @@
 </template>
 
 <script lang="ts">
-import emptyResultsAnimation from "../animations/emptyResultsAnimation";
+import emptyResultsAnimation from "../../animations/emptyResultsAnimation";
 import { onMounted, defineComponent } from "vue";
 import { useStore } from "vuex";
 export default defineComponent({

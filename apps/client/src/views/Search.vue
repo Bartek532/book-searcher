@@ -25,9 +25,9 @@
 </template>
 
 <script lang="ts">
-import Input from "../components/inputs/Input.vue";
+import Input from "../components/form/Input.vue";
 import Tags from "../components/Tags.vue";
-import Button from "../components/inputs/Button.vue";
+import Button from "../components/buttons/Button.vue";
 import { useRouter } from "vue-router";
 import { defineComponent } from "vue";
 import { useField, useForm } from "vee-validate";

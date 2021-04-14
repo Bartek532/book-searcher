@@ -18,7 +18,7 @@
 
 <script lang="ts">
 import { defineComponent, onMounted } from "vue";
-import Results from "../../components/Results.vue";
+import Results from "../../components/results/Results.vue";
 import { useStore } from "vuex";
 export default defineComponent({
   components: {
