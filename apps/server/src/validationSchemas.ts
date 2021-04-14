@@ -51,4 +51,12 @@ export const validationSchemas = {
     id: Joi.number().integer().required(),
     rate: Joi.number().integer().min(1).max(6).required(),
   }).strict(),
+  forgotPassword: Joi.object({
+    email: Joi.string().min(6).required().email(),
+  }),
+  resetPassword: Joi.object({
+    token: Joi.string().required(),
+    password: Joi.string().min(8).required(),
+    confirmPassword: Joi.string().min(8).required().valid(Joi.ref("password")),
+  }),
 };

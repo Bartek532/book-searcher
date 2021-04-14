@@ -110,3 +110,24 @@ export const modifyUserSchema = yup.object({
     .required("Powtórz swoje nowe hasło.")
     .oneOf([yup.ref("newPassword"), null], "Hasła się nie zgadzają."),
 });
+
+export const forgotPasswordSchema = yup.object({
+  email: yup
+    .string()
+    .email("Wprowadź poprawny email.")
+    .required("Email jest wymagany."),
+});
+
+export const resetPasswordSchema = yup.object({
+  password: yup
+    .string()
+    .matches(
+      passwordRegex,
+      "Hasło musi zawierać dużą i małą literę, cyfrę, znak specjalny oraz mieć conajmniej 8 znaków.",
+    )
+    .required("Hasło jest wymagane."),
+  confirmPassword: yup
+    .string()
+    .required("Powtórz swoje nowe hasło.")
+    .oneOf([yup.ref("password"), null], "Hasła się nie zgadzają."),
+});

@@ -7,6 +7,8 @@ import {
   getUserInfo,
   modifyUserInfo,
   checkLoginStatus,
+  sendResetEmail,
+  resetUserPassword,
   getUserBooks,
   getUserBook,
   addBookToUserBooks,
@@ -41,6 +43,18 @@ router.put(
   validateAuth,
   validateData(validationSchemas.modifyUser),
   catchAsync(modifyUserInfo),
+);
+
+router.post(
+  "/passwordReset",
+  validateData(validationSchemas.forgotPassword),
+  catchAsync(sendResetEmail),
+);
+
+router.put(
+  "/passwordReset",
+  validateData(validationSchemas.resetPassword),
+  catchAsync(resetUserPassword),
 );
 
 router.get("/books", validateAuth, catchAsync(getUserBooks));

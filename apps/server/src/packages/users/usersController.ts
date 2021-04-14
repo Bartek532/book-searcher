@@ -15,6 +15,7 @@ import {
 } from "./usersService";
 import { passwordRegex } from "../../validationSchemas";
 import { sendMail } from "../../middlewares/sendEmail";
+import { mailOptions } from "../../consts";
 
 export const login = async (req: Request, res: Response) => {
   const user = await findUserByEmail(req.body.email);
@@ -53,9 +54,9 @@ export const register = async (req: Request, res: Response) => {
   const token = crypto.randomBytes(16).toString("hex");
 
   const data = {
-    name: req.body.name,
     email: req.body.email,
-    address: `https://book-searcher-library.herokuapp.com/auth/activate/${token}`,
+    subject: mailOptions.activate.subject,
+    html: mailOptions.activate.html(req.body.name, token),
   };
 
   try {
@@ -101,6 +102,36 @@ export const activateAccount = async (req: Request, res: Response) => {
   await activateUser(user.id);
 
   res.status(200).json({ message: "Twoje konto zostało aktywowane!" });
+};
+
+export const sendResetEmail = async (req: Request, res: Response) => {
+  const user = await findUserByEmail(req.body.email);
+
+  if (!user) {
+    return res.status(404).json({ message: "Błąd. " });
+  }
+  const data = {
+    email: req.body.email,
+    subject: mailOptions.resetPassword.subject,
+    html: mailOptions.resetPassword.html(user.name, user.UserToken[0].token),
+  };
+  await sendMail(data);
+
+  res.status(200).json({ message: "Wysłano link do resetowania hasła!" });
+};
+
+export const resetUserPassword = async (req: Request, res: Response) => {
+  const user = await findUserByToken(req.body.token);
+
+  if (!user) {
+    return res.status(404).json({ message: "Błąd. " });
+  }
+
+  const hashedPassword = await bcrypt.hash(req.body.password, 10);
+
+  res
+    .status(200)
+    .json(await updateUserInfo({ id: user.id, password: hashedPassword }));
 };
 
 export const getUserInfo = async (req: Request, res: Response) => {

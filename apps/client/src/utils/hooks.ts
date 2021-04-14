@@ -1,4 +1,4 @@
-import { reactive, toRefs } from "vue";
+import { ref, reactive, toRefs, toRef } from "vue";
 import { fetcher } from "./fetcher";
 import type { User, Book } from "@book-searcher/types";
 import { useStore } from "vuex";
@@ -157,5 +157,68 @@ export const useUserBooks = () => {
     addToUserBooks,
     getUserBook,
     deleteFromUserBooks,
+  };
+};
+
+export const useUserPassword = () => {
+  const store = useStore();
+  const loading = ref(false);
+
+  const sendResetEmail = async (email: string) => {
+    if (loading.value) return;
+    loading.value = true;
+    try {
+      const {
+        data,
+      }: {
+        data: { message: string };
+      } = await fetcher(`/api/users/passwordReset`, "POST", { email });
+      store.dispatch("setModal", {
+        show: true,
+        type: "success",
+        message: data.message,
+      });
+    } catch (e) {
+      store.dispatch("setModal", {
+        show: true,
+        type: "warning",
+        message: e.message,
+      });
+    } finally {
+      loading.value = false;
+    }
+  };
+
+  const resetPassword = async (
+    token: string,
+    password: string,
+    confirmPassword: string,
+  ) => {
+    try {
+      await fetcher(`/api/users/passwordReset`, "PUT", {
+        token,
+        password,
+        confirmPassword,
+      });
+      store.dispatch("setModal", {
+        show: true,
+        type: "success",
+        message: "Pomyślnie zmieniono hasło. Zaloguj się!",
+      });
+    } catch (e) {
+      store.dispatch("setModal", {
+        show: true,
+        type: "warning",
+        message: e.message,
+      });
+    } finally {
+      loading.value = false;
+    }
+  };
+
+  return {
+    loading,
+    sendResetEmail,
+    resetPassword,
   };
 };

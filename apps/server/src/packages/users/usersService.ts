@@ -3,7 +3,10 @@ import type { User } from "@book-searcher/types";
 const prisma = new PrismaClient();
 
 export const findUserByEmail = (email: string) => {
-  return prisma.user.findFirst({ where: { email } });
+  return prisma.user.findFirst({
+    where: { email },
+    include: { UserToken: true },
+  });
 };
 
 export const findUserByToken = (token: string) => {
@@ -81,7 +84,7 @@ export const deleteBookFromUserLibrary = (userId: number, bookId: number) => {
   });
 };
 
-export const updateUserInfo = (data: User) => {
+export const updateUserInfo = (data: Partial<User>) => {
   return prisma.user.update({
     where: { id: data.id },
     data,

@@ -23,6 +23,10 @@
       <router-link to="/rejestracja" class="create-account"
         >Utwórz konto</router-link
       >
+
+      <router-link to="/zapomnialem-hasla" class="forgot-password"
+        >Zapomniałem hasła</router-link
+      >
     </form>
     <LoadingModal />
     <Modal />
@@ -112,15 +116,20 @@ export default defineComponent({
     @include flex;
     flex-flow: column wrap;
 
-    .create-account {
-      margin-top: 55px;
+    .create-account,
+    .forgot-password {
       font-weight: 600;
+      line-height: 1.7rem;
       text-decoration: underline;
       cursor: pointer;
 
       &:hover {
         text-decoration: none;
       }
+    }
+
+    .create-account {
+      margin-top: 55px;
     }
   }
 }

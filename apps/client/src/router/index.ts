@@ -14,6 +14,8 @@ const Places = () => import("../views/rooms/Places.vue");
 const Login = () => import("../views/auth/Login.vue");
 const Register = () => import("../views/auth/Register.vue");
 const Activate = () => import("../views/auth/Activate.vue");
+const ForgotPassword = () => import("../views/auth/ForgotPassword.vue");
+const ResetPassword = () => import("../views/auth/ResetPassword.vue");
 
 //Dashboard
 const Dashboard = () => import("../views/dashboard/Dashboard.vue");
@@ -71,6 +73,17 @@ const routes: Array<RouteRecordRaw> = [
     component: Activate,
     props: true,
     meta: { title: "Aktywacja konta" },
+  },
+  {
+    path: "/zapomnialem-hasla",
+    component: ForgotPassword,
+    meta: { title: "Zapomniałem hasła" },
+  },
+  {
+    path: "/zapomnialem-hasla/:token",
+    component: ResetPassword,
+    meta: { title: "Resetuj hasło" },
+    props: true,
   },
   {
     path: "/panel",
