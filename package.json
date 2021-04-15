@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build": "yarn workspace server build",
-    "start": "yarn workspaces run start",
+    "start": "yarn workspace api start",
     "build-front": "yarn workspace client build",
     "dev": "lerna run dev"
   },
