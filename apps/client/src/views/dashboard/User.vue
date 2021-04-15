@@ -1,5 +1,6 @@
 <template>
   <main class="account" v-if="Object.entries(user).length">
+    <Modal @modal-accepted="$router.push({ path: '/panel/start' })" />
     <div class="account__info">
       <div class="account__info__avatar">
         {{ user.name ? user.name[0] : "" }}
@@ -44,9 +45,8 @@
       />
       <Button text="Zapisz" class="account__edit__btn" />
     </form>
-    <Modal @modal-accepted="$router.push({ path: '/panel/start' })" />
-    <LoadingModal :show="loading" />
   </main>
+  <LoadingModal :show="loading" />
 </template>
 
 <script lang="ts">

@@ -1,8 +1,6 @@
 <template>
   <main class="move">
-    <h1 class="title">Zmień położenie</h1>
-    <SearchInput @search="filterBooks" />
-    <Results @result-clicked="openMoveModal" />
+    <Modal @modal-accepted="$store.dispatch('searchBooks', '/api/books')" />
     <div class="move__modal" v-if="modalOpen">
       <div class="move__modal__window">
         <button class="move__modal__window__close" @click="modalOpen = false">
@@ -57,10 +55,11 @@
         </form>
       </div>
     </div>
-
-    <LoadingModal />
-    <Modal @modal-accepted="$store.dispatch('getAllBooks')" />
+    <h1 class="title">Zmień położenie</h1>
+    <SearchInput @search="filterBooks" />
+    <Results @result-clicked="openMoveModal" />
   </main>
+  <LoadingModal />
 </template>
 
 <script lang="ts">
@@ -71,13 +70,13 @@ import Button from "../../components/buttons/Button.vue";
 import Select from "../../components/form/Select.vue";
 import LoadingModal from "../../components/loading/LoadingModal.vue";
 import Modal from "../../components/Modal.vue";
-import BackButton from "../../components/buttons/Back.vue";
 import { rooms, places, polishTranslate } from "@book-searcher/data";
 import type { Book } from "@book-searcher/types";
 import { HTMLInputEvent } from "../../types";
 import { useStore } from "vuex";
 import { useForm, useField } from "vee-validate";
 import { moveBookSchema } from "../../utils/validationSchemas";
+import { prepareQueryToSearch } from "../../utils/functions";
 export default defineComponent({
   components: {
     Results,
@@ -96,11 +95,14 @@ export default defineComponent({
       validationSchema: moveBookSchema,
     });
 
-    store.dispatch("getAllBooks");
+    store.dispatch("searchBooks", "/");
 
     const filterBooks = async (e: HTMLInputEvent) => {
       if (e.target?.value) {
-        return await store.dispatch("searchByQuery", e.target?.value);
+        return await store.dispatch(
+          "searchBooks",
+          `/search?type=basic&q=${prepareQueryToSearch(e.target?.value)}`,
+        );
       }
     };
 
@@ -148,7 +150,7 @@ export default defineComponent({
   padding-top: 15px;
 
   .title {
-    border-bottom: 4px solid var(--orange-100);
+    border-bottom: 4px solid var(--blue-100);
     margin-bottom: 0;
     padding-bottom: 2px;
   }
@@ -169,7 +171,6 @@ export default defineComponent({
       flex-flow: column wrap;
       width: 90vw;
       max-width: 470px;
-      /*min-height: 320px;*/
       background-color: var(--white-100);
       position: relative;
       border-radius: 10px;

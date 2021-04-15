@@ -1,4 +1,5 @@
 <template>
+  <Modal @modal-accepted="resetForm" />
   <form class="form" @submit.prevent="handleSendResetLink">
     <Input
       type="email"
@@ -9,7 +10,6 @@
     />
     <Button text="Wyślij link" class="form__btn" />
   </form>
-  <Modal @modal-accepted="resetForm" />
   <LoadingModal :show="loading" />
 </template>
 

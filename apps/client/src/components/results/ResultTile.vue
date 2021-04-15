@@ -139,6 +139,7 @@ export default defineComponent({
 
   &__image {
     max-width: 40%;
+    height: 100%;
     @include flex;
 
     img {

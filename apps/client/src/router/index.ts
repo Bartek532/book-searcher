@@ -6,8 +6,8 @@ const Result = () => import("../views/Result.vue");
 const Search = () => import("../views/Search.vue");
 
 //Rooms
+const Location = () => import("../views/rooms/Home.vue");
 const Rooms = () => import("../views/rooms/Rooms.vue");
-const RoomsHome = () => import("../views/rooms/RoomsHome.vue");
 const Places = () => import("../views/rooms/Places.vue");
 
 //Auth
@@ -47,9 +47,9 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: "/pokoje",
-    component: Rooms,
+    component: Location,
     children: [
-      { path: "", component: RoomsHome, meta: { title: "Pokoje" } },
+      { path: "", component: Rooms, meta: { title: "Pokoje" } },
       {
         path: ":room",
         component: Places,

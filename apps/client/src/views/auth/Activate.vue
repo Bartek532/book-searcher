@@ -11,6 +11,7 @@ import { defineComponent } from "vue";
 import { useStore } from "vuex";
 import Modal from "../../components/Modal.vue";
 export default defineComponent({
+  name: "Activate",
   components: {
     Modal,
   },

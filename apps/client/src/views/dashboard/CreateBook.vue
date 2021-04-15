@@ -1,5 +1,6 @@
 <template>
   <main class="add-book">
+    <Modal @modal-accepted="$router.go(-1)" />
     <h1 class="title">Dodaj książkę</h1>
     <form class="form" @submit.prevent="createBook">
       <div class="form__text-inputs">
@@ -78,9 +79,8 @@
 
       <Button text="Dodaj" class="form__submit-btn" />
     </form>
-    <Modal @modal-accepted="$router.go(-1)" />
-    <LoadingModal />
   </main>
+  <LoadingModal />
 </template>
 
 <script lang="ts">
@@ -177,7 +177,7 @@ export default defineComponent({
   @include flex;
   flex-flow: column wrap;
   .title {
-    border-bottom: 4px solid var(--orange-100);
+    border-bottom: 4px solid var(--blue-100);
     padding-bottom: 5px;
     margin: 15px 0;
     font-size: 1.6rem;
@@ -193,7 +193,7 @@ export default defineComponent({
     @include flex;
     flex-wrap: wrap;
     width: 100%;
-    margin-top: 30px;
+    margin: 30px 0;
     max-width: 330px;
 
     .selects {
@@ -216,8 +216,8 @@ export default defineComponent({
       }
     }
 
-    .image {
-      flex: 0 1 160px;
+    .file {
+      flex: 0 1 130px;
     }
   }
 

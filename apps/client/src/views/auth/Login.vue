@@ -1,9 +1,10 @@
 <template>
-  <section class="login">
-    <h2 class="login__label">
+  <main class="login">
+    <Modal />
+    <h1 class="login__label">
       <span class="smaller">Witaj z powrotem, </span>
       Zaloguj się!
-    </h2>
+    </h1>
     <form class="login__form" @submit.prevent="login">
       <Input
         type="email"
@@ -28,9 +29,8 @@
         >Zapomniałem hasła</router-link
       >
     </form>
-    <LoadingModal />
-    <Modal />
-  </section>
+  </main>
+  <LoadingModal />
 </template>
 
 <script lang="ts">

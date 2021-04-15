@@ -1,9 +1,10 @@
 <template>
-  <section class="register">
-    <h2 class="register__label">
+  <main class="register">
+    <Modal @modal-accepted="$router.push({ path: '/logowanie' })" />
+    <h1 class="register__label">
       <span class="smaller">Cześć,</span>
       Zarejestruj się!
-    </h2>
+    </h1>
     <form class="register__form" @submit.prevent="register">
       <Input
         v-model="name"
@@ -35,9 +36,8 @@
 
       <Button text="Rejestracja" class="register__form__button" />
     </form>
-    <LoadingModal />
-    <Modal @modal-accepted="$router.push({ path: '/logowanie' })" />
-  </section>
+  </main>
+  <LoadingModal />
 </template>
 
 <script lang="ts">

@@ -1,5 +1,6 @@
 <template>
   <main class="result">
+    <Modal />
     <section class="result__container" v-if="!firstLoading">
       <BackButton />
       <div class="result__icons">
@@ -128,7 +129,6 @@
       </div>
       <Button text="Szukaj więcej" @click="$router.push({ path: '/szukaj' })" />
     </section>
-    <Modal />
     <LoadingModal :show="firstLoading || loading" />
   </main>
 </template>

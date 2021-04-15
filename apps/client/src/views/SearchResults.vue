@@ -33,29 +33,24 @@ export default defineComponent({
 
     const handleSearch = () => {
       if (!Object.keys(route.query).length) {
-        return store.dispatch("searchBooks", "/api/books");
+        return store.dispatch("searchBooks", "/");
       }
 
       if (route.query.q) {
         return store.dispatch(
           "searchBooks",
-          `/api/books/search?type=basic&q=${decodeURIComponent(
-            route.query.q as string,
-          )}`,
+          `/search?type=basic&q=${decodeURIComponent(route.query.q as string)}`,
         );
       }
 
       if (Object.keys(route.query).includes("tags")) {
-        const tags = (route.query.tags as string)?.split(" ");
+        const tags = ((route.query.tags as string) || "").split(" ");
         const path = buildAdvancedQuery(
           tags,
           route.query.author as string,
           route.query.name as string,
         );
-        return store.dispatch(
-          "searchBooks",
-          `/api/books/search?type=advanced&${path}`,
-        );
+        return store.dispatch("searchBooks", `/search?type=advanced&${path}`);
       }
 
       const availableFilters = [
@@ -74,10 +69,7 @@ export default defineComponent({
         const path = Object.entries(route.query)
           .map((item) => item.join("="))
           .join("&");
-        return store.dispatch(
-          "searchBooks",
-          `/api/books/search?type=basic&${path}`,
-        );
+        return store.dispatch("searchBooks", `/search?type=basic&${path}`);
       }
     };
 

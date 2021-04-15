@@ -49,7 +49,11 @@ export default defineComponent({
 
     const handleSearch = handleSubmit((data) => {
       router.push(
-        `/ksiazki?${buildAdvancedQuery(data.tags, data.author, data.title)}`,
+        `/ksiazki?${buildAdvancedQuery(
+          data.tags || [],
+          data.author,
+          data.title,
+        )}`,
       );
     });
 

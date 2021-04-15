@@ -1,5 +1,5 @@
 <template>
-  <div class="library">
+  <main class="library">
     <h1 class="title">Moje książki</h1>
     <Results
       :notFound="false"
@@ -13,7 +13,7 @@
       <router-link to="/ksiazki" class="add">dodaj</router-link> coś do swojej
       biblioteki!
     </div>
-  </div>
+  </main>
 </template>
 
 <script lang="ts">
@@ -39,7 +39,7 @@ export default defineComponent({
   align-self: flex-start;
   padding-top: 15px;
   .title {
-    border-bottom: 4px solid var(--orange-100);
+    border-bottom: 4px solid var(--blue-100);
     padding-bottom: 2px;
   }
 

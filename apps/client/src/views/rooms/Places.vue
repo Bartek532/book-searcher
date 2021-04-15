@@ -24,6 +24,7 @@ import { defineComponent, ref } from "vue";
 import Field from "../../components/Field.vue";
 import Button from "../../components/buttons/Button.vue";
 export default defineComponent({
+  name: "Places",
   components: {
     Field,
     Button,

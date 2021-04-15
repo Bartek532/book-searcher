@@ -1,4 +1,5 @@
 <template>
+  <Modal @modal-accepted="$router.push({ path: '/logowanie' })" />
   <form class="form" @submit.prevent="handleResetPassword">
     <Input
       type="password"
@@ -16,7 +17,6 @@
     />
     <Button text="Zmień hasło" class="form__btn" />
   </form>
-  <Modal @modal-accepted="$router.push({ path: '/logowanie' })" />
   <LoadingModal :show="loading" />
 </template>
 

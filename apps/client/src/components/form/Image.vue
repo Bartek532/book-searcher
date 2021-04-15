@@ -1,6 +1,6 @@
 <template>
   <div class="file">
-    <label class="file__label">
+    <label class="file__label" :style="{ borderWidth: image ? 0 : '1.5px' }">
       <input
         type="file"
         name="image"
@@ -76,8 +76,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .file {
-  width: 100%;
-  max-width: 126px;
+  width: auto;
   height: 180px;
 
   &__label {
@@ -89,7 +88,8 @@ export default defineComponent({
     position: relative;
     cursor: pointer;
 
-    &:focus-within {
+    &:focus-within,
+    &:focus-within .file__label__preview {
       border: 1px solid var(--blue-100);
     }
 
@@ -115,8 +115,15 @@ export default defineComponent({
     }
 
     &__preview {
-      @include pseudo;
+      max-height: 100%;
+      position: absolute;
+      width: auto;
       border-radius: 10px;
+      z-index: 100;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      max-width: 135px;
     }
   }
 
