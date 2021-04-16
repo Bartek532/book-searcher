@@ -1,5 +1,6 @@
 import { ref, reactive, toRefs } from "vue";
 import { fetcher } from "./fetcher";
+import { API_URL } from "./consts";
 import type { User, Book } from "@book-searcher/types";
 import { useStore } from "vuex";
 
@@ -14,7 +15,10 @@ export const useUserInfo = () => {
     if (state.loading) return;
     state.loading = true;
     try {
-      const { data }: { data: User } = await fetcher("/api/users", "GET");
+      const { data }: { data: User } = await fetcher(
+        `${API_URL}/api/users`,
+        "GET",
+      );
       state.user = data;
       state.error = "";
     } catch (e) {
@@ -40,11 +44,12 @@ export const useRateBook = () => {
     try {
       const {
         data,
-      }: { data: { message: string } } = await fetcher(
-        "/api/books/rate",
-        "POST",
-        { id: bookId, rate },
-      );
+      }: {
+        data: { message: string };
+      } = await fetcher(`${API_URL}/api/books/rate`, "POST", {
+        id: bookId,
+        rate,
+      });
       store.dispatch("setModal", {
         show: true,
         type: "success",
@@ -80,7 +85,7 @@ export const useUserBooks = () => {
     state.loading = true;
     try {
       const { data }: { data: Book } = await fetcher(
-        `/api/users/books/${id}`,
+        `${API_URL}/api/users/books/${id}`,
         "GET",
       );
       state.error = "";
@@ -98,11 +103,9 @@ export const useUserBooks = () => {
     try {
       const {
         data,
-      }: { data: { message: string } } = await fetcher(
-        "/api/users/books",
-        "POST",
-        { id },
-      );
+      }: {
+        data: { message: string };
+      } = await fetcher(`${API_URL}/api/users/books`, "POST", { id });
       state.error = "";
       store.dispatch("setModal", {
         show: true,
@@ -126,7 +129,7 @@ export const useUserBooks = () => {
     state.loading = true;
     try {
       const { data }: { data: { message: string } } = await fetcher(
-        `/api/users/books/${id}`,
+        `${API_URL}/api/users/books/${id}`,
         "DELETE",
       );
       state.error = "";
@@ -167,7 +170,9 @@ export const useUserPassword = () => {
         data,
       }: {
         data: { message: string };
-      } = await fetcher(`/api/users/passwordReset`, "POST", { email });
+      } = await fetcher(`${API_URL}/api/users/passwordReset`, "POST", {
+        email,
+      });
       store.dispatch("setModal", {
         show: true,
         type: "success",
@@ -190,7 +195,7 @@ export const useUserPassword = () => {
     confirmPassword: string,
   ) => {
     try {
-      await fetcher(`/api/users/passwordReset`, "PUT", {
+      await fetcher(`${API_URL}/api/users/passwordReset`, "PUT", {
         token,
         password,
         confirmPassword,

@@ -18,6 +18,7 @@
 import { useStore } from "vuex";
 import { isInViewport } from "../../utils/functions";
 import { fetcher } from "../../utils/fetcher";
+import { API_URL } from "../../utils/consts";
 import Button from "../buttons/Button.vue";
 import type { Book } from "@book-searcher/types";
 import { ref, onUnmounted, defineComponent } from "vue";
@@ -63,7 +64,7 @@ export default defineComponent({
         try {
           const { data }: { data: Book[] } = await fetcher(
             `${
-              store.state.lastBookApiCallAddress.includes("?")
+              API_URL + store.state.lastBookApiCallAddress.includes("?")
                 ? store.state.lastBookApiCallAddress + "&"
                 : store.state.lastBookApiCallAddress + "?"
             }lastId=${lastResultId}`,

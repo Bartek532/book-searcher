@@ -7,6 +7,7 @@
 
 <script lang="ts">
 import { fetcher } from "../../utils/fetcher";
+import { API_URL } from "../../utils/consts";
 import { defineComponent } from "vue";
 import { useStore } from "vuex";
 import Modal from "../../components/Modal.vue";
@@ -26,7 +27,7 @@ export default defineComponent({
     const activateAccount = async () => {
       try {
         const { data }: { data: { message: string } } = await fetcher(
-          "/api/users/activate",
+          `${API_URL}/api/users/activate`,
           "POST",
           {
             token: prp.token,

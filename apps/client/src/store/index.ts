@@ -2,6 +2,7 @@ import { createStore } from "vuex";
 import { types } from "./mutation-types";
 import type { Book, User } from "@book-searcher/types";
 import { fetcher } from "../utils/fetcher";
+import { API_URL } from "../utils/consts";
 
 const store = createStore({
   state: {
@@ -54,7 +55,7 @@ const store = createStore({
       commit(types.SET_LOADING_BOOKS_STATUS, true);
       try {
         const { data }: { data: Book[] } = await fetcher(
-          "/api/books" + url,
+          `${API_URL}/api/books` + url,
           "GET",
         );
         commit(types.UPDATE_RESULTS, data);
@@ -70,7 +71,7 @@ const store = createStore({
     async createBook({ commit }, book: FormData) {
       commit(types.SET_LOADING_STATUS, true);
       try {
-        await fetcher("/api/books", "POST", book);
+        await fetcher(`${API_URL}/api/books`, "POST", book);
         commit(types.SET_ERRORS, "");
         commit(types.SET_MODAL_STATUS, {
           show: true,
@@ -94,7 +95,7 @@ const store = createStore({
     ) {
       commit(types.SET_LOADING_STATUS, true);
       try {
-        await fetcher("/api/books", "PUT", data);
+        await fetcher(`${API_URL}/api/books`, "PUT", data);
         commit(types.SET_ERRORS, "");
         commit(types.SET_MODAL_STATUS, {
           show: true,
@@ -125,7 +126,7 @@ const store = createStore({
     async login({ commit }, loginData: { email: string; password: string }) {
       commit(types.SET_LOADING_STATUS, true);
       try {
-        await fetcher("/api/users/session", "POST", loginData);
+        await fetcher(`${API_URL}/api/users/session`, "POST", loginData);
         commit(types.SET_LOGIN_STATUS, true);
         commit(types.SET_ERRORS, "");
       } catch (err) {
@@ -142,7 +143,7 @@ const store = createStore({
     async register({ commit }, registerData: User) {
       commit(types.SET_LOADING_STATUS, true);
       try {
-        await fetcher("/api/users", "POST", registerData);
+        await fetcher(`${API_URL}/api/users`, "POST", registerData);
         commit(types.SET_ERRORS, "");
         commit(types.SET_MODAL_STATUS, {
           show: true,
@@ -162,7 +163,7 @@ const store = createStore({
     },
     async logout({ commit }) {
       try {
-        await fetcher("/api/users/session", "DELETE");
+        await fetcher(`${API_URL}/api/users/session`, "DELETE");
         commit(types.SET_ERRORS, "");
         commit(types.SET_LOGIN_STATUS, false);
       } catch (err) {
@@ -171,7 +172,7 @@ const store = createStore({
     },
     async isLoggedIn({ commit }) {
       try {
-        await fetcher("/api/users/session/me", "GET");
+        await fetcher(`${API_URL}/api/users/session/me`, "GET");
         commit(types.SET_ERRORS, "");
         commit(types.SET_LOGIN_STATUS, true);
       } catch (err) {
@@ -182,7 +183,7 @@ const store = createStore({
     async modifyUserData({ commit }, data: User) {
       commit(types.SET_LOADING_STATUS, true);
       try {
-        await fetcher("/api/users", "PUT", data);
+        await fetcher(`${API_URL}/api/users`, "PUT", data);
         commit(types.SET_ERRORS, "");
         commit(types.SET_MODAL_STATUS, {
           show: true,
@@ -202,7 +203,7 @@ const store = createStore({
     },
     async getUserBooks({ commit }) {
       commit(types.SET_LOADING_BOOKS_STATUS, true);
-      const url = "/api/users/books";
+      const url = `${API_URL}/api/users/books`;
       try {
         const { data } = await fetcher(url, "GET");
         commit(types.UPDATE_RESULTS, data);

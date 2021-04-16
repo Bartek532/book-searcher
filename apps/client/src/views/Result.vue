@@ -145,6 +145,7 @@ import { polishTranslate } from "@book-searcher/data";
 import { fetcher } from "../utils/fetcher";
 import { useUserBooks } from "../utils/hooks";
 import { capitalize } from "../utils/functions";
+import { API_URL } from "../utils/consts";
 import type { Book } from "@book-searcher/types";
 export default defineComponent({
   name: "Result",
@@ -181,7 +182,7 @@ export default defineComponent({
     const searchBook = async () => {
       try {
         const { data }: { data: Book } = await fetcher(
-          `/api/books/${prp.slug}`,
+          `${API_URL}/api/books/${prp.slug}`,
           "GET",
         );
         book.value = data;
