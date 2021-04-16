@@ -3,7 +3,7 @@ export const sessionConfig = {
   secret: process.env.SECRET_SESSION as string,
   cookie: {
     secure: false,
-    sameSite: "None",
+    sameSite: "none",
     httpOnly: true,
   },
   resave: true,
