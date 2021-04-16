@@ -1,5 +1,5 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 /* eslint-disable no-console */
 /*
 import { Workbox } from "workbox-window";
@@ -15,30 +15,30 @@ if ("serviceWorker" in navigator) {
 }
 export default wb;
 */
-const register_service_worker_1 = require("register-service-worker");
+var register_service_worker_1 = require("register-service-worker");
 if (process.env.NODE_ENV === "production") {
-    register_service_worker_1.register(`${process.env.BASE_URL}service-worker.js`, {
-        ready() {
+    register_service_worker_1.register(process.env.BASE_URL + "service-worker.js", {
+        ready: function () {
             console.log("App is being served from cache by a service worker.\n" +
                 "For more details, visit https://goo.gl/AFskqB");
         },
-        registered() {
+        registered: function () {
             console.log("Service worker has been registered.");
         },
-        cached() {
+        cached: function () {
             console.log("Content has been cached for offline use.");
         },
-        updatefound() {
+        updatefound: function () {
             console.log("New content is downloading.");
         },
-        updated() {
+        updated: function () {
             console.log("New content is available; please refresh.");
         },
-        offline() {
+        offline: function () {
             console.log("No internet connection found. App is running in offline mode.");
         },
-        error(error) {
+        error: function (error) {
             console.error("Error during service worker registration:", error);
-        },
+        }
     });
 }

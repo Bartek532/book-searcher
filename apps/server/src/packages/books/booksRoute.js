@@ -1,0 +1,18 @@
+"use strict";
+exports.__esModule = true;
+exports.booksRoute = void 0;
+var express_1 = require("express");
+var errors_1 = require("../../middlewares/errors");
+var booksController_1 = require("./booksController");
+var validateAuth_1 = require("../../middlewares/validateAuth");
+var validateData_1 = require("../../middlewares/validateData");
+var parseForm_1 = require("../../middlewares/parseForm");
+var validationSchemas_1 = require("../../validationSchemas");
+var router = express_1["default"].Router();
+router.get("/search", errors_1.catchAsync(booksController_1.searchBooks));
+router.get("/", errors_1.catchAsync(booksController_1.getAllBooks));
+router.post("/rate", validateAuth_1.validateAuth, validateData_1.validateData(validationSchemas_1.validationSchemas.rate), errors_1.catchAsync(booksController_1.rateBook));
+router.get("/:slug", errors_1.catchAsync(booksController_1.getBook));
+router.put("/", validateAuth_1.validateAuth, validateData_1.validateData(validationSchemas_1.validationSchemas.bookPosition), errors_1.catchAsync(booksController_1.moveBook));
+router.post("/", validateAuth_1.validateAuth, parseForm_1.parseForm, errors_1.catchAsync(booksController_1.createBook));
+exports.booksRoute = router;

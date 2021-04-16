@@ -1,5 +1,5 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 exports.types = void 0;
 exports.types = {
     UPDATE_RESULTS: "UPDATE_RESULTS",
@@ -8,5 +8,5 @@ exports.types = {
     SET_ERRORS: "SET_ERRORS",
     SET_LOGIN_STATUS: "SET_LOGIN_STATUS",
     SET_MODAL_STATUS: "SET_MODAL_STATUS",
-    SET_LAST_API_ADDRESS: "SET_LAST_API_ADDRESS",
+    SET_LAST_API_ADDRESS: "SET_LAST_API_ADDRESS"
 };

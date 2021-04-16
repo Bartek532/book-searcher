@@ -1,30 +1,27 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 exports.loginAnimation = void 0;
-const gsap_1 = __importDefault(require("gsap"));
-const tl = gsap_1.default.timeline({});
-const loginAnimation = () => {
+var gsap_1 = require("gsap");
+var tl = gsap_1["default"].timeline({});
+exports.loginAnimation = function () {
     if (window.innerWidth < 1000) {
         tl.from(".login__label", {
             duration: 0.7,
-            opacity: 0,
+            opacity: 0
         })
             .addLabel("form")
             .fromTo(".login__form", {
             duration: 0.5,
             opacity: 0,
             y: 200,
-            ease: "ease-in",
+            ease: "ease-in"
         }, {
             opacity: 1,
-            y: -80,
+            y: -80
         })
             .to(".login__label", {
             duration: 0.5,
-            y: -100,
+            y: -100
         }, "form");
     }
     else {
@@ -32,20 +29,19 @@ const loginAnimation = () => {
             duration: 0.5,
             x: -150,
             y: -70,
-            opacity: 0,
+            opacity: 0
         }, {
             y: -70,
             opacity: 1,
-            x: 0,
+            x: 0
         }).fromTo(".login__form", {
             duration: 0.5,
             opacity: 0,
-            y: 100,
+            y: 100
         }, {
             opacity: 1,
             y: -50,
-            ease: "ease-in",
+            ease: "ease-in"
         });
     }
 };
-exports.loginAnimation = loginAnimation;
