@@ -3,7 +3,6 @@ export const sessionConfig = {
   secret: process.env.SECRET_SESSION as string,
   cookie: {
     secure: false,
-    sameSite: "lax" as const,
     httpOnly: true,
   },
   resave: true,
