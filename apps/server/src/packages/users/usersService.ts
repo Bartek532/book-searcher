@@ -28,7 +28,7 @@ export const createUser = (name: string, email: string, password: string) => {
 export const activateUser = (id: number) => {
   return prisma.user.update({
     where: { id },
-    data: { isActive: true },
+    data: { isActive: true, updatedAt: new Date() },
   });
 };
 
@@ -87,6 +87,6 @@ export const deleteBookFromUserLibrary = (userId: number, bookId: number) => {
 export const updateUserInfo = (data: Partial<User>) => {
   return prisma.user.update({
     where: { id: data.id },
-    data,
+    data: { ...data, updatedAt: new Date() },
   });
 };

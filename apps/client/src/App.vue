@@ -1,5 +1,6 @@
 <template>
   <div class="wrapper">
+    <Cookies />
     <Navbar />
     <router-view></router-view>
   </div>
@@ -8,10 +9,11 @@
 <script lang="ts">
 import { useRouter } from "vue-router";
 import Navbar from "./components/Navbar.vue";
-
+import Cookies from "./components/CookiesPopup.vue";
 export default {
   components: {
     Navbar,
+    Cookies,
   },
   setup() {
     const router = useRouter();

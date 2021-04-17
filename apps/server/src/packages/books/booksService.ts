@@ -163,7 +163,7 @@ export const changeBookPosition = ({
 }) => {
   return prisma.book.update({
     where: { id },
-    data: { room, place },
+    data: { room, place, updatedAt: new Date() },
   });
 };
 
