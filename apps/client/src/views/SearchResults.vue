@@ -9,36 +9,43 @@
         })
       "
     />
-    <Results @result-clicked="$router.push({ path: `/ksiazki/${$event}` })" />
+    <Results
+      @result-clicked="$router.push({ path: `/ksiazki/${$event}` })"
+      :results="results"
+      :loading="loading"
+    />
   </main>
+  <Modal />
 </template>
 
 <script lang="ts">
 import SearchInput from "../components/form/SearchInput.vue";
 import Results from "../components/results/Results.vue";
-import { useStore } from "vuex";
+import Modal from "../components/Modal.vue";
 import { useRoute } from "vue-router";
 import { watch, defineComponent } from "vue";
 import { buildAdvancedQuery } from "../utils/functions";
+import { useBooks } from "../utils/composable/useBooks";
 
 export default defineComponent({
   name: "SearchResults",
   components: {
     SearchInput,
     Results,
+    Modal,
   },
   setup() {
-    const store = useStore();
     const route = useRoute();
+
+    const { getBooks, results, loading } = useBooks();
 
     const handleSearch = () => {
       if (!Object.keys(route.query).length) {
-        return store.dispatch("searchBooks", "/");
+        return getBooks("/");
       }
 
       if (route.query.q) {
-        return store.dispatch(
-          "searchBooks",
+        return getBooks(
           `/search?type=basic&q=${decodeURIComponent(route.query.q as string)}`,
         );
       }
@@ -50,7 +57,7 @@ export default defineComponent({
           route.query.author as string,
           route.query.name as string,
         );
-        return store.dispatch("searchBooks", `/search?type=advanced&${path}`);
+        return getBooks(`/search?type=advanced&${path}`);
       }
 
       const availableFilters = [
@@ -69,13 +76,15 @@ export default defineComponent({
         const path = Object.entries(route.query)
           .map((item) => item.join("="))
           .join("&");
-        return store.dispatch("searchBooks", `/search?type=basic&${path}`);
+        return getBooks(`/search?type=basic&${path}`);
       }
     };
 
     handleSearch();
 
     watch(() => route.query, handleSearch);
+
+    return { results, loading };
   },
 });
 </script>

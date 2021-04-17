@@ -1,5 +1,5 @@
 <template>
-  <div class="modal" v-if="$store.state.loading || show">
+  <div class="modal" v-if="isGlobalLoading">
     <div class="modal__loader">
       <div></div>
       <div></div>
@@ -10,14 +10,16 @@
 </template>
 
 <script lang="ts">
-export default {
-  props: {
-    show: {
-      type: Boolean,
-      default: false,
-    },
+import { defineComponent } from "vue";
+import { useLoading } from "../../utils/composable/useLoading";
+export default defineComponent({
+  name: "LoadingModal",
+  setup() {
+    const { isGlobalLoading } = useLoading();
+
+    return { isGlobalLoading };
   },
-};
+});
 </script>
 
 <style lang="scss" scoped>

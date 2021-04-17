@@ -1,30 +1,28 @@
 <template>
-  <div class="modal" v-if="$store.state.modal.show">
+  <div class="modal" v-if="modal.show">
     <div class="modal__window">
       <div class="modal__icon" :style="{ backgroundColor: bannerColor }">
         <img
-          :src="require(`../assets/svgs/modal/${$store.state.modal.type}.svg`)"
-          :alt="$store.state.modal.type"
+          :src="require(`../assets/svgs/modal/${modal.type}.svg`)"
+          :alt="modal.type"
         />
       </div>
       <span class="modal__label">{{ label }}!</span>
       <p class="modal__description">
-        {{ $store.state.modal.message }}
+        {{ modal.message }}
       </p>
       <div class="modal__buttons">
         <button
           class="modal__buttons__cancel"
           @click="handleCancelModal"
-          v-if="$store.state.modal.type !== 'success'"
+          v-if="modal.type !== 'success'"
         >
           Anuluj
         </button>
         <button
           class="modal__buttons__ok"
           @click="handleAcceptModal"
-          v-if="
-            ['info', 'question', 'success'].includes($store.state.modal.type)
-          "
+          v-if="['info', 'question', 'success'].includes(modal.type)"
         >
           Kontynuuj
         </button>
@@ -35,19 +33,19 @@
 
 <script lang="ts">
 import { defineComponent, computed } from "vue";
-import { useStore } from "vuex";
+import { useModal } from "../utils/composable/useModal";
 export default defineComponent({
   name: "Modal",
   setup(prp, ctx) {
-    const store = useStore();
+    const { modal, hideModal } = useModal();
 
     const handleAcceptModal = () => {
       ctx.emit("modal-accepted");
-      store.dispatch("setModal", { show: false });
+      hideModal();
     };
     const handleCancelModal = () => {
       ctx.emit("modal-cancelled");
-      store.dispatch("setModal", { show: false });
+      hideModal();
     };
 
     const bannerInfo = [
@@ -59,19 +57,24 @@ export default defineComponent({
 
     const label = computed(() => {
       return (
-        bannerInfo.find((item) => item.type === store.state.modal.type)
-          ?.label || "Błąd"
+        bannerInfo.find((item) => item.type === modal.type)?.label || "Błąd"
       );
     });
 
     const bannerColor = computed(() => {
       return (
-        bannerInfo.find((item) => item.type === store.state.modal.type)
-          ?.color || "var(--red-100)"
+        bannerInfo.find((item) => item.type === modal.type)?.color ||
+        "var(--red-100)"
       );
     });
 
-    return { handleAcceptModal, handleCancelModal, bannerColor, label };
+    return {
+      handleAcceptModal,
+      handleCancelModal,
+      bannerColor,
+      label,
+      modal,
+    };
   },
 });
 </script>

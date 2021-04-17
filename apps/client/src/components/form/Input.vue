@@ -92,12 +92,12 @@ export default defineComponent({
       padding: 3px 10px;
       border-radius: 30px;
       color: var(--gray-100);
-      transition: 0.3s;
+      transition: all 0.3s;
       pointer-events: none;
 
       &--active {
         color: var(--black-100);
-        transform: translate(6px, -38px);
+        transform: translate(6px, -40px);
         font-size: 0.84rem;
         transition: 0.3s;
         z-index: 2;
@@ -111,6 +111,7 @@ export default defineComponent({
       background-color: transparent;
       border-radius: 15px;
       outline: 0 none;
+      font-size: 1rem;
     }
   }
 

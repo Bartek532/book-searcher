@@ -1,11 +1,8 @@
 <template>
-  <section
-    class="results"
-    v-if="!$store.state.loadingBooks && $store.state.results.length"
-  >
+  <section class="results" v-if="!loading && results.length">
     <div class="results__books">
       <ResultTile
-        v-for="result in $store.state.results.slice(0, 270)"
+        v-for="result in results"
         :key="result.id"
         :data="result"
         @click="$emit('resultClicked', result.slug)"
@@ -14,8 +11,8 @@
     <ScrollToTop />
     <LoadMore />
   </section>
-  <BookLoader v-else-if="$store.state.loadingBooks" />
-  <EmptyResults v-else-if="!$store.state.results.length && notFound" />
+  <BookLoader v-else-if="loading" />
+  <EmptyResults v-else-if="!results.length && notFound" />
 </template>
 
 <script lang="ts">
@@ -25,6 +22,7 @@ import EmptyResults from "./EmptyResults.vue";
 import LoadMore from "../loading/LoadMore.vue";
 import ScrollToTop from "../buttons/ScrollToTop.vue";
 import { defineComponent } from "vue";
+import type { Book } from "@book-searcher/types";
 
 export default defineComponent({
   name: "Results",
@@ -32,6 +30,13 @@ export default defineComponent({
     notFound: {
       type: Boolean,
       default: true,
+    },
+    loading: {
+      type: Boolean,
+      default: false,
+    },
+    results: {
+      type: Object as () => Book[],
     },
   },
   components: {

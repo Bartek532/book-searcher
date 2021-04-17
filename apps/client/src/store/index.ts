@@ -53,13 +53,11 @@ const store = createStore({
   actions: {
     async searchBooks({ commit }, url) {
       commit(types.SET_LOADING_BOOKS_STATUS, true);
+      const fullUrl = `${API_URL}/api/books` + url;
       try {
-        const { data }: { data: Book[] } = await fetcher(
-          `${API_URL}/api/books` + url,
-          "GET",
-        );
+        const { data }: { data: Book[] } = await fetcher(fullUrl, "GET");
         commit(types.UPDATE_RESULTS, data);
-        commit(types.SET_LAST_API_ADDRESS, url);
+        commit(types.SET_LAST_API_ADDRESS, fullUrl);
         commit(types.SET_ERRORS, "");
       } catch (err) {
         console.error(err);

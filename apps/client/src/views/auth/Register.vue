@@ -5,7 +5,7 @@
       <span class="smaller">Cześć,</span>
       Zarejestruj się!
     </h1>
-    <form class="register__form" @submit.prevent="register">
+    <form class="register__form" @submit.prevent="handleRegister">
       <Input
         v-model="name"
         placeholder="Nazwa użytkownika"
@@ -37,7 +37,6 @@
       <Button text="Rejestracja" class="register__form__button" />
     </form>
   </main>
-  <LoadingModal />
 </template>
 
 <script lang="ts">
@@ -46,20 +45,17 @@ import Input from "../../components/form/Input.vue";
 import Modal from "../../components/Modal.vue";
 import { registerAnimation } from "../../animations/registerAnimation";
 import { onMounted, defineComponent } from "vue";
-import { useStore } from "vuex";
-import LoadingModal from "../../components/loading/LoadingModal.vue";
 import { useField, useForm } from "vee-validate";
 import { registerSchema } from "../../utils/validationSchemas";
+import { useUser } from "../../utils/composable/useUser";
 
 export default defineComponent({
   components: {
     Button,
     Input,
     Modal,
-    LoadingModal,
   },
   setup() {
-    const store = useStore();
     const { handleSubmit, errors } = useForm({
       validationSchema: registerSchema,
     });
@@ -69,16 +65,18 @@ export default defineComponent({
     const { value: password } = useField("password");
     const { value: confirmPassword } = useField("confirmPassword");
 
-    const register = handleSubmit(async (data, { resetForm }) => {
+    const { register } = useUser();
+
+    const handleRegister = handleSubmit(async (data, { resetForm }) => {
       resetForm();
-      return await store.dispatch("register", data);
+      return register(data);
     });
 
     onMounted(() => {
       registerAnimation();
     });
 
-    return { errors, register, name, email, password, confirmPassword };
+    return { errors, handleRegister, name, email, password, confirmPassword };
   },
 });
 </script>

@@ -5,7 +5,7 @@
       <span class="smaller">Witaj z powrotem, </span>
       Zaloguj się!
     </h1>
-    <form class="login__form" @submit.prevent="login">
+    <form class="login__form" @submit.prevent="handleLogin">
       <Input
         type="email"
         placeholder="Email"
@@ -39,11 +39,11 @@ import Input from "../../components/form/Input.vue";
 import LoadingModal from "../../components/loading/LoadingModal.vue";
 import Modal from "../../components/Modal.vue";
 import { loginAnimation } from "../../animations/loginAnimation";
-import { onMounted, defineComponent } from "vue";
-import { useStore } from "vuex";
+import { onMounted, defineComponent, watch } from "vue";
 import { useRouter } from "vue-router";
 import { useField, useForm } from "vee-validate";
 import { loginSchema } from "../../utils/validationSchemas";
+import { useUser } from "../../utils/composable/useUser";
 
 export default defineComponent({
   components: {
@@ -53,7 +53,6 @@ export default defineComponent({
     LoadingModal,
   },
   setup() {
-    const store = useStore();
     const router = useRouter();
 
     const { handleSubmit, errors } = useForm({
@@ -63,29 +62,30 @@ export default defineComponent({
     const { value: email } = useField("email");
     const { value: password } = useField("password");
 
-    const login = handleSubmit(async (data, { resetForm }) => {
-      await store.dispatch("login", data);
+    const { isLoggedIn, login, checkLoginStatus } = useUser();
 
-      if (store.state.isLogIn) {
-        return router.push({ path: "/panel/start" });
-      }
+    const handleLogin = handleSubmit(async (data, { resetForm }) => {
+      resetForm();
 
-      return resetForm();
+      return await login(data);
     });
 
     onMounted(() => {
       loginAnimation();
     });
 
-    const isLoggedIn = async () => {
-      await store.dispatch("isLoggedIn");
+    checkLoginStatus();
 
-      if (store.state.isLogIn) router.push({ path: "/panel/start" });
-    };
+    watch(
+      () => isLoggedIn.value,
+      () => {
+        if (isLoggedIn.value) {
+          router.push({ path: "/panel/start" });
+        }
+      },
+    );
 
-    isLoggedIn();
-
-    return { errors, login, email, password };
+    return { errors, handleLogin, email, password };
   },
 });
 </script>

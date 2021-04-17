@@ -64,7 +64,7 @@ export default defineComponent({
         try {
           const { data }: { data: Book[] } = await fetcher(
             `${
-              API_URL + store.state.lastBookApiCallAddress.includes("?")
+              store.state.lastBookApiCallAddress.includes("?")
                 ? store.state.lastBookApiCallAddress + "&"
                 : store.state.lastBookApiCallAddress + "?"
             }lastId=${lastResultId}`,
