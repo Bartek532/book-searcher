@@ -15,79 +15,70 @@
 </template>
 
 <script lang="ts">
-import { useStore } from "vuex";
 import { isInViewport } from "../../utils/functions";
-import { fetcher } from "../../utils/fetcher";
-import { API_URL } from "../../utils/consts";
+import { useBooks } from "../../utils/composable/useBooks";
+import { useInfiniteScroll } from "../../utils/composable/useInfiniteScroll";
 import Button from "../buttons/Button.vue";
-import type { Book } from "@book-searcher/types";
-import { ref, onUnmounted, defineComponent } from "vue";
+import { ref, onUnmounted, defineComponent, watch } from "vue";
 export default defineComponent({
   name: "LoadMore",
   components: {
     Button,
   },
   setup() {
-    const store = useStore();
-    const loading = ref(false);
     const isNextButtonShow = ref(false);
+    const { results } = useBooks();
+    const {
+      sliceResults,
+      fetchBooks,
+      loading,
+      results: fetchedResults,
+    } = useInfiniteScroll();
 
     const handleNextPage = () => {
       isNextButtonShow.value = false;
       window.scrollTo(0, 0);
-      store.state.results = store.state.results.slice(270, 300);
-      window.addEventListener("scroll", fetchMoreBooks);
+      sliceResults();
+      window.addEventListener("scroll", handleFetchMoreBooks);
     };
 
-    const fetchMoreBooks = async () => {
-      const results = document.querySelectorAll(".result");
+    const handleFetchMoreBooks = async () => {
+      const displayedResults = document.querySelectorAll(".result");
 
-      if (store.state.results.length < 30) {
+      if (results.value.length < 30) {
         return;
       }
 
-      if (store.state.results.length >= 300) {
+      if (results.value.length >= 300) {
         isNextButtonShow.value = true;
-        window.removeEventListener("scroll", fetchMoreBooks);
+        window.removeEventListener("scroll", handleFetchMoreBooks);
         return;
       }
 
-      const result = results[results.length - 6];
+      const result = displayedResults[displayedResults.length - 6];
 
       if (isInViewport(result)) {
-        if (loading.value) return;
-        loading.value = true;
-
-        const lastResultId =
-          store.state.results[store.state.results.length - 1].id;
-
-        try {
-          const { data }: { data: Book[] } = await fetcher(
-            `${
-              store.state.lastBookApiCallAddress.includes("?")
-                ? store.state.lastBookApiCallAddress + "&"
-                : store.state.lastBookApiCallAddress + "?"
-            }lastId=${lastResultId}`,
-            "GET",
-          );
-
-          if (!data.length) {
-            window.removeEventListener("scroll", fetchMoreBooks);
-          }
-          store.commit("UPDATE_RESULTS", [...store.state.results, ...data]);
-        } catch (err) {
-          console.error(err);
-        } finally {
-          loading.value = false;
-        }
+        const lastResultId = results.value[results.value.length - 1].id;
+        return await fetchBooks(lastResultId);
       }
     };
 
-    window.addEventListener("scroll", fetchMoreBooks);
+    window.addEventListener("scroll", handleFetchMoreBooks);
 
     onUnmounted(() => {
-      window.removeEventListener("scroll", fetchMoreBooks);
+      window.removeEventListener("scroll", handleFetchMoreBooks);
     });
+
+    watch(
+      () => fetchedResults.value,
+      () => {
+        if (fetchedResults.value.length) {
+          window.addEventListener("scroll", handleFetchMoreBooks);
+        } else {
+          window.removeEventListener("scroll", handleFetchMoreBooks);
+        }
+      },
+    );
 
     return { loading, isNextButtonShow, handleNextPage };
   },

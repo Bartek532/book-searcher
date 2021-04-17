@@ -22,7 +22,7 @@ import EmptyResults from "./EmptyResults.vue";
 import LoadMore from "../loading/LoadMore.vue";
 import ScrollToTop from "../buttons/ScrollToTop.vue";
 import { defineComponent } from "vue";
-import type { Book } from "@book-searcher/types";
+import { useBooks } from "../../utils/composable/useBooks";
 
 export default defineComponent({
   name: "Results",
@@ -31,13 +31,6 @@ export default defineComponent({
       type: Boolean,
       default: true,
     },
-    loading: {
-      type: Boolean,
-      default: false,
-    },
-    results: {
-      type: Object as () => Book[],
-    },
   },
   components: {
     BookLoader,
@@ -45,6 +38,11 @@ export default defineComponent({
     LoadMore,
     EmptyResults,
     ScrollToTop,
+  },
+  setup() {
+    const { results, loading } = useBooks();
+
+    return { results, loading };
   },
 });
 </script>

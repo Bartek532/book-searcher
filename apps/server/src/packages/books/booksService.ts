@@ -20,7 +20,6 @@ export const fetchBook = (slug: string) => {
       slug,
     },
     include: { UserBookRate: true, BookTag: true },
-    orderBy: { place: "asc" },
   });
 };
 

@@ -1,7 +1,7 @@
 <template>
   <main class="result">
     <Modal />
-    <section class="result__container" v-if="!firstLoading">
+    <section class="result__container" v-if="Object.entries(book).length">
       <BackButton />
       <div class="result__icons">
         <button
@@ -142,11 +142,9 @@ import LoadingModal from "../components/loading/LoadingModal.vue";
 import Modal from "../components/Modal.vue";
 import { ref, defineComponent, onMounted, watch } from "vue";
 import { polishTranslate } from "@book-searcher/data";
-import { fetcher } from "../utils/fetcher";
 import { useUserBooks } from "../utils/hooks";
 import { capitalize } from "../utils/functions";
-import { API_URL } from "../utils/consts";
-import type { Book } from "@book-searcher/types";
+import { useBook } from "../utils/composable/useBook";
 export default defineComponent({
   name: "Result",
   components: {
@@ -164,7 +162,7 @@ export default defineComponent({
     },
   },
   setup(prp) {
-    const book = ref({} as Book);
+    //const book = ref({} as Book);
     const firstLoading = ref(true);
     const loading = ref(false);
     const rateModal = ref(false);
@@ -178,6 +176,8 @@ export default defineComponent({
       book: userBook,
       error,
     } = useUserBooks();
+
+    /*
 
     const searchBook = async () => {
       try {
@@ -196,6 +196,11 @@ export default defineComponent({
         firstLoading.value = false;
       }
     };
+    */
+
+    const { book, getBook } = useBook();
+
+    getBook(prp.slug);
 
     const handleManageUserLibrary = () => {
       if (isBookInUserLibrary.value) {
@@ -211,8 +216,6 @@ export default defineComponent({
         return;
       }
     };
-
-    searchBook();
 
     onMounted(() => {
       window.scrollTo(0, 0);

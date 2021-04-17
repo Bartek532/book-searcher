@@ -9,11 +9,7 @@
         })
       "
     />
-    <Results
-      @result-clicked="$router.push({ path: `/ksiazki/${$event}` })"
-      :results="results"
-      :loading="loading"
-    />
+    <Results @result-clicked="$router.push({ path: `/ksiazki/${$event}` })" />
   </main>
   <Modal />
 </template>
@@ -37,7 +33,7 @@ export default defineComponent({
   setup() {
     const route = useRoute();
 
-    const { getBooks, results, loading } = useBooks();
+    const { getBooks } = useBooks();
 
     const handleSearch = () => {
       if (!Object.keys(route.query).length) {
@@ -83,8 +79,6 @@ export default defineComponent({
     handleSearch();
 
     watch(() => route.query, handleSearch);
-
-    return { results, loading };
   },
 });
 </script>
