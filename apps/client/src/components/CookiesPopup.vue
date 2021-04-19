@@ -30,17 +30,20 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .cookies {
-  width: 100%;
+  width: 90%;
   max-width: 700px;
   position: fixed;
-  bottom: 20px;
+  bottom: 95px;
   left: 50%;
   transform: translateX(-50%);
   box-shadow: var(--primary-shadow);
   @include flex(space-between);
   padding: 5px 20px;
   border-radius: 15px;
+  z-index: 70;
   animation: fadeUp 0.4s ease-out;
+  background-color: var(--white-100);
+
   &__btn {
     border: 2px solid var(--blue-100);
     padding: 7px 15px;
@@ -49,6 +52,7 @@ export default defineComponent({
     border-radius: 5px;
     cursor: pointer;
     transition: all 0.2s ease-out;
+    margin-left: 15px;
 
     &:hover,
     &:focus {
@@ -66,6 +70,12 @@ export default defineComponent({
   to {
     opacity: 1;
     transform: translateY(-50%, 0);
+  }
+}
+
+@media all and (min-width: 700px) {
+  .cookies {
+    bottom: 20px;
   }
 }
 </style>
