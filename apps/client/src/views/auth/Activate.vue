@@ -6,11 +6,9 @@
 </template>
 
 <script lang="ts">
-import { fetcher } from "../../utils/fetcher";
-import { API_URL } from "../../utils/consts";
 import { defineComponent } from "vue";
-import { useStore } from "vuex";
 import Modal from "../../components/Modal.vue";
+import { useUser } from "../../utils/composable/useUser";
 export default defineComponent({
   name: "Activate",
   components: {
@@ -23,31 +21,9 @@ export default defineComponent({
     },
   },
   setup(prp) {
-    const store = useStore();
-    const activateAccount = async () => {
-      try {
-        const { data }: { data: { message: string } } = await fetcher(
-          `${API_URL}/api/users/activate`,
-          "POST",
-          {
-            token: prp.token,
-          },
-        );
-        return store.dispatch("setModal", {
-          show: true,
-          type: "success",
-          message: data.message,
-        });
-      } catch (err) {
-        return store.dispatch("setModal", {
-          show: true,
-          type: "warning",
-          message: err.message,
-        });
-      }
-    };
+    const { activateAccount } = useUser();
 
-    activateAccount();
+    activateAccount(prp.token);
   },
 });
 </script>

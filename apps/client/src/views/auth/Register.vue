@@ -47,7 +47,7 @@ import { registerAnimation } from "../../animations/registerAnimation";
 import { onMounted, defineComponent } from "vue";
 import { useField, useForm } from "vee-validate";
 import { registerSchema } from "../../utils/validationSchemas";
-import { useUser } from "../../utils/composable/useUser";
+import { useUser, RegisterData } from "../../utils/composable/useUser";
 
 export default defineComponent({
   components: {
@@ -67,9 +67,9 @@ export default defineComponent({
 
     const { register } = useUser();
 
-    const handleRegister = handleSubmit(async (data, { resetForm }) => {
+    const handleRegister = handleSubmit((data, { resetForm }) => {
       resetForm();
-      return register(data);
+      return register(data as RegisterData);
     });
 
     onMounted(() => {

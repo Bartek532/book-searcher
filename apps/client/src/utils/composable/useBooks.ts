@@ -12,10 +12,14 @@ export const useBooks = () => {
     error: "",
   });
 
+  const setResults = (books: Book[]) => {
+    results.value = books;
+  };
+
   const getBooks = async (url: string) => {
     state.loading = true;
+    const fullUrl = `${API_URL}/api/books` + url;
     try {
-      const fullUrl = `${API_URL}/api/books` + url;
       const { data }: { data: Book[] } = await fetcher(fullUrl, "GET");
       results.value = data;
       state.error = "";
@@ -27,13 +31,25 @@ export const useBooks = () => {
     }
   };
 
-  const setResults = (books: Book[]) => {
-    results.value = books;
+  const getUserBooks = async () => {
+    state.loading = true;
+    const fullUrl = `${API_URL}/api/users/books`;
+    try {
+      const { data } = await fetcher(fullUrl, "GET");
+      results.value = data;
+      state.error = "";
+      lastBookApiCallAddress.value = fullUrl;
+    } catch (e) {
+      state.error = e?.message;
+    } finally {
+      state.loading = false;
+    }
   };
 
   return {
     ...toRefs(state),
     getBooks,
+    getUserBooks,
     setResults,
     lastBookApiCallAddress,
     results,

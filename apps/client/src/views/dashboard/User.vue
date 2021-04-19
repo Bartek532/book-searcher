@@ -46,37 +46,26 @@
       <Button text="Zapisz" class="account__edit__btn" />
     </form>
   </main>
-  <LoadingModal :show="loading" />
 </template>
 
 <script lang="ts">
-import LoadingModal from "../../components/loading/LoadingModal.vue";
 import Modal from "../../components/Modal.vue";
 import Button from "../../components/buttons/Button.vue";
 import Input from "../../components/form/Input.vue";
-import { defineComponent, onMounted, watch } from "vue";
-import { useStore } from "vuex";
-import { useUserInfo } from "../../utils/hooks";
+import { defineComponent, watch } from "vue";
+import { useUser, ModifyUserData } from "../../utils/composable/useUser";
 import { useForm, useField } from "vee-validate";
 import { modifyUserSchema } from "../../utils/validationSchemas";
 export default defineComponent({
   components: {
-    LoadingModal,
     Modal,
     Button,
     Input,
   },
   setup() {
-    const { loading, error, load, user } = useUserInfo();
-    const store = useStore();
+    const { user, getUserInfo, modifyUserInfo } = useUser();
 
-    if (error.value) {
-      store.dispatch("setModal", {
-        show: true,
-        type: "warning",
-        message: error.value,
-      });
-    }
+    getUserInfo();
 
     const { handleSubmit, errors } = useForm({
       validationSchema: modifyUserSchema,
@@ -89,29 +78,18 @@ export default defineComponent({
     const { value: confirmPassword } = useField("confirmPassword");
 
     const modifyUserData = handleSubmit((data) => {
-      return store.dispatch("modifyUserData", data);
+      return modifyUserInfo(data as ModifyUserData);
     });
 
     watch(
       () => user.value,
       () => {
         name.value = user.value.name;
-      },
-    );
-
-    watch(
-      () => user.value,
-      () => {
         email.value = user.value.email;
       },
     );
 
-    onMounted(() => load());
-
     return {
-      loading,
-      error,
-      load,
       user,
       name,
       email,

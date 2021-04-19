@@ -3,6 +3,7 @@
     <Cookies />
     <Navbar />
     <router-view></router-view>
+    <LoadingModal />
   </div>
 </template>
 
@@ -10,10 +11,12 @@
 import { useRouter } from "vue-router";
 import Navbar from "./components/Navbar.vue";
 import Cookies from "./components/CookiesPopup.vue";
+import LoadingModal from "./components/loading/LoadingModal.vue";
 export default {
   components: {
     Navbar,
     Cookies,
+    LoadingModal,
   },
   setup() {
     const router = useRouter();

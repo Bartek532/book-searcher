@@ -2,7 +2,7 @@
   <main class="add-book">
     <Modal @modal-accepted="$router.go(-1)" />
     <h1 class="title">Dodaj książkę</h1>
-    <form class="form" @submit.prevent="createBook">
+    <form class="form" @submit.prevent="handleCreateBook">
       <div class="form__text-inputs">
         <Input
           placeholder="Tytuł"
@@ -80,12 +80,10 @@
       <Button text="Dodaj" class="form__submit-btn" />
     </form>
   </main>
-  <LoadingModal />
 </template>
 
 <script lang="ts">
 import Modal from "../../components/Modal.vue";
-import LoadingModal from "../../components/loading/LoadingModal.vue";
 import Input from "../../components/form/Input.vue";
 import Button from "../../components/buttons/Button.vue";
 import Rate from "../../components/form/Rate.vue";
@@ -94,13 +92,12 @@ import Select from "../../components/form/Select.vue";
 import Tags from "../../components/Tags.vue";
 import { rooms, places } from "@book-searcher/data";
 import { bookSchema } from "../../utils/validationSchemas";
-import { useStore } from "vuex";
 import { defineComponent, watch } from "vue";
 import { useForm, useField } from "vee-validate";
+import { useBook } from "../../utils/composable/useBook";
 export default defineComponent({
   components: {
     Modal,
-    LoadingModal,
     Input,
     Button,
     Rate,
@@ -112,11 +109,11 @@ export default defineComponent({
     const { handleSubmit, errors } = useForm({
       validationSchema: bookSchema,
     });
-    const store = useStore();
+    const { createBook } = useBook();
 
     const book = new FormData();
 
-    const createBook = handleSubmit(async (data) => {
+    const handleCreateBook = handleSubmit((data) => {
       if (!book.get("img")) {
         return;
       }
@@ -136,7 +133,7 @@ export default defineComponent({
         book.set("series", "");
       }
 
-      return await store.dispatch("createBook", book);
+      return createBook(book);
     });
 
     const { value: name } = useField("name");
@@ -162,7 +159,7 @@ export default defineComponent({
       place,
       places,
       errors,
-      createBook,
+      handleCreateBook,
       book,
     };
   },

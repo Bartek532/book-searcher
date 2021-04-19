@@ -38,7 +38,7 @@ export const fetcher = async (
       data: data || {},
     });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     throw new Error(err.response?.data?.message);
   }
 };

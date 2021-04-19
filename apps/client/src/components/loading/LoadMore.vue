@@ -42,7 +42,7 @@ export default defineComponent({
       window.addEventListener("scroll", handleFetchMoreBooks);
     };
 
-    const handleFetchMoreBooks = async () => {
+    const handleFetchMoreBooks = () => {
       const displayedResults = document.querySelectorAll(".result");
 
       if (results.value.length < 30) {
@@ -59,7 +59,7 @@ export default defineComponent({
 
       if (isInViewport(result)) {
         const lastResultId = results.value[results.value.length - 1].id;
-        return await fetchBooks(lastResultId);
+        return fetchBooks(lastResultId);
       }
     };
 

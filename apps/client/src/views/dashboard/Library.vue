@@ -4,11 +4,9 @@
     <Results
       :notFound="false"
       @result-clicked="$router.push({ path: `/ksiazki/${$event}` })"
+      :loading="loading"
     />
-    <div
-      class="library__empty"
-      v-if="!$store.state.results.length && !$store.state.loadingBooks"
-    >
+    <div class="library__empty" v-if="!results.length && !loading">
       <span class="why">Dlaczego</span> tu jeszcze nic nie ma? Nie ociągaj się i
       <router-link to="/ksiazki" class="add">dodaj</router-link> coś do swojej
       biblioteki!
@@ -17,17 +15,19 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted } from "vue";
+import { defineComponent } from "vue";
 import Results from "../../components/results/Results.vue";
-import { useStore } from "vuex";
+import { useBooks } from "../../utils/composable/useBooks";
 export default defineComponent({
   components: {
     Results,
   },
   setup() {
-    const store = useStore();
+    const { getUserBooks, loading, results } = useBooks();
 
-    onMounted(() => store.dispatch("getUserBooks"));
+    getUserBooks();
+
+    return { loading, results };
   },
 });
 </script>

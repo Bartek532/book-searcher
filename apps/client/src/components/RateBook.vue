@@ -23,7 +23,7 @@
 import Rate from "./form/Rate.vue";
 import Button from "./buttons/Button.vue";
 import { defineComponent, ref, watch } from "vue";
-import { useRateBook } from "../utils/hooks";
+import { useBook } from "../utils/composable/useBook";
 import { useForm, useField } from "vee-validate";
 export default defineComponent({
   name: "RateModal",
@@ -37,23 +37,16 @@ export default defineComponent({
     Rate,
     Button,
   },
-  setup(prp, ctx) {
+  setup(prp) {
     const isModalOpen = ref(false);
     const { handleSubmit } = useForm({ initialValues: { rate: 3 } });
 
-    const { loading, rateBook } = useRateBook();
+    const { rateBook } = useBook();
 
     const handleRateBook = handleSubmit((data) => {
       isModalOpen.value = false;
       return rateBook(prp.bookId, data.rate);
     });
-
-    watch(
-      () => loading.value,
-      () => {
-        return ctx.emit("loading", loading.value);
-      },
-    );
 
     const { value: rate } = useField("rate");
 

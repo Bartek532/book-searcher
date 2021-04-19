@@ -1,24 +1,24 @@
 <template>
-  <router-view></router-view>
+  <router-view v-if="isLoggedIn"></router-view>
 </template>
 
 <script lang="ts">
-import { useStore } from "vuex";
 import { useRouter } from "vue-router";
+import { useUser } from "../../utils/composable/useUser";
 export default {
   setup() {
-    const store = useStore();
     const router = useRouter();
+    const { checkLoginStatus, isLoggedIn } = useUser();
 
-    const isLoggedIn = async () => {
-      await store.dispatch("isLoggedIn");
-
-      if (!store.state.isLogIn) {
+    const handleAuthorize = async () => {
+      await checkLoginStatus();
+      if (!isLoggedIn.value) {
         router.push({ path: "/logowanie" });
       }
     };
+    handleAuthorize();
 
-    isLoggedIn();
+    return { isLoggedIn };
   },
 };
 </script>

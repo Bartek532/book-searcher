@@ -17,15 +17,13 @@
     />
     <Button text="Zmień hasło" class="form__btn" />
   </form>
-  <LoadingModal :show="loading" />
 </template>
 
 <script lang="ts">
 import Button from "../../components/buttons/Button.vue";
 import Input from "../../components/form/Input.vue";
 import Modal from "../../components/Modal.vue";
-import LoadingModal from "../../components/loading/LoadingModal.vue";
-import { useUserPassword } from "../../utils/hooks";
+import { useUser } from "../../utils/composable/useUser";
 import { useForm, useField } from "vee-validate";
 import { resetPasswordSchema } from "../../utils/validationSchemas";
 import { defineComponent } from "vue";
@@ -35,7 +33,6 @@ export default defineComponent({
     Input,
     Button,
     Modal,
-    LoadingModal,
   },
   props: {
     token: {
@@ -47,7 +44,7 @@ export default defineComponent({
     const { handleSubmit, errors } = useForm({
       validationSchema: resetPasswordSchema,
     });
-    const { loading, resetPassword } = useUserPassword();
+    const { resetPassword } = useUser();
     const { value: password } = useField("password");
     const { value: confirmPassword } = useField("confirmPassword");
 
@@ -59,7 +56,7 @@ export default defineComponent({
       },
     );
 
-    return { password, confirmPassword, errors, handleResetPassword, loading };
+    return { password, confirmPassword, errors, handleResetPassword };
   },
 });
 </script>

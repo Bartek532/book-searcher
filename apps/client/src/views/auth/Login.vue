@@ -30,27 +30,24 @@
       >
     </form>
   </main>
-  <LoadingModal />
 </template>
 
 <script lang="ts">
 import Button from "../../components/buttons/Button.vue";
 import Input from "../../components/form/Input.vue";
-import LoadingModal from "../../components/loading/LoadingModal.vue";
 import Modal from "../../components/Modal.vue";
 import { loginAnimation } from "../../animations/loginAnimation";
 import { onMounted, defineComponent, watch } from "vue";
 import { useRouter } from "vue-router";
 import { useField, useForm } from "vee-validate";
 import { loginSchema } from "../../utils/validationSchemas";
-import { useUser } from "../../utils/composable/useUser";
+import { useUser, LoginData } from "../../utils/composable/useUser";
 
 export default defineComponent({
   components: {
     Button,
     Input,
     Modal,
-    LoadingModal,
   },
   setup() {
     const router = useRouter();
@@ -64,10 +61,10 @@ export default defineComponent({
 
     const { isLoggedIn, login, checkLoginStatus } = useUser();
 
-    const handleLogin = handleSubmit(async (data, { resetForm }) => {
+    const handleLogin = handleSubmit((data, { resetForm }) => {
       resetForm();
 
-      return await login(data);
+      return login(data as LoginData);
     });
 
     onMounted(() => {

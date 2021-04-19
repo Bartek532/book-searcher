@@ -31,6 +31,10 @@ export default defineComponent({
       type: Boolean,
       default: true,
     },
+    loading: {
+      type: Boolean,
+      default: false,
+    },
   },
   components: {
     BookLoader,
@@ -40,9 +44,9 @@ export default defineComponent({
     ScrollToTop,
   },
   setup() {
-    const { results, loading } = useBooks();
+    const { results } = useBooks();
 
-    return { results, loading };
+    return { results };
   },
 });
 </script>

@@ -1,6 +1,5 @@
 <template>
   <main class="move">
-    <Modal @modal-accepted="$store.dispatch('searchBooks', '/api/books')" />
     <div class="move__modal" v-if="modalOpen">
       <div class="move__modal__window">
         <button class="move__modal__window__close" @click="modalOpen = false">
@@ -55,11 +54,11 @@
         </form>
       </div>
     </div>
+    <Modal @modal-accepted="getBooks('/')" />
     <h1 class="title">Zmień położenie</h1>
-    <SearchInput @search="filterBooks" />
-    <Results @result-clicked="openMoveModal" />
+    <SearchInput @search="handleFilterBooks" />
+    <Results @result-clicked="handleOpenMoveModal" :loading="loading" />
   </main>
-  <LoadingModal />
 </template>
 
 <script lang="ts">
@@ -68,68 +67,69 @@ import Results from "../../components/results/Results.vue";
 import SearchInput from "../../components/form/SearchInput.vue";
 import Button from "../../components/buttons/Button.vue";
 import Select from "../../components/form/Select.vue";
-import LoadingModal from "../../components/loading/LoadingModal.vue";
 import Modal from "../../components/Modal.vue";
 import { rooms, places, polishTranslate } from "@book-searcher/data";
 import type { Book } from "@book-searcher/types";
 import { HTMLInputEvent } from "../../types";
-import { useStore } from "vuex";
 import { useForm, useField } from "vee-validate";
 import { moveBookSchema } from "../../utils/validationSchemas";
 import { prepareQueryToSearch } from "../../utils/functions";
+import { useBooks } from "../../utils/composable/useBooks";
+import { useBook } from "../../utils/composable/useBook";
+
 export default defineComponent({
   components: {
     Results,
     SearchInput,
-    LoadingModal,
     Modal,
     Button,
     Select,
   },
   setup() {
-    const store = useStore();
     const selectedBook = ref({} as Book);
     const modalOpen = ref(false);
+
+    const { getBooks, loading, results } = useBooks();
+    const { moveBook } = useBook();
 
     const { handleSubmit, errors } = useForm({
       validationSchema: moveBookSchema,
     });
 
-    store.dispatch("searchBooks", "/");
+    getBooks("/");
 
-    const filterBooks = async (e: HTMLInputEvent) => {
+    const handleFilterBooks = (e: HTMLInputEvent) => {
       if (e.target?.value) {
-        return await store.dispatch(
-          "searchBooks",
+        return getBooks(
           `/search?type=basic&q=${prepareQueryToSearch(e.target?.value)}`,
         );
       }
     };
 
-    const openMoveModal = (slug: string) => {
+    const handleOpenMoveModal = (slug: string) => {
       modalOpen.value = true;
-      selectedBook.value = store.state.results.find(
-        (item: Book) => item.slug === slug,
-      );
+      selectedBook.value =
+        results.value.find((item: Book) => item.slug === slug) || ({} as Book);
     };
 
-    const handleMoveBook = handleSubmit(async (data, { resetForm }) => {
+    const handleMoveBook = handleSubmit((data, { resetForm }) => {
       modalOpen.value = false;
       resetForm();
-      return await store.dispatch("moveBook", {
+      return moveBook({
         id: selectedBook.value.id,
         ...data,
-      });
+      } as { id: number; room: string; place: string });
     });
 
     const { value: room } = useField("room");
     const { value: place } = useField("place");
 
     return {
-      filterBooks,
+      getBooks,
+      handleFilterBooks,
+      handleOpenMoveModal,
       selectedBook,
       modalOpen,
-      openMoveModal,
       rooms,
       places,
       polishTranslate,
@@ -137,6 +137,7 @@ export default defineComponent({
       room,
       place,
       handleMoveBook,
+      loading,
     };
   },
 });

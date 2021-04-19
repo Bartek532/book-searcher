@@ -25,7 +25,7 @@
           </svg>
         </button>
 
-        <RateBook :bookId="book.id" @loading="loading = $event" />
+        <RateBook :bookId="book.id" />
       </div>
       <div class="result__info">
         <div class="result__info__image">
@@ -129,7 +129,6 @@
       </div>
       <Button text="Szukaj więcej" @click="$router.push({ path: '/szukaj' })" />
     </section>
-    <LoadingModal :show="firstLoading || loading" />
   </main>
 </template>
 
@@ -138,11 +137,9 @@ import BackButton from "../components/buttons/Back.vue";
 import Checkbox from "../components/form/Checkbox.vue";
 import Button from "../components/buttons/Button.vue";
 import RateBook from "../components/RateBook.vue";
-import LoadingModal from "../components/loading/LoadingModal.vue";
 import Modal from "../components/Modal.vue";
-import { ref, defineComponent, onMounted, watch } from "vue";
+import { defineComponent, onMounted } from "vue";
 import { polishTranslate } from "@book-searcher/data";
-import { useUserBooks } from "../utils/hooks";
 import { capitalize } from "../utils/functions";
 import { useBook } from "../utils/composable/useBook";
 export default defineComponent({
@@ -152,7 +149,6 @@ export default defineComponent({
     Checkbox,
     RateBook,
     Modal,
-    LoadingModal,
     Button,
   },
   props: {
@@ -162,76 +158,31 @@ export default defineComponent({
     },
   },
   setup(prp) {
-    //const book = ref({} as Book);
-    const firstLoading = ref(true);
-    const loading = ref(false);
-    const rateModal = ref(false);
-    const isBookInUserLibrary = ref(false);
-
     const {
-      loading: libraryLoading,
-      addToUserBooks,
-      deleteFromUserBooks,
-      getUserBook,
-      book: userBook,
-      error,
-    } = useUserBooks();
-
-    /*
-
-    const searchBook = async () => {
-      try {
-        const { data }: { data: Book } = await fetcher(
-          `${API_URL}/api/books/${prp.slug}`,
-          "GET",
-        );
-        book.value = data;
-        await getUserBook(book.value.id);
-        if (Object.keys(userBook.value).length) {
-          isBookInUserLibrary.value = true;
-        }
-      } catch (err) {
-        console.log(err);
-      } finally {
-        firstLoading.value = false;
-      }
-    };
-    */
-
-    const { book, getBook } = useBook();
+      book,
+      getBook,
+      isBookInUserLibrary,
+      addBookToUserLibrary,
+      deleteBookFromUserLibrary,
+    } = useBook();
 
     getBook(prp.slug);
 
     const handleManageUserLibrary = () => {
       if (isBookInUserLibrary.value) {
-        deleteFromUserBooks(book.value.id);
-        if (!error.value) {
-          isBookInUserLibrary.value = false;
-          return;
-        }
+        return deleteBookFromUserLibrary(book.value.id);
       }
-      addToUserBooks(book.value.id);
-      if (!error.value) {
-        isBookInUserLibrary.value = true;
-        return;
-      }
+
+      return addBookToUserLibrary(book.value.id);
     };
 
     onMounted(() => {
       window.scrollTo(0, 0);
     });
 
-    watch(
-      () => libraryLoading.value,
-      () => (loading.value = libraryLoading.value),
-    );
-
     return {
       book,
       capitalize,
-      rateModal,
-      loading,
-      firstLoading,
       polishTranslate,
       isBookInUserLibrary,
       handleManageUserLibrary,

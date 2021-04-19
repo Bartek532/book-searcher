@@ -10,15 +10,13 @@
     />
     <Button text="Wyślij link" class="form__btn" />
   </form>
-  <LoadingModal :show="loading" />
 </template>
 
 <script lang="ts">
 import Button from "../../components/buttons/Button.vue";
 import Input from "../../components/form/Input.vue";
 import Modal from "../../components/Modal.vue";
-import LoadingModal from "../../components/loading/LoadingModal.vue";
-import { useUserPassword } from "../../utils/hooks";
+import { useUser } from "../../utils/composable/useUser";
 import { useForm, useField } from "vee-validate";
 import { forgotPasswordSchema } from "../../utils/validationSchemas";
 
@@ -27,22 +25,21 @@ export default {
     Input,
     Button,
     Modal,
-    LoadingModal,
   },
   setup() {
     const { handleSubmit, errors, resetForm } = useForm({
       validationSchema: forgotPasswordSchema,
     });
-    const { loading, sendResetEmail } = useUserPassword();
+    const { sendResetPasswordEmail } = useUser();
     const { value: email } = useField("email");
 
     const handleSendResetLink = handleSubmit(({ email }) => {
       if (email) {
-        return sendResetEmail(email);
+        return sendResetPasswordEmail(email);
       }
     });
 
-    return { email, errors, handleSendResetLink, loading, resetForm };
+    return { email, errors, handleSendResetLink, resetForm };
   },
 };
 </script>

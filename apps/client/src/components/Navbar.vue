@@ -65,7 +65,7 @@
       </li>
       <li>
         <router-link
-          :to="!$store.state.isLogIn ? '/logowanie' : '/panel/start'"
+          :to="isLoggedIn ? '/panel/start' : '/logowanie'"
           class="tab__item tab__item__login"
         >
           <svg
@@ -83,7 +83,7 @@
           </svg>
 
           <span class="tab__item__label">
-            {{ $store.state.isLogIn ? "konto" : "zaloguj" }}
+            {{ isLoggedIn ? "konto" : "zaloguj" }}
           </span>
         </router-link>
       </li>
@@ -95,9 +95,11 @@
 import gsap, { Power4, Back } from "gsap";
 import { ref, defineComponent } from "vue";
 import { HTMLElementEvent } from "../types";
+import { useUser } from "../utils/composable/useUser";
 export default defineComponent({
   name: "Navbar",
   setup() {
+    const { isLoggedIn } = useUser();
     const activeRoute = ref(1);
 
     const tilt = (e: HTMLElementEvent) => {
@@ -130,6 +132,7 @@ export default defineComponent({
       activeRoute,
       activateRoute,
       tilt,
+      isLoggedIn,
     };
   },
 });
