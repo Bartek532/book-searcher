@@ -205,13 +205,13 @@
 <script lang="ts">
 import emptyResultsAnimation from "../../animations/emptyResultsAnimation";
 import { onMounted, defineComponent } from "vue";
-import { useStore } from "vuex";
+import { useBooks } from "../../utils/composable/useBooks";
 export default defineComponent({
   name: "EmptyResults",
   setup() {
-    const store = useStore();
+    const { results } = useBooks();
     onMounted(() => {
-      if (!store.state.results.length) {
+      if (!results.value.length) {
         emptyResultsAnimation();
       }
     });

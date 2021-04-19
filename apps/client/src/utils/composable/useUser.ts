@@ -64,6 +64,16 @@ export const useUser = () => {
     }
   };
 
+  const logout = async () => {
+    try {
+      await fetcher(`${API_URL}/api/users/session`, "DELETE");
+      state.error = "";
+      isLoggedIn.value = false;
+    } catch (e) {
+      state.error = e?.message;
+    }
+  };
+
   const checkLoginStatus = async () => {
     try {
       await fetcher(`${API_URL}/api/users/session/me`, "GET");
@@ -169,6 +179,7 @@ export const useUser = () => {
     isLoggedIn,
     register,
     login,
+    logout,
     checkLoginStatus,
     getUserInfo,
     modifyUserInfo,

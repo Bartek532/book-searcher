@@ -148,6 +148,7 @@ export default defineComponent({
   width: 100%;
   z-index: 90;
   border-radius: 15px 15px 0 0;
+  padding-bottom: env(safe-area-inset-bottom);
 
   &__items {
     list-style: none;

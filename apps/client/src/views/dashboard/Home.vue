@@ -24,15 +24,15 @@
 </template>
 
 <script lang="ts">
-import { useStore } from "vuex";
 import { useRouter } from "vue-router";
+import { useUser } from "../../utils/composable/useUser";
 export default {
   setup() {
-    const store = useStore();
     const router = useRouter();
+    const { logout } = useUser();
 
-    const logout = () => {
-      store.dispatch("logout");
+    const handleLogout = () => {
+      logout();
       router.push({ path: "/logowanie" });
     };
 
@@ -41,7 +41,7 @@ export default {
       { icon: "library", label: "Moje książki", link: "biblioteka" },
       { icon: "move", label: "Przenieś", link: "przenies" },
       { icon: "user", label: "Moje konto", link: "konto" },
-      { icon: "logout", label: "Wyloguj", onClick: logout },
+      { icon: "logout", label: "Wyloguj", onClick: handleLogout },
     ];
 
     return { options };
