@@ -50,7 +50,7 @@ export default defineComponent({
 
   .subname {
     font-size: 1.56rem;
-    font-weight: 500;
+    font-weight: 400;
     margin: 0;
     text-transform: uppercase;
     letter-spacing: 8px;
