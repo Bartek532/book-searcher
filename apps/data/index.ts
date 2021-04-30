@@ -39,6 +39,7 @@ export const polishTranslate = {
   sport: "sport",
   classic: "klasyka",
   moral: "obyczajowa",
+  art: "sztuka",
 };
 
 export const tags = [
@@ -62,4 +63,5 @@ export const tags = [
   "fact",
   "classic",
   "moral",
+  "art",
 ];
