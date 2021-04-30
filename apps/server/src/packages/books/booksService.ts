@@ -198,7 +198,7 @@ export const insertBook = async (
     },
   });
 
-  if (data.tags) {
+  if (data.tags && data.tags !== undefined && data.tags !== "undefined") {
     const tags = JSON.parse(data.tags);
     const filteredTags = tags.filter((tag: string) => bookTags.includes(tag));
     if (filteredTags.length) {
