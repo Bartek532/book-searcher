@@ -23,15 +23,15 @@ Book Searcher is an app to help me (and others 😁) search suitable book from m
 
 - Frontend
 
-| Tech                                          | Description                                                |
-| --------------------------------------------- | ---------------------------------------------------------- |
-| [Typescript](https://www.typescriptlang.org/) | Javascript superset language                               |
-| [Vue 3](https://vuejs.org)                    | Progressive JavaScript Framework                           |
-| [SCSS](https://sass-lang.com)                 | CSS with superpowers                                       |
-| [Vue Router](https://router.vuejs.org)        | Official router for Vue.js                                 |
-| [Vee-Validate](https://day.js.org)            | Form Validation for Vue.js                                 |
-| [GSAP](https://greensock.com/gsap)            | Professional-grade JavaScript animation for the modern web |
-| [Yup](https://github.com/jquense/yup)         | Schema builder for value parsing and validation.           |
+| Tech                                          | Description                                                 |
+| --------------------------------------------- | ----------------------------------------------------------- |
+| [Typescript](https://www.typescriptlang.org/) | Javascript superset language                                |
+| [Vue 3](https://vuejs.org)                    | Progressive JavaScript Framework                            |
+| [SCSS](https://sass-lang.com)                 | CSS with superpowers                                        |
+| [Vue Router](https://router.vuejs.org)        | Official router for Vue.js                                  |
+| [Vee-Validate](https://day.js.org)            | Form Validation for Vue.js                                  |
+| [GSAP](https://greensock.com/gsap)            | Professional-grade JavaScript animations for the modern web |
+| [Yup](https://github.com/jquense/yup)         | Schema builder for value parsing and validation.            |
 
 <br />
 

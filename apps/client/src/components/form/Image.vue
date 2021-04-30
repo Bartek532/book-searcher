@@ -119,7 +119,7 @@ export default defineComponent({
       position: absolute;
       width: auto;
       border-radius: 10px;
-      z-index: 100;
+      z-index: 10;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
