@@ -19,6 +19,7 @@
         @blur="inputFocused = false"
         :type="type"
         class="input__label__input"
+        :name="name"
       />
     </label>
     <span class="error input__error" v-if="error">{{ error }}</span>
