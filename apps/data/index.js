@@ -41,6 +41,7 @@ exports.polishTranslate = {
   classic: "klasyka",
   moral: "obyczajowa",
   art: "sztuka",
+  travel: "podróże",
 };
 exports.tags = [
   "crime",
@@ -64,4 +65,5 @@ exports.tags = [
   "classic",
   "moral",
   "art",
+  "travel",
 ];
