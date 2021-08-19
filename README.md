@@ -61,6 +61,10 @@ git clone https://github.com/Bartek532/book-searcher.git
 
 yarn install
 
+cp apps/server/.env-sample apps/server/.env #set up your environment variables
+
+psql book_searcher < apps/server/DUMP.sql #import backup to database
+
 yarn dev
 
 ```
