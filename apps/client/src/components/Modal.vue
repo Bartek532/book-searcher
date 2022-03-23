@@ -9,7 +9,7 @@
       </div>
       <span class="modal__label">{{ label }}!</span>
       <p class="modal__description">
-        {{ modal.message }}
+        {{ modal.message ?? "Coś nie działa? Nie przejmuj się!" }}
       </p>
       <div class="modal__buttons">
         <button

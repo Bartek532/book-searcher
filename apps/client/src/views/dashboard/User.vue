@@ -5,7 +5,9 @@
       <div class="account__info__avatar">
         {{ user.name ? user.name[0] : "" }}
       </div>
-      <span class="account__info__name">{{ user.name }}</span>
+      <span class="account__info__name"
+        >{{ user.name }} {{ user.isAdmin ? "👷" : null }}</span
+      >
       <span class="account__info__email">{{ user.email }}</span>
     </div>
     <form class="account__edit" @submit.prevent="modifyUserData">

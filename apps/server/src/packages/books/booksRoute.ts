@@ -10,6 +10,7 @@ import {
 } from "./booksController";
 import { validateAuth } from "../../middlewares/validateAuth";
 import { validateData } from "../../middlewares/validateData";
+import { validateIsAdmin } from "../../middlewares/validateIsAdmin";
 import { parseForm } from "../../middlewares/parseForm";
 import { validationSchemas } from "../../validationSchemas";
 
@@ -28,10 +29,17 @@ router.get("/:slug", catchAsync(getBook));
 router.put(
   "/",
   validateAuth,
+  validateIsAdmin,
   validateData(validationSchemas.bookPosition),
   catchAsync(moveBook),
 );
 
-router.post("/", validateAuth, parseForm, catchAsync(createBook));
+router.post(
+  "/",
+  validateAuth,
+  validateIsAdmin,
+  parseForm,
+  catchAsync(createBook),
+);
 
 export const booksRoute = router;
