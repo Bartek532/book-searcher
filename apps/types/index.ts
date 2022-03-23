@@ -3,7 +3,8 @@ export type User = {
   readonly name: string;
   readonly email: string;
   readonly password: string;
-  readonly isAdmin: boolean;
+  readonly isAdmin: "not_requested" | "accepted" | "rejected" | "pending";
+  readonly isSuperAdmin: boolean;
 };
 
 export type Filters = {

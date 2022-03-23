@@ -90,3 +90,30 @@ export const updateUserInfo = (data: Partial<User>) => {
     data: { ...data, updatedAt: new Date() },
   });
 };
+
+export const requestAdminAccess = (id: number) => {
+  return prisma.user.update({
+    where: { id },
+    data: { isAdmin: "pending" },
+  });
+};
+
+export const fetchPendingAdminRequests = () => {
+  return prisma.user.findMany({
+    where: { isAdmin: "pending" },
+  });
+};
+
+export const rejectAdminRequestById = (id: number) => {
+  return prisma.user.update({
+    where: { id },
+    data: { isAdmin: "rejected" },
+  });
+};
+
+export const acceptAdminRequestById = (id: number) => {
+  return prisma.user.update({
+    where: { id },
+    data: { isAdmin: "accepted" },
+  });
+};

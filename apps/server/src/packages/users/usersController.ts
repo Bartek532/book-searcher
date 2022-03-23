@@ -12,6 +12,10 @@ import {
   fetchUserBook,
   addBookToUserLibrary,
   deleteBookFromUserLibrary,
+  requestAdminAccess,
+  fetchPendingAdminRequests,
+  rejectAdminRequestById,
+  acceptAdminRequestById,
 } from "./usersService";
 import { passwordRegex } from "../../validationSchemas";
 import { sendMail } from "../../middlewares/sendEmail";
@@ -213,4 +217,51 @@ export const getUserBooks = async (req: Request, res: Response) => {
     .json(
       await fetchUserLibrary(req.session.user!.id, lastReturnedBookId, perPage),
     );
+};
+
+export const requestAdmin = async (req: Request, res: Response) => {
+  const user = await findUserByEmail(req.body.email);
+
+  if (!user) {
+    return res.status(404).json({ message: "Nie znaleziono użytkownika. " });
+  }
+
+  if (user.isAdmin) {
+    return res.status(400).json({ message: "Użytkownik jest już adminem." });
+  }
+
+  await requestAdminAccess(user.id);
+
+  res.status(200).json({ message: "Wysłano prośbę o dostęp!" });
+};
+
+export const getAllPendingAdminRequests = async (
+  req: Request,
+  res: Response,
+) => {
+  res.status(200).json(await fetchPendingAdminRequests());
+};
+
+export const rejectAdminRequest = async (req: Request, res: Response) => {
+  const id = req.body.id;
+
+  if (!id) {
+    return res.status(404).json({ message: "Nie znaleziono użytkownika. " });
+  }
+
+  await rejectAdminRequestById(id);
+
+  res.status(200).json({ message: "Odrzucono prośbę o dostęp!" });
+};
+
+export const acceptAdminRequest = async (req: Request, res: Response) => {
+  const id = req.body.id;
+
+  if (!id) {
+    return res.status(404).json({ message: "Nie znaleziono użytkownika. " });
+  }
+
+  await acceptAdminRequestById(id);
+
+  res.status(200).json({ message: "Zaakceptowano prośbę o dostęp!" });
 };
