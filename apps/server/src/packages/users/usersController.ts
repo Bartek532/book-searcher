@@ -226,7 +226,7 @@ export const requestAdmin = async (req: Request, res: Response) => {
     return res.status(404).json({ message: "Nie znaleziono użytkownika. " });
   }
 
-  if (user.isAdmin) {
+  if (user.isAdmin === "accepted") {
     return res.status(400).json({ message: "Użytkownik jest już adminem." });
   }
 

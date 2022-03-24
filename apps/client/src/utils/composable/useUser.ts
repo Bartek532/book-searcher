@@ -27,12 +27,12 @@ export type ModifyUserData = {
 
 const isLoggedIn = ref(false);
 
-export const useUser = () => {
-  const state = reactive({
-    error: "",
-    user: {} as User,
-  });
+const state = reactive({
+  error: "",
+  user: {} as User,
+});
 
+export const useUser = () => {
   const { setModal } = useModal();
   const { setLoading } = useLoading();
 
@@ -54,6 +54,7 @@ export const useUser = () => {
     setLoading(true);
     try {
       await fetcher(`${API_URL}/api/users/session`, "POST", data);
+      await getUserInfo();
       state.error = "";
       isLoggedIn.value = true;
     } catch (e) {
@@ -174,6 +175,22 @@ export const useUser = () => {
     }
   };
 
+  const requestAdmin = async () => {
+    setLoading(true);
+    try {
+      const { data }: { data: { message: string } } = await fetcher(
+        `${API_URL}/api/users/admins`,
+        "POST",
+      );
+      setModal("success", data.message);
+    } catch (e) {
+      state.error = e?.message;
+      setModal("warning", e?.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return {
     ...toRefs(state),
     isLoggedIn,
@@ -186,5 +203,6 @@ export const useUser = () => {
     sendResetPasswordEmail,
     resetPassword,
     activateAccount,
+    requestAdmin,
   };
 };

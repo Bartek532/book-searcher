@@ -1,52 +1,64 @@
 <template>
   <main class="account" v-if="Object.entries(user).length">
     <Modal @modal-accepted="$router.push({ path: '/panel/start' })" />
-    <div class="account__info">
-      <div class="account__info__avatar">
-        {{ user.name ? user.name[0] : "" }}
-      </div>
-      <span class="account__info__name"
-        >{{ user.name }} {{ user.isAdmin ? "👷" : null }}</span
-      >
-      <span class="account__info__email">{{ user.email }}</span>
-    </div>
-    <form class="account__edit" @submit.prevent="modifyUserData">
-      <Input
-        placeholder="Imię"
-        :error="errors?.name"
-        v-model="name"
-        name="name"
-      />
-      <Input
-        type="email"
-        placeholder="Email"
-        :error="errors?.email"
-        v-model="email"
-        name="email"
-      />
-      <Input
-        type="password"
-        placeholder="Hasło"
-        :error="errors?.oldPassword"
-        v-model="oldPassword"
-        name="old-password"
-      />
-      <Input
-        type="password"
-        placeholder="Nowe hasło"
-        :error="errors?.newPassword"
-        v-model="newPassword"
-        name="new-password"
-      />
-      <Input
-        type="password"
-        placeholder="Powtórz hasło"
-        :error="errors?.confirmPassword"
-        v-model="confirmPassword"
-        name="confirm-password"
-      />
-      <Button text="Zapisz" class="account__edit__btn" />
+    <form
+      class="account__admin"
+      @submit.prevent="requestAdmin"
+      v-if="user.isAdmin === 'not_requested'"
+    >
+      <Button text="Zostań adminem" class="account__admin__btn" />
     </form>
+    <div class="account__wrapper">
+      <div class="account__info">
+        <div class="account__info__avatar">
+          {{ user.name ? user.name[0] : "" }}
+        </div>
+        <span class="account__info__name"
+          >{{ user.name }}
+          {{
+            user.isSuperAdmin ? "🦸" : user.isAdmin === "accepted" ? "👷" : null
+          }}</span
+        >
+        <span class="account__info__email">{{ user.email }}</span>
+      </div>
+      <form class="account__edit" @submit.prevent="modifyUserData">
+        <Input
+          placeholder="Imię"
+          :error="errors?.name"
+          v-model="name"
+          name="name"
+        />
+        <Input
+          type="email"
+          placeholder="Email"
+          :error="errors?.email"
+          v-model="email"
+          name="email"
+        />
+        <Input
+          type="password"
+          placeholder="Hasło"
+          :error="errors?.oldPassword"
+          v-model="oldPassword"
+          name="old-password"
+        />
+        <Input
+          type="password"
+          placeholder="Nowe hasło"
+          :error="errors?.newPassword"
+          v-model="newPassword"
+          name="new-password"
+        />
+        <Input
+          type="password"
+          placeholder="Powtórz hasło"
+          :error="errors?.confirmPassword"
+          v-model="confirmPassword"
+          name="confirm-password"
+        />
+        <Button text="Zapisz" class="account__edit__btn" />
+      </form>
+    </div>
   </main>
 </template>
 
@@ -65,7 +77,7 @@ export default defineComponent({
     Input,
   },
   setup() {
-    const { user, getUserInfo, modifyUserInfo } = useUser();
+    const { user, getUserInfo, modifyUserInfo, requestAdmin } = useUser();
 
     getUserInfo();
 
@@ -101,6 +113,7 @@ export default defineComponent({
       errors,
       handleSubmit,
       modifyUserData,
+      requestAdmin,
     };
   },
 });
@@ -113,12 +126,22 @@ $nth: nth($list, $imgKey);
 
 .account {
   @include flex;
-  padding: 45px 0 10px 0;
   flex-flow: column wrap;
   width: 100%;
   max-width: 400px;
-  border-radius: 20px;
-  position: relative;
+
+  &__admin {
+    padding: 15px 0;
+  }
+
+  &__wrapper {
+    @include flex;
+    padding: 45px 0 10px 0;
+    flex-flow: column wrap;
+    width: 100%;
+    border-radius: 20px;
+    position: relative;
+  }
 
   &__info {
     @include flex;
@@ -166,7 +189,7 @@ $nth: nth($list, $imgKey);
 }
 
 @media all and (min-width: 700px) {
-  .account {
+  .account__wrapper {
     box-shadow: var(--primary-shadow);
     margin-top: 30px;
   }

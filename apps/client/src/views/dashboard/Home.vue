@@ -1,8 +1,11 @@
 <template>
   <main :class="['dashboard', { withMessage: !isAdmin }]">
-    <h2 class="title" v-if="!isAdmin">
+    <h2 class="title" v-if="user.isAdmin === 'not_requested'">
       Nie masz jeszcze dostępu do wszystkich opcji. By to zmienić,
       <router-link to="/panel/konto" class="admin">zostań adminem!</router-link>
+    </h2>
+    <h2 class="title" v-else-if="user.isAdmin === 'pending'">
+      Już za chwilę będziesz mógł korzystać ze wszystkich opcji... 😉
     </h2>
     <div class="options">
       <button
@@ -14,7 +17,9 @@
         class="option"
         v-for="option in options"
         :key="option.icon"
-        :disabled="['add', 'move'].includes(option.icon) && !user.isAdmin"
+        :disabled="
+          ['add', 'move'].includes(option.icon) && user.isAdmin !== 'accepted'
+        "
       >
         <div class="option__icon">
           <img
