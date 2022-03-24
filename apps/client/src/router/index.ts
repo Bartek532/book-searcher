@@ -24,6 +24,7 @@ const CreateBook = () => import("../views/dashboard/CreateBook.vue");
 const MoveBook = () => import("../views/dashboard/MoveBook.vue");
 const User = () => import("../views/dashboard/User.vue");
 const Library = () => import("../views/dashboard/Library.vue");
+const Admin = () => import("../views/dashboard/Admin.vue");
 
 //404 page
 const PageNotFound = () => import("../views/PageNotFound.vue");
@@ -103,6 +104,11 @@ const routes: Array<RouteRecordRaw> = [
         path: "biblioteka",
         component: Library,
         meta: { title: "Biblioteka" },
+      },
+      {
+        path: "zarzadzaj",
+        component: Admin,
+        meta: { title: "Zarządzaj użytkownikami" },
       },
       {
         path: "przenies",

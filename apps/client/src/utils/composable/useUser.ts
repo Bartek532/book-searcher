@@ -27,14 +27,15 @@ export type ModifyUserData = {
 
 const isLoggedIn = ref(false);
 
-const state = reactive({
-  error: "",
-  user: {} as User,
-});
-
 export const useUser = () => {
   const { setModal } = useModal();
   const { setLoading } = useLoading();
+
+  const state = reactive({
+    error: "",
+    user: {} as User,
+    adminRequests: [] as User[],
+  });
 
   const register = async (data: RegisterData) => {
     setLoading(true);
@@ -54,7 +55,6 @@ export const useUser = () => {
     setLoading(true);
     try {
       await fetcher(`${API_URL}/api/users/session`, "POST", data);
-      await getUserInfo();
       state.error = "";
       isLoggedIn.value = true;
     } catch (e) {
@@ -191,6 +191,46 @@ export const useUser = () => {
     }
   };
 
+  const getAllPendingAdminRequests = async () => {
+    setLoading(true);
+    try {
+      const { data }: { data: User[] } = await fetcher(
+        `${API_URL}/api/users/admins`,
+        "GET",
+      );
+      state.adminRequests = data;
+    } catch (e) {
+      state.error = e?.message;
+      setModal("warning", e?.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const acceptAdminRequest = async (id: number) => {
+    setLoading(true);
+    try {
+      await fetcher(`${API_URL}/api/users/admins`, "PUT", { id });
+    } catch (e) {
+      state.error = e?.message;
+      setModal("warning", e?.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const rejectAdminRequest = async (id: number) => {
+    setLoading(true);
+    try {
+      await fetcher(`${API_URL}/api/users/admins`, "DELETE", { id });
+    } catch (e) {
+      state.error = e?.message;
+      setModal("warning", e?.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return {
     ...toRefs(state),
     isLoggedIn,
@@ -204,5 +244,8 @@ export const useUser = () => {
     resetPassword,
     activateAccount,
     requestAdmin,
+    getAllPendingAdminRequests,
+    acceptAdminRequest,
+    rejectAdminRequest,
   };
 };

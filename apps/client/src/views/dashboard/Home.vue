@@ -15,11 +15,11 @@
             : option.onClick()
         "
         class="option"
-        v-for="option in options"
+        v-for="option in options.filter((option) =>
+          option.visibility === 'superAdmin' ? user.isSuperAdmin : true,
+        )"
         :key="option.icon"
-        :disabled="
-          ['add', 'move'].includes(option.icon) && user.isAdmin !== 'accepted'
-        "
+        :disabled="option.visibility === 'admin' && user.isAdmin !== 'accepted'"
       >
         <div class="option__icon">
           <img
@@ -39,7 +39,9 @@ import { useUser } from "../../utils/composable/useUser";
 export default {
   setup() {
     const router = useRouter();
-    const { logout, user } = useUser();
+    const { logout, user, getUserInfo } = useUser();
+
+    getUserInfo();
 
     const handleLogout = () => {
       logout();
@@ -47,9 +49,20 @@ export default {
     };
 
     const options = [
-      { icon: "add", label: "Dodaj", link: "dodaj" },
+      { icon: "add", label: "Dodaj", link: "dodaj", visibility: "admin" },
       { icon: "library", label: "Moje książki", link: "biblioteka" },
-      { icon: "move", label: "Przenieś", link: "przenies" },
+      {
+        icon: "move",
+        label: "Przenieś",
+        link: "przenies",
+        visibility: "admin",
+      },
+      {
+        icon: "admin",
+        label: "Zarządzaj",
+        link: "zarzadzaj",
+        visibility: "superAdmin",
+      },
       { icon: "user", label: "Moje konto", link: "konto" },
       { icon: "logout", label: "Wyloguj", onClick: handleLogout },
     ];

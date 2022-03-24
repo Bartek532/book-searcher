@@ -239,7 +239,12 @@ export const getAllPendingAdminRequests = async (
   req: Request,
   res: Response,
 ) => {
-  res.status(200).json(await fetchPendingAdminRequests());
+  const data = (await fetchPendingAdminRequests()).map((request) =>
+    Object.fromEntries(
+      Object.entries(request).filter((item) => item[0] !== "password"),
+    ),
+  );
+  res.status(200).json(data);
 };
 
 export const rejectAdminRequest = async (req: Request, res: Response) => {
