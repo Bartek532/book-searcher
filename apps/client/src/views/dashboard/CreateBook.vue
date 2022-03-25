@@ -177,7 +177,6 @@ export default defineComponent({
     border-bottom: 4px solid var(--blue-100);
     padding-bottom: 5px;
     margin: 15px 0;
-    font-size: 1.6rem;
   }
 }
 .form {

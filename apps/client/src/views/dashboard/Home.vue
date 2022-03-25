@@ -7,6 +7,7 @@
     <h2 class="title" v-else-if="user.isAdmin === 'pending'">
       Już za chwilę będziesz mógł korzystać ze wszystkich opcji... 😉
     </h2>
+
     <div class="options">
       <button
         @click="
