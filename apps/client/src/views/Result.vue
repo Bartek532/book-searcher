@@ -138,7 +138,7 @@ import Checkbox from "../components/form/Checkbox.vue";
 import Button from "../components/buttons/Button.vue";
 import RateBook from "../components/RateBook.vue";
 import Modal from "../components/Modal.vue";
-import { defineComponent, onMounted } from "vue";
+import { defineComponent, onMounted, watch } from "vue";
 import { polishTranslate } from "@book-searcher/data";
 import { capitalize } from "../utils/functions";
 import { useBook } from "../utils/composable/useBook";
@@ -178,6 +178,11 @@ export default defineComponent({
 
     onMounted(() => {
       window.scrollTo(0, 0);
+    });
+
+    watch(book, () => {
+      document.title =
+        book.value.name + " · " + book.value.author ?? "Book Searcher";
     });
 
     return {
