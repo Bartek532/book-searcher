@@ -18,6 +18,21 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
+--
+-- TOC entry 658 (class 1247 OID 115156)
+-- Name: adminStatus; Type: TYPE; Schema: public; Owner: librarian
+--
+
+CREATE TYPE public."adminStatus" AS ENUM (
+    'accepted',
+    'pending',
+    'rejected',
+    'not_requested'
+);
+
+
+ALTER TYPE public."adminStatus" OWNER TO librarian;
+
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
@@ -106,7 +121,9 @@ CREATE TABLE public."User" (
     password text NOT NULL,
     "isActive" boolean DEFAULT false,
     "createdAt" timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL,
-    "updatedAt" timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL
+    "updatedAt" timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL,
+    "isAdmin" public."adminStatus" DEFAULT 'not_requested'::public."adminStatus" NOT NULL,
+    "isSuperAdmin" boolean DEFAULT false NOT NULL
 );
 
 
@@ -979,6 +996,8 @@ COPY public."Book" (id, name, author, img, slug, room, place, description, serie
 813	Kultury w ruchu. Migracje, transfery, epistemologie	praca zbiorowa	https://res.cloudinary.com/df8lrena7/image/upload/v1621434022/book_searcher/kultury-w-ruchu.-migracje-transfery-epistemologie-zbiorowa.png	kultury-w-ruchu.-migracje-transfery-epistemologie-zbiorowa	bedroom	wardrobe	Tytułowe dla III Zjazdu Polskiego Towarzystwa Kulturoznawczego hasło „Kultury w ruchu" brało pod uwagę wzrost globalnej mobilności jako istotny kontekst rozważań o tym, jak w tych warunkach zmieniają się mentalności, systemy przekonaniowe, formy wiedzy i refleksyjności społecznej, twórczość kulturowa, relacje międzykulturowe. Jak – w humanistyce, sztuce, w codziennych praktykach – reagujemy na przyspieszenie społecznych zmian oraz nasilenie transferów idei, ludzi i rzeczy w skali lokalnej, regionalnej i globalnej. Tropem inicjatorów humanistycznej debaty o mobilności, powiązaniach transnarodowych i zależnościach globalnych – choćby Arjuna Appaduraja, Johna Urry'ego, Ulfa Hannerza (który wygłosił podczas Zjazdu wykład inauguracyjny), Scotta Lasha i Celii Lury, a także Immanuela Wallersteina – pytaliśmy o medialny (w tym technologiczny), symboliczny, ekonomiczny i polityczny kontekst wyłaniania się i zanikania dynamicznych zjawisk kultury najnowszej, o nowe zależności i podziały, nakładające się na współczesny świat.		2021-05-19 16:20:24.125376	2021-05-19 16:20:24.125376
 814	Wpław do Kambodży	Spalding Gray	https://res.cloudinary.com/df8lrena7/image/upload/v1621434081/book_searcher/wplaw-do-kambodzy-gray.png	wplaw-do-kambodzy-gray	bedroom	wardrobe	Wpław do Kambodży odmalowuje w błyskotliwy, pełen humoru sposób utarczki autora z amerykańskością...		2021-05-19 16:21:22.067318	2021-05-19 16:21:22.067318
 815	Potwór w pudle	Spalding Gray	https://res.cloudinary.com/df8lrena7/image/upload/v1621434155/book_searcher/potwor-w-pudle-gray.jpg	potwor-w-pudle-gray	bedroom	wardrobe	Potwór w pudle odmalowuje w błyskotliwy, pełen humoru sposób utarczki autora z amerykańskością. Czytamy więc o konfrontacji amerykańskiej ekipy filmowej z egzotyką Tajlandii przy okazji kręcenia Pól śmierci Ronalda Joffe'a, o groteskowej wycieczce Amerykanów do Leningradu połowy lat osiemdziesiątych, o bolesnych przygodach autora w Hollywoodzie, o pobycie w idealnym domu dla pisarzy w stanie New Hampshire, o wizytach u terapeutów, o kalifornijskich trzęsieniach ziemi, kulturze samochodowej i obsesji zdrowia, o nowojorskiej fobii zarażenia AIDS-em, o ziemianach porywanych przez statki kosmiczne oraz o wielu innych zdumiewających przejawach amerykańskiej rzeczywistości. Gray podkpiwa ze stylu życia i myślenia liberalnej inteligencji amerykańskiej, do której się zalicza. znajduje jednak w jej osobliwym etosie wartości, których warto bronić w każdej kulturze.		2021-05-19 16:22:36.799834	2021-05-19 16:22:36.799834
+816	Demon i mroczna toń	Stuart Turton	https://res.cloudinary.com/df8lrena7/image/upload/v1645190793/book_searcher/demon-i-mroczna-ton-turton.jpg	demon-i-mroczna-ton-turton	carriage-room	bookcase	Demon i mroczna toń nadaje nowy wymiar duetom detektywistycznym w stylu Holmesa i Watsona! Spodziewajcie się trzymającego w napięciu horroru z siłami nadprzyrodzonymi, podejrzeń o tajemny kult i paranormalnej zagadki rozgrywającej się na środku bezkresnego oceanu!\r\nMorderstwo na pełnym morzu.\r\nNiezwykły duet detektywów.\r\nDemon, który być może wcale nie istnieje.\r\nRok 1624. Samuel Pipps, największy detektyw swoich czasów, musi zostać dowieziony na proces za zbrodnię, której choć nie jest to takie pewne nie popełnił. Podróżuje z nim Arent Hayes, uczeń i wierny przyjaciel, który zamierza zrobić wszystko, by udowodnić jego niewinność. Gdy tylko statek wyrusza z portu, zaczyna prześladować go zły omen. Zły omen albo bardzo konkretny demon. Po pokładzie krąży trędowaty, który umarł dwa razy. Na żaglach zaczynają pojawiać się tajemnicze znaki. Ktoś zaczyna mordować trzodę. Aby przebłagać mroczne wody oceanu, troje pasażerów zostaje skazanych na śmierć. W tym Pipps. Tylko Hayes może podjąć się rozwiązania zagadki działającego na okręcie demona. Zagadki, która sięga daleko w przeszłość i łączy wszystkich pasażerów statku. I wszystkich może kosztować życie.		2022-02-18 13:26:34.240199	2022-02-18 13:26:34.240199
+817	Mów mi Win	Harlan Coben	https://res.cloudinary.com/df8lrena7/image/upload/v1645190835/book_searcher/mow-mi-win-coben.jpg	mow-mi-win-coben	carriage-room	bookcase	Tym razem w roli głównej Win, czyli Windsor Horne Lockwood III. Milioner i awanturnik, najlepszy kumpel Myrona Bolitara. Król życia, który zawsze dostaje to, co chce.\r\nPrzed ponad dwudziestoma laty dziedziczka fortuny Lockwoodów, Patricia, została uprowadzona podczas napadu na rodzinną posiadłość. Przez wiele miesięcy przetrzymywano ją w chacie na pustkowiu. Patricii udało się uciec, ale jej oprawców nie schwytano, nie odzyskano również rodzinnych pamiątek, które zostały skradzione podczas porwania.\r\nAż do teraz. W Upper West Side, w apartamencie na ostatnim piętrze znaleziono ciało mężczyzny. Oprócz zwłok uwagę policji przykuwają dwa przedmioty: skradzione płótno Vermeera i skórzana walizka z inicjałami WHL3. Po raz pierwszy od lat mundurowi mają wyraźny tropy nie tylko w sprawie porwania Patricii, ale także w innej nierozwiązanej sprawie FBI, związanej ze skradzioną walizką i cennym obrazem. Ślady jednoznacznie prowadzą do pewnego mężczyzny…\r\nWindsor Horne Lockwood III lub Win – jak nazywają go przyjaciele – nie wie, jak skradzione dawno temu jego rodzinie walizka i obraz trafiły w ręce ofiary zagadkowej zbrodni. Kiedy FBI ujawnia, że martwy mężczyzna stał również za aktami terroryzmu, Win musi odkryć, co łączy te tak różne sprawy sprzed lat. Na szczęście ma do dyspozycji trzy rzeczy, których brakuje FBI: osobisty związek z co najmniej jedną ze spraw, nieograniczone środki finansowe i możliwość wymierzenia sprawiedliwości według własnych zasad.	Windsor Horne Lockwood III	2022-02-18 13:27:15.789384	2022-02-18 13:27:15.789384
 \.
 
 
@@ -2480,6 +2499,11 @@ COPY public."BookTag" ("bookId", "tagName") FROM stdin;
 813	science
 814	thriller
 815	beauty
+816	crime
+816	thriller
+817	crime
+817	thriller
+817	series
 \.
 
 
@@ -2521,7 +2545,8 @@ travel
 -- Data for Name: User; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public."User" (id, name, email, password, "isActive", "createdAt", "updatedAt") FROM stdin;
+COPY public."User" (id, name, email, password, "isActive", "createdAt", "updatedAt", "isAdmin", "isSuperAdmin") FROM stdin;
+1	Marcin	marcin@gmail.com	$2b$10$n5mufwuAlLG05X0uyuPm.Or6sGSPvDFTdKSexTAoghO.y8Tyd5j5S	t	2022-02-24 20:19:04.637941	2022-03-24 19:19:16.883	accepted	f
 \.
 
 
@@ -2542,6 +2567,787 @@ COPY public."UserBookLibrary" ("bookId", "userId") FROM stdin;
 --
 
 COPY public."UserBookRate" ("bookId", "userId", rate) FROM stdin;
+1	1	5
+2	1	5
+3	1	5
+4	1	3
+5	1	3
+6	1	5
+7	1	5
+8	1	5
+9	1	5
+10	1	5
+11	1	3
+12	1	4
+13	1	4
+14	1	4
+15	1	4
+16	1	4
+17	1	4
+18	1	6
+19	1	3
+20	1	6
+21	1	4
+22	1	4
+23	1	4
+24	1	3
+25	1	2
+26	1	3
+27	1	3
+28	1	3
+29	1	4
+30	1	3
+31	1	4
+32	1	5
+33	1	5
+34	1	4
+35	1	5
+36	1	5
+37	1	4
+38	1	4
+39	1	5
+40	1	5
+41	1	4
+42	1	4
+43	1	5
+44	1	4
+45	1	5
+46	1	2
+47	1	4
+48	1	4
+49	1	4
+50	1	5
+51	1	4
+52	1	5
+53	1	4
+54	1	5
+55	1	3
+56	1	4
+57	1	4
+58	1	4
+59	1	4
+60	1	4
+61	1	5
+62	1	5
+63	1	5
+64	1	4
+65	1	5
+66	1	3
+67	1	4
+68	1	4
+69	1	3
+70	1	3
+71	1	3
+72	1	4
+73	1	3
+74	1	3
+75	1	4
+76	1	5
+77	1	4
+78	1	4
+79	1	4
+80	1	3
+81	1	4
+82	1	5
+83	1	3
+84	1	2
+85	1	3
+86	1	3
+87	1	3
+88	1	4
+89	1	4
+90	1	5
+91	1	3
+92	1	3
+93	1	3
+94	1	3
+95	1	3
+96	1	3
+97	1	4
+98	1	3
+99	1	4
+100	1	3
+101	1	3
+102	1	3
+103	1	4
+104	1	4
+105	1	4
+106	1	3
+107	1	4
+108	1	4
+109	1	4
+110	1	4
+111	1	4
+112	1	5
+113	1	5
+114	1	5
+115	1	5
+116	1	3
+117	1	3
+122	1	5
+123	1	5
+124	1	4
+125	1	4
+126	1	3
+127	1	4
+128	1	4
+129	1	4
+130	1	3
+131	1	4
+132	1	3
+133	1	4
+134	1	3
+135	1	4
+136	1	4
+137	1	4
+138	1	4
+139	1	4
+140	1	4
+141	1	4
+142	1	3
+143	1	4
+144	1	4
+145	1	4
+146	1	5
+147	1	5
+148	1	5
+149	1	5
+150	1	4
+151	1	4
+152	1	4
+153	1	3
+154	1	3
+155	1	3
+156	1	3
+157	1	4
+158	1	4
+159	1	4
+160	1	4
+161	1	3
+162	1	3
+163	1	4
+164	1	4
+165	1	4
+166	1	2
+167	1	3
+168	1	4
+169	1	4
+170	1	3
+171	1	4
+172	1	4
+173	1	5
+174	1	2
+175	1	3
+176	1	4
+177	1	3
+178	1	4
+179	1	4
+180	1	3
+181	1	4
+182	1	3
+183	1	4
+184	1	4
+185	1	4
+186	1	4
+187	1	5
+188	1	5
+189	1	5
+190	1	5
+191	1	5
+192	1	5
+193	1	5
+194	1	4
+195	1	4
+196	1	4
+197	1	4
+198	1	4
+199	1	4
+200	1	3
+201	1	4
+202	1	4
+203	1	4
+204	1	4
+205	1	4
+206	1	3
+207	1	3
+208	1	4
+209	1	4
+210	1	4
+211	1	4
+212	1	3
+213	1	4
+214	1	4
+215	1	4
+216	1	3
+217	1	3
+218	1	3
+219	1	4
+220	1	4
+221	1	3
+222	1	3
+223	1	4
+224	1	5
+225	1	4
+226	1	4
+227	1	4
+228	1	4
+229	1	4
+230	1	4
+231	1	3
+232	1	3
+233	1	4
+234	1	4
+235	1	4
+236	1	4
+237	1	4
+238	1	4
+239	1	3
+240	1	4
+241	1	4
+242	1	4
+243	1	4
+244	1	3
+245	1	4
+246	1	4
+247	1	5
+248	1	4
+249	1	3
+250	1	3
+251	1	5
+252	1	3
+253	1	4
+254	1	5
+255	1	3
+256	1	4
+257	1	3
+258	1	4
+259	1	4
+260	1	4
+261	1	4
+262	1	4
+263	1	4
+264	1	4
+265	1	4
+266	1	4
+267	1	4
+268	1	4
+269	1	4
+270	1	4
+271	1	4
+272	1	4
+273	1	4
+274	1	3
+275	1	3
+276	1	4
+277	1	4
+278	1	3
+279	1	3
+280	1	4
+281	1	4
+282	1	4
+283	1	4
+284	1	4
+285	1	4
+286	1	3
+287	1	3
+288	1	3
+289	1	4
+290	1	4
+291	1	3
+292	1	4
+293	1	4
+294	1	3
+295	1	3
+296	1	4
+297	1	3
+298	1	4
+299	1	3
+300	1	4
+301	1	3
+302	1	5
+303	1	4
+304	1	3
+305	1	4
+306	1	4
+307	1	3
+308	1	3
+309	1	4
+310	1	4
+311	1	4
+312	1	3
+313	1	3
+314	1	2
+315	1	4
+316	1	3
+317	1	3
+318	1	4
+319	1	4
+320	1	5
+321	1	4
+322	1	5
+323	1	4
+324	1	5
+325	1	4
+326	1	4
+327	1	2
+328	1	3
+329	1	4
+330	1	3
+331	1	4
+332	1	3
+333	1	4
+334	1	4
+335	1	3
+336	1	4
+337	1	3
+338	1	5
+339	1	3
+340	1	3
+341	1	3
+342	1	5
+343	1	3
+344	1	4
+345	1	3
+346	1	3
+347	1	3
+348	1	3
+349	1	4
+350	1	4
+351	1	3
+352	1	4
+353	1	5
+354	1	4
+355	1	4
+356	1	4
+357	1	4
+358	1	4
+359	1	4
+360	1	4
+361	1	3
+362	1	3
+363	1	4
+364	1	5
+365	1	4
+366	1	5
+367	1	5
+368	1	4
+369	1	4
+370	1	4
+371	1	4
+372	1	2
+373	1	4
+374	1	3
+375	1	4
+376	1	4
+377	1	5
+378	1	2
+379	1	4
+380	1	4
+381	1	4
+382	1	4
+383	1	3
+384	1	3
+385	1	4
+386	1	4
+387	1	4
+388	1	3
+389	1	3
+390	1	5
+391	1	4
+392	1	4
+393	1	4
+394	1	4
+395	1	2
+396	1	4
+397	1	3
+398	1	3
+399	1	3
+400	1	4
+401	1	3
+402	1	4
+403	1	4
+404	1	3
+405	1	1
+406	1	1
+407	1	3
+408	1	4
+409	1	4
+410	1	3
+411	1	3
+412	1	4
+413	1	3
+414	1	4
+415	1	5
+416	1	3
+417	1	4
+418	1	4
+419	1	3
+420	1	4
+421	1	4
+422	1	3
+423	1	4
+424	1	3
+425	1	3
+426	1	3
+427	1	4
+428	1	3
+429	1	3
+430	1	3
+431	1	3
+432	1	4
+433	1	2
+434	1	3
+435	1	4
+436	1	3
+437	1	4
+438	1	4
+439	1	4
+440	1	3
+441	1	3
+442	1	4
+443	1	4
+444	1	3
+445	1	3
+446	1	3
+447	1	3
+448	1	4
+449	1	4
+450	1	2
+451	1	4
+452	1	3
+453	1	4
+454	1	1
+455	1	3
+456	1	4
+457	1	4
+458	1	3
+459	1	1
+460	1	3
+461	1	3
+494	1	3
+495	1	3
+496	1	3
+497	1	3
+498	1	3
+499	1	3
+500	1	4
+501	1	3
+502	1	4
+503	1	3
+504	1	3
+505	1	2
+506	1	3
+507	1	3
+508	1	3
+509	1	3
+510	1	3
+511	1	4
+512	1	3
+513	1	4
+514	1	3
+515	1	3
+516	1	3
+517	1	4
+518	1	3
+519	1	3
+520	1	3
+521	1	2
+522	1	4
+523	1	3
+524	1	2
+525	1	3
+526	1	4
+527	1	4
+528	1	3
+529	1	3
+530	1	4
+531	1	2
+532	1	2
+533	1	3
+534	1	3
+535	1	4
+536	1	3
+537	1	5
+538	1	3
+539	1	4
+540	1	4
+541	1	2
+542	1	5
+543	1	3
+544	1	3
+545	1	3
+546	1	4
+547	1	2
+548	1	4
+549	1	4
+550	1	3
+551	1	4
+552	1	4
+553	1	4
+554	1	4
+555	1	4
+556	1	4
+557	1	3
+558	1	4
+559	1	2
+560	1	2
+561	1	4
+562	1	3
+563	1	4
+564	1	3
+565	1	3
+566	1	4
+567	1	3
+568	1	4
+569	1	4
+570	1	4
+571	1	4
+572	1	3
+573	1	3
+574	1	5
+575	1	4
+576	1	4
+577	1	4
+578	1	4
+579	1	4
+580	1	2
+581	1	2
+582	1	3
+583	1	2
+584	1	4
+585	1	5
+586	1	5
+587	1	4
+588	1	4
+589	1	5
+590	1	5
+591	1	4
+592	1	3
+593	1	3
+594	1	4
+595	1	4
+596	1	4
+597	1	4
+598	1	3
+599	1	4
+600	1	4
+601	1	4
+602	1	4
+603	1	4
+604	1	3
+605	1	3
+606	1	4
+607	1	4
+608	1	4
+609	1	3
+610	1	3
+611	1	2
+612	1	4
+613	1	4
+614	1	4
+615	1	5
+616	1	4
+617	1	3
+618	1	3
+619	1	3
+620	1	3
+621	1	3
+622	1	3
+623	1	4
+624	1	3
+625	1	3
+626	1	3
+627	1	5
+628	1	4
+629	1	4
+630	1	4
+631	1	3
+632	1	4
+633	1	4
+634	1	4
+635	1	5
+636	1	4
+637	1	4
+638	1	3
+639	1	3
+640	1	4
+641	1	3
+642	1	4
+643	1	3
+644	1	4
+645	1	4
+646	1	4
+647	1	4
+648	1	4
+649	1	4
+650	1	3
+651	1	3
+652	1	3
+653	1	3
+654	1	4
+655	1	4
+656	1	3
+657	1	3
+658	1	3
+659	1	4
+660	1	3
+661	1	4
+662	1	4
+663	1	3
+664	1	3
+665	1	4
+666	1	3
+667	1	3
+668	1	4
+669	1	3
+670	1	4
+671	1	3
+672	1	3
+673	1	3
+674	1	3
+675	1	4
+676	1	4
+677	1	3
+678	1	4
+679	1	4
+680	1	4
+681	1	3
+682	1	3
+683	1	4
+684	1	4
+685	1	4
+686	1	3
+687	1	4
+688	1	3
+689	1	3
+690	1	3
+691	1	3
+692	1	3
+693	1	4
+694	1	3
+695	1	3
+696	1	3
+697	1	4
+698	1	3
+699	1	4
+700	1	3
+701	1	4
+702	1	4
+703	1	3
+704	1	4
+705	1	4
+706	1	4
+707	1	5
+708	1	4
+709	1	4
+710	1	4
+711	1	4
+712	1	4
+713	1	3
+714	1	4
+715	1	4
+716	1	4
+717	1	4
+718	1	4
+719	1	4
+720	1	4
+721	1	4
+722	1	4
+723	1	3
+724	1	2
+725	1	4
+726	1	5
+727	1	4
+728	1	5
+729	1	4
+730	1	2
+731	1	4
+732	1	3
+733	1	3
+734	1	5
+735	1	4
+736	1	4
+737	1	4
+738	1	3
+739	1	5
+740	1	4
+741	1	3
+742	1	4
+743	1	4
+744	1	4
+745	1	4
+746	1	3
+747	1	4
+748	1	4
+749	1	4
+750	1	4
+751	1	3
+752	1	4
+753	1	4
+754	1	4
+755	1	3
+756	1	3
+757	1	4
+758	1	3
+759	1	4
+760	1	4
+761	1	4
+762	1	4
+763	1	4
+764	1	4
+765	1	4
+766	1	4
+767	1	4
+768	1	4
+769	1	4
+770	1	3
+771	1	4
+772	1	4
+773	1	3
+774	1	4
+775	1	3
+776	1	4
+777	1	4
+778	1	4
+779	1	3
+780	1	4
+781	1	3
+782	1	4
+783	1	4
+784	1	4
+785	1	3
+786	1	3
+787	1	3
+788	1	3
+789	1	3
+790	1	3
+791	1	3
+792	1	3
+793	1	4
+794	1	4
+795	1	4
+796	1	4
+797	1	4
+798	1	4
+799	1	4
+800	1	4
+801	1	4
+802	1	4
+803	1	4
+804	1	4
+805	1	4
+806	1	4
+807	1	3
+808	1	4
+809	1	3
+810	1	3
+811	1	5
+812	1	3
+813	1	2
+814	1	3
+815	1	2
+816	1	4
+817	1	4
 \.
 
 
@@ -2552,6 +3358,7 @@ COPY public."UserBookRate" ("bookId", "userId", rate) FROM stdin;
 --
 
 COPY public."UserToken" ("userId", token) FROM stdin;
+1	260aecd51e9cb46eb64f9440eed21a9d
 \.
 
 
@@ -2561,7 +3368,7 @@ COPY public."UserToken" ("userId", token) FROM stdin;
 -- Name: Book_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."Book_id_seq"', 815, true);
+SELECT pg_catalog.setval('public."Book_id_seq"', 817, true);
 
 
 --
@@ -2570,7 +3377,7 @@ SELECT pg_catalog.setval('public."Book_id_seq"', 815, true);
 -- Name: User_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."User_id_seq"', 3, true);
+SELECT pg_catalog.setval('public."User_id_seq"', 1, true);
 
 
 --
