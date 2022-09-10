@@ -7,13 +7,16 @@
     ]
   },
   "scripts": {
-    "build": "yarn workspace server build",
-    "start": "yarn workspace server start",
-    "build-front": "yarn workspace client build",
-    "dev": "lerna run dev"
+    "start:server": "yarn workspace server start",
+    "start:client": "yarn workspace client start",
+    "build:client": "yarn workspace client build",
+    "build:server": "yarn workspace server build",
+    "start": "concurrently --kill-others-on-fail --names server,client --prefix-colors yellow,green.inverse \"yarn workspace server run start\" \"yarn workspace client run start\"",
+    "dev": "concurrently --kill-others-on-fail --names server,client --prefix-colors yellow,green.inverse \"yarn workspace server run dev\" \"yarn workspace client run dev\""
   },
   "devDependencies": {
-    "lerna": "^3.22.1"
+    "concurrently": "^7.4.0",
+    "turbo": "^1.4.6"
   },
   "engines": {
     "node": "14.x"

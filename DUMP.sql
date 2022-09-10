@@ -1,5 +1,5 @@
 --
--- PostgreSQL database dump
+-- postgreSQL database dump
 --
 
 -- Dumped from database version 13.1
@@ -39,7 +39,7 @@ SET default_table_access_method = heap;
 
 --
 -- TOC entry 200 (class 1259 OID 90530)
--- Name: Book; Type: TABLE; Schema: public; Owner: postgres
+-- Name: Book; Type: TABLE; Schema: public; Owner: librarian
 --
 
 CREATE TABLE public."Book" (
@@ -57,11 +57,11 @@ CREATE TABLE public."Book" (
 );
 
 
-ALTER TABLE public."Book" OWNER TO postgres;
+ALTER TABLE public."Book" OWNER TO librarian;
 
 --
 -- TOC entry 201 (class 1259 OID 90538)
--- Name: BookTag; Type: TABLE; Schema: public; Owner: postgres
+-- Name: BookTag; Type: TABLE; Schema: public; Owner: librarian
 --
 
 CREATE TABLE public."BookTag" (
@@ -70,11 +70,11 @@ CREATE TABLE public."BookTag" (
 );
 
 
-ALTER TABLE public."BookTag" OWNER TO postgres;
+ALTER TABLE public."BookTag" OWNER TO librarian;
 
 --
 -- TOC entry 202 (class 1259 OID 90544)
--- Name: Book_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: Book_id_seq; Type: SEQUENCE; Schema: public; Owner: librarian
 --
 
 CREATE SEQUENCE public."Book_id_seq"
@@ -86,12 +86,12 @@ CREATE SEQUENCE public."Book_id_seq"
     CACHE 1;
 
 
-ALTER TABLE public."Book_id_seq" OWNER TO postgres;
+ALTER TABLE public."Book_id_seq" OWNER TO librarian;
 
 --
 -- TOC entry 3052 (class 0 OID 0)
 -- Dependencies: 202
--- Name: Book_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: Book_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: librarian
 --
 
 ALTER SEQUENCE public."Book_id_seq" OWNED BY public."Book".id;
@@ -99,7 +99,7 @@ ALTER SEQUENCE public."Book_id_seq" OWNED BY public."Book".id;
 
 --
 -- TOC entry 203 (class 1259 OID 90546)
--- Name: Tag; Type: TABLE; Schema: public; Owner: postgres
+-- Name: Tag; Type: TABLE; Schema: public; Owner: librarian
 --
 
 CREATE TABLE public."Tag" (
@@ -107,11 +107,11 @@ CREATE TABLE public."Tag" (
 );
 
 
-ALTER TABLE public."Tag" OWNER TO postgres;
+ALTER TABLE public."Tag" OWNER TO librarian;
 
 --
 -- TOC entry 204 (class 1259 OID 90552)
--- Name: User; Type: TABLE; Schema: public; Owner: postgres
+-- Name: User; Type: TABLE; Schema: public; Owner: librarian
 --
 
 CREATE TABLE public."User" (
@@ -127,11 +127,11 @@ CREATE TABLE public."User" (
 );
 
 
-ALTER TABLE public."User" OWNER TO postgres;
+ALTER TABLE public."User" OWNER TO librarian;
 
 --
 -- TOC entry 205 (class 1259 OID 90561)
--- Name: UserBookLibrary; Type: TABLE; Schema: public; Owner: postgres
+-- Name: UserBookLibrary; Type: TABLE; Schema: public; Owner: librarian
 --
 
 CREATE TABLE public."UserBookLibrary" (
@@ -140,11 +140,11 @@ CREATE TABLE public."UserBookLibrary" (
 );
 
 
-ALTER TABLE public."UserBookLibrary" OWNER TO postgres;
+ALTER TABLE public."UserBookLibrary" OWNER TO librarian;
 
 --
 -- TOC entry 206 (class 1259 OID 90564)
--- Name: UserBookRate; Type: TABLE; Schema: public; Owner: postgres
+-- Name: UserBookRate; Type: TABLE; Schema: public; Owner: librarian
 --
 
 CREATE TABLE public."UserBookRate" (
@@ -154,11 +154,11 @@ CREATE TABLE public."UserBookRate" (
 );
 
 
-ALTER TABLE public."UserBookRate" OWNER TO postgres;
+ALTER TABLE public."UserBookRate" OWNER TO librarian;
 
 --
 -- TOC entry 207 (class 1259 OID 90567)
--- Name: UserToken; Type: TABLE; Schema: public; Owner: postgres
+-- Name: UserToken; Type: TABLE; Schema: public; Owner: librarian
 --
 
 CREATE TABLE public."UserToken" (
@@ -167,11 +167,11 @@ CREATE TABLE public."UserToken" (
 );
 
 
-ALTER TABLE public."UserToken" OWNER TO postgres;
+ALTER TABLE public."UserToken" OWNER TO librarian;
 
 --
 -- TOC entry 208 (class 1259 OID 90570)
--- Name: User_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: User_id_seq; Type: SEQUENCE; Schema: public; Owner: librarian
 --
 
 CREATE SEQUENCE public."User_id_seq"
@@ -183,12 +183,12 @@ CREATE SEQUENCE public."User_id_seq"
     CACHE 1;
 
 
-ALTER TABLE public."User_id_seq" OWNER TO postgres;
+ALTER TABLE public."User_id_seq" OWNER TO librarian;
 
 --
 -- TOC entry 3053 (class 0 OID 0)
 -- Dependencies: 208
--- Name: User_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: User_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: librarian
 --
 
 ALTER SEQUENCE public."User_id_seq" OWNED BY public."User".id;
@@ -196,7 +196,7 @@ ALTER SEQUENCE public."User_id_seq" OWNED BY public."User".id;
 
 --
 -- TOC entry 2882 (class 2604 OID 90572)
--- Name: Book id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: Book id; Type: DEFAULT; Schema: public; Owner: librarian
 --
 
 ALTER TABLE ONLY public."Book" ALTER COLUMN id SET DEFAULT nextval('public."Book_id_seq"'::regclass);
@@ -204,7 +204,7 @@ ALTER TABLE ONLY public."Book" ALTER COLUMN id SET DEFAULT nextval('public."Book
 
 --
 -- TOC entry 2886 (class 2604 OID 90573)
--- Name: User id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: User id; Type: DEFAULT; Schema: public; Owner: librarian
 --
 
 ALTER TABLE ONLY public."User" ALTER COLUMN id SET DEFAULT nextval('public."User_id_seq"'::regclass);
@@ -213,7 +213,7 @@ ALTER TABLE ONLY public."User" ALTER COLUMN id SET DEFAULT nextval('public."User
 --
 -- TOC entry 3038 (class 0 OID 90530)
 -- Dependencies: 200
--- Data for Name: Book; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: Book; Type: TABLE DATA; Schema: public; Owner: librarian
 --
 
 COPY public."Book" (id, name, author, img, slug, room, place, description, series, "createdAt", "updatedAt") FROM stdin;
@@ -1004,7 +1004,7 @@ COPY public."Book" (id, name, author, img, slug, room, place, description, serie
 --
 -- TOC entry 3039 (class 0 OID 90538)
 -- Dependencies: 201
--- Data for Name: BookTag; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: BookTag; Type: TABLE DATA; Schema: public; Owner: librarian
 --
 
 COPY public."BookTag" ("bookId", "tagName") FROM stdin;
@@ -2510,7 +2510,7 @@ COPY public."BookTag" ("bookId", "tagName") FROM stdin;
 --
 -- TOC entry 3041 (class 0 OID 90546)
 -- Dependencies: 203
--- Data for Name: Tag; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: Tag; Type: TABLE DATA; Schema: public; Owner: librarian
 --
 
 COPY public."Tag" (name) FROM stdin;
@@ -2542,7 +2542,7 @@ travel
 --
 -- TOC entry 3042 (class 0 OID 90552)
 -- Dependencies: 204
--- Data for Name: User; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: User; Type: TABLE DATA; Schema: public; Owner: librarian
 --
 
 COPY public."User" (id, name, email, password, "isActive", "createdAt", "updatedAt", "isAdmin", "isSuperAdmin") FROM stdin;
@@ -2553,7 +2553,7 @@ COPY public."User" (id, name, email, password, "isActive", "createdAt", "updated
 --
 -- TOC entry 3043 (class 0 OID 90561)
 -- Dependencies: 205
--- Data for Name: UserBookLibrary; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: UserBookLibrary; Type: TABLE DATA; Schema: public; Owner: librarian
 --
 
 COPY public."UserBookLibrary" ("bookId", "userId") FROM stdin;
@@ -2563,7 +2563,7 @@ COPY public."UserBookLibrary" ("bookId", "userId") FROM stdin;
 --
 -- TOC entry 3044 (class 0 OID 90564)
 -- Dependencies: 206
--- Data for Name: UserBookRate; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: UserBookRate; Type: TABLE DATA; Schema: public; Owner: librarian
 --
 
 COPY public."UserBookRate" ("bookId", "userId", rate) FROM stdin;
@@ -3354,7 +3354,7 @@ COPY public."UserBookRate" ("bookId", "userId", rate) FROM stdin;
 --
 -- TOC entry 3045 (class 0 OID 90567)
 -- Dependencies: 207
--- Data for Name: UserToken; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: UserToken; Type: TABLE DATA; Schema: public; Owner: librarian
 --
 
 COPY public."UserToken" ("userId", token) FROM stdin;
@@ -3365,7 +3365,7 @@ COPY public."UserToken" ("userId", token) FROM stdin;
 --
 -- TOC entry 3054 (class 0 OID 0)
 -- Dependencies: 202
--- Name: Book_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: Book_id_seq; Type: SEQUENCE SET; Schema: public; Owner: librarian
 --
 
 SELECT pg_catalog.setval('public."Book_id_seq"', 817, true);
@@ -3374,7 +3374,7 @@ SELECT pg_catalog.setval('public."Book_id_seq"', 817, true);
 --
 -- TOC entry 3055 (class 0 OID 0)
 -- Dependencies: 208
--- Name: User_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: User_id_seq; Type: SEQUENCE SET; Schema: public; Owner: librarian
 --
 
 SELECT pg_catalog.setval('public."User_id_seq"', 1, true);
@@ -3382,7 +3382,7 @@ SELECT pg_catalog.setval('public."User_id_seq"', 1, true);
 
 --
 -- TOC entry 2890 (class 2606 OID 90582)
--- Name: BookTag BookTag_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: BookTag BookTag_pkey; Type: CONSTRAINT; Schema: public; Owner: librarian
 --
 
 ALTER TABLE ONLY public."BookTag"
@@ -3391,7 +3391,7 @@ ALTER TABLE ONLY public."BookTag"
 
 --
 -- TOC entry 2888 (class 2606 OID 90584)
--- Name: Book Book_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: Book Book_pkey; Type: CONSTRAINT; Schema: public; Owner: librarian
 --
 
 ALTER TABLE ONLY public."Book"
@@ -3400,7 +3400,7 @@ ALTER TABLE ONLY public."Book"
 
 --
 -- TOC entry 2892 (class 2606 OID 90586)
--- Name: Tag Tag_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: Tag Tag_pkey; Type: CONSTRAINT; Schema: public; Owner: librarian
 --
 
 ALTER TABLE ONLY public."Tag"
@@ -3409,7 +3409,7 @@ ALTER TABLE ONLY public."Tag"
 
 --
 -- TOC entry 2896 (class 2606 OID 90588)
--- Name: UserBookLibrary UserBookLibrary_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: UserBookLibrary UserBookLibrary_pkey; Type: CONSTRAINT; Schema: public; Owner: librarian
 --
 
 ALTER TABLE ONLY public."UserBookLibrary"
@@ -3418,7 +3418,7 @@ ALTER TABLE ONLY public."UserBookLibrary"
 
 --
 -- TOC entry 2898 (class 2606 OID 90590)
--- Name: UserBookRate UserBookRate_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: UserBookRate UserBookRate_pkey; Type: CONSTRAINT; Schema: public; Owner: librarian
 --
 
 ALTER TABLE ONLY public."UserBookRate"
@@ -3427,7 +3427,7 @@ ALTER TABLE ONLY public."UserBookRate"
 
 --
 -- TOC entry 2900 (class 2606 OID 90592)
--- Name: UserToken UserToken_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: UserToken UserToken_pkey; Type: CONSTRAINT; Schema: public; Owner: librarian
 --
 
 ALTER TABLE ONLY public."UserToken"
@@ -3436,7 +3436,7 @@ ALTER TABLE ONLY public."UserToken"
 
 --
 -- TOC entry 2894 (class 2606 OID 90594)
--- Name: User User_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: User User_pkey; Type: CONSTRAINT; Schema: public; Owner: librarian
 --
 
 ALTER TABLE ONLY public."User"
@@ -3445,7 +3445,7 @@ ALTER TABLE ONLY public."User"
 
 --
 -- TOC entry 2901 (class 2606 OID 90595)
--- Name: BookTag BookTag_bookId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: BookTag BookTag_bookId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: librarian
 --
 
 ALTER TABLE ONLY public."BookTag"
@@ -3454,7 +3454,7 @@ ALTER TABLE ONLY public."BookTag"
 
 --
 -- TOC entry 2902 (class 2606 OID 90600)
--- Name: BookTag BookTag_tagName_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: BookTag BookTag_tagName_fkey; Type: FK CONSTRAINT; Schema: public; Owner: librarian
 --
 
 ALTER TABLE ONLY public."BookTag"
@@ -3463,7 +3463,7 @@ ALTER TABLE ONLY public."BookTag"
 
 --
 -- TOC entry 2903 (class 2606 OID 90605)
--- Name: UserBookLibrary UserBookLibrary_bookId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: UserBookLibrary UserBookLibrary_bookId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: librarian
 --
 
 ALTER TABLE ONLY public."UserBookLibrary"
@@ -3472,7 +3472,7 @@ ALTER TABLE ONLY public."UserBookLibrary"
 
 --
 -- TOC entry 2904 (class 2606 OID 90610)
--- Name: UserBookLibrary UserBookLibrary_userId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: UserBookLibrary UserBookLibrary_userId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: librarian
 --
 
 ALTER TABLE ONLY public."UserBookLibrary"
@@ -3481,7 +3481,7 @@ ALTER TABLE ONLY public."UserBookLibrary"
 
 --
 -- TOC entry 2905 (class 2606 OID 90615)
--- Name: UserBookRate UserBookRate_bookId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: UserBookRate UserBookRate_bookId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: librarian
 --
 
 ALTER TABLE ONLY public."UserBookRate"
@@ -3490,7 +3490,7 @@ ALTER TABLE ONLY public."UserBookRate"
 
 --
 -- TOC entry 2906 (class 2606 OID 90620)
--- Name: UserBookRate UserBookRate_userId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: UserBookRate UserBookRate_userId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: librarian
 --
 
 ALTER TABLE ONLY public."UserBookRate"
@@ -3499,7 +3499,7 @@ ALTER TABLE ONLY public."UserBookRate"
 
 --
 -- TOC entry 2907 (class 2606 OID 90625)
--- Name: UserToken UserToken_userId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: UserToken UserToken_userId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: librarian
 --
 
 ALTER TABLE ONLY public."UserToken"
@@ -3509,6 +3509,6 @@ ALTER TABLE ONLY public."UserToken"
 -- Completed on 2021-08-19 15:56:17
 
 --
--- PostgreSQL database dump complete
+-- librarianQL database dump complete
 --
 

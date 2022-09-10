@@ -13,11 +13,11 @@ Book Searcher is an app to help me (and others 😁) search suitable book from m
 
 - Common
 
-| Tech                             | Description                                       |
-| -------------------------------- | ------------------------------------------------- |
-| [Eslint](https://eslint.org/)    | Javascript Linter                                 |
-| [Prettier](https://prettier.io/) | Code formatter                                    |
-| [Lerna](https://lerna.js.org)    | Tool for managing projects with multiple packages |
+| Tech                                | Description                                       |
+| ----------------------------------- | ------------------------------------------------- |
+| [Eslint](https://eslint.org/)       | Javascript Linter                                 |
+| [Prettier](https://prettier.io/)    | Code formatter                                    |
+| [Turborepo](https://turborepo.org/) | Tool for managing projects with multiple packages |
 
 <br />
 
@@ -37,17 +37,18 @@ Book Searcher is an app to help me (and others 😁) search suitable book from m
 
 - Backend
 
-| Tech                                                             | Description                           |
-| ---------------------------------------------------------------- | ------------------------------------- |
-| [Node](https://nodejs.org/en/)                                   | JavaScript runtime                    |
-| [Express](https://expressjs.com)                                 | Web framework to Node.js              |
-| [Typescript](https://www.typescriptlang.org/)                    | Javascript superset language          |
-| [Express session](https://www.npmjs.com/package/express-session) | Simple session middleware for Express |
-| [Nodemailer](https://nodemailer.com/)                            | Email sending in Node.js              |
-| [Cloudinary](https://cloudinary.com)                             | Helpful with uploading images         |
-| [Joi](https://joi.dev/api)                                       | Library for validation                |
-| [PostgreSQL](https://www.postgresql.org)                         | Relational database                   |
-| [Prisma](https://www.prisma.io)                                  | ORM for TypeScript and Node.js        |
+| Tech                                                             | Description                                                         |
+| ---------------------------------------------------------------- | ------------------------------------------------------------------- |
+| [Node](https://nodejs.org/en/)                                   | JavaScript runtime                                                  |
+| [Express](https://expressjs.com)                                 | Web framework to Node.js                                            |
+| [Typescript](https://www.typescriptlang.org/)                    | Javascript superset language                                        |
+| [Express session](https://www.npmjs.com/package/express-session) | Simple session middleware for Express                               |
+| [Nodemailer](https://nodemailer.com/)                            | Email sending in Node.js                                            |
+| [Cloudinary](https://cloudinary.com)                             | Helpful with uploading images                                       |
+| [Joi](https://joi.dev/api)                                       | Library for validation                                              |
+| [Docker](https://www.docker.com/)                                | An open platform for developing, shipping, and running applications |
+| [PostgreSQL](https://www.postgresql.org)                         | Relational database                                                 |
+| [Prisma](https://www.prisma.io)                                  | ORM for TypeScript and Node.js                                      |
 
 ## Performance 💨
 
@@ -63,7 +64,9 @@ yarn install
 
 cp apps/server/.env-sample apps/server/.env #set up your environment variables
 
-psql book_searcher < apps/server/DUMP.sql #import backup to database
+docker-compose up
+
+docker exec -i book-searcher-db psql -U librarian -d book-searcher < DUMP.sql #import backup to database
 
 yarn dev
 
