@@ -62,11 +62,13 @@ git clone https://github.com/Bartek532/book-searcher.git
 
 yarn install
 
-cp apps/server/.env-sample apps/server/.env #set up your environment variables
+#set up your environment variables
+cp apps/server/.env-sample apps/server/.env
+cp apps/client/.env-sample apps/client/.env
 
 docker-compose up
 
-docker exec -i book-searcher-db psql -U librarian -d book-searcher < DUMP.sql #import backup to database
+docker exec -i book-searcher-db psql -U librarian -d book-searcher < DUMP.sql #import data to database
 
 yarn dev
 
