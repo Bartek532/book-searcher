@@ -12,7 +12,8 @@
     "build:client": "yarn workspace client build",
     "build:server": "yarn workspace server build",
     "start": "concurrently --kill-others-on-fail --names server,client --prefix-colors yellow,green.inverse \"yarn workspace server run start\" \"yarn workspace client run start\"",
-    "dev": "concurrently --kill-others-on-fail --names server,client --prefix-colors yellow,green.inverse \"yarn workspace server run dev\" \"yarn workspace client run dev\""
+    "dev": "concurrently --kill-others-on-fail --names server,client --prefix-colors yellow,green.inverse \"yarn workspace server run dev\" \"yarn workspace client run dev\"",
+    "build": "yarn build:client && yarn build:server"
   },
   "devDependencies": {
     "concurrently": "^7.4.0",

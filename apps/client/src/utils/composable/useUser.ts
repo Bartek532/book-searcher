@@ -1,6 +1,5 @@
 import { reactive, toRefs, ref } from "vue";
 import type { User } from "@book-searcher/types";
-import { API_URL } from "../consts";
 import { fetcher } from "../fetcher";
 import { useModal } from "./useModal";
 import { useLoading } from "./useLoading";
@@ -40,7 +39,7 @@ export const useUser = () => {
   const register = async (data: RegisterData) => {
     setLoading(true);
     try {
-      await fetcher(`${API_URL}/api/users`, "POST", data);
+      await fetcher(`${process.env.VUE_APP_API_URL}/api/users`, "POST", data);
       setModal("success", "Wysłano email z linkiem aktywacyjnym. Zaloguj się!");
       state.error = "";
     } catch (e) {
@@ -54,7 +53,11 @@ export const useUser = () => {
   const login = async (data: { email?: string; password?: string }) => {
     setLoading(true);
     try {
-      await fetcher(`${API_URL}/api/users/session`, "POST", data);
+      await fetcher(
+        `${process.env.VUE_APP_API_URL}/api/users/session`,
+        "POST",
+        data,
+      );
       state.error = "";
       isLoggedIn.value = true;
     } catch (e) {
@@ -67,7 +70,10 @@ export const useUser = () => {
 
   const logout = async () => {
     try {
-      await fetcher(`${API_URL}/api/users/session`, "DELETE");
+      await fetcher(
+        `${process.env.VUE_APP_API_URL}/api/users/session`,
+        "DELETE",
+      );
       state.error = "";
       isLoggedIn.value = false;
     } catch (e) {
@@ -77,7 +83,10 @@ export const useUser = () => {
 
   const checkLoginStatus = async () => {
     try {
-      await fetcher(`${API_URL}/api/users/session/me`, "GET");
+      await fetcher(
+        `${process.env.VUE_APP_API_URL}/api/users/session/me`,
+        "GET",
+      );
       state.error = "";
       isLoggedIn.value = true;
     } catch (e) {
@@ -90,7 +99,7 @@ export const useUser = () => {
     setLoading(true);
     try {
       const { data }: { data: User } = await fetcher(
-        `${API_URL}/api/users`,
+        `${process.env.VUE_APP_API_URL}/api/users`,
         "GET",
       );
       state.user = data;
@@ -105,7 +114,7 @@ export const useUser = () => {
   const modifyUserInfo = async (data: ModifyUserData) => {
     setLoading(true);
     try {
-      await fetcher(`${API_URL}/api/users`, "PUT", data);
+      await fetcher(`${process.env.VUE_APP_API_URL}/api/users`, "PUT", data);
       state.error = "";
       setModal("success", "Zmieniono dane użytkownika.");
     } catch (e) {
@@ -123,9 +132,13 @@ export const useUser = () => {
         data,
       }: {
         data: { message: string };
-      } = await fetcher(`${API_URL}/api/users/passwordReset`, "POST", {
-        email,
-      });
+      } = await fetcher(
+        `${process.env.VUE_APP_API_URL}/api/users/passwordReset`,
+        "POST",
+        {
+          email,
+        },
+      );
       setModal("success", data.message);
     } catch (e) {
       state.error = e?.message;
@@ -142,11 +155,15 @@ export const useUser = () => {
   ) => {
     setLoading(true);
     try {
-      await fetcher(`${API_URL}/api/users/passwordReset`, "PUT", {
-        token,
-        password,
-        confirmPassword,
-      });
+      await fetcher(
+        `${process.env.VUE_APP_API_URL}/api/users/passwordReset`,
+        "PUT",
+        {
+          token,
+          password,
+          confirmPassword,
+        },
+      );
       setModal("success", "Pomyślnie zmieniono hasło. Zaloguj się!");
     } catch (e) {
       state.error = e?.message;
@@ -160,7 +177,7 @@ export const useUser = () => {
     setLoading(true);
     try {
       const { data }: { data: { message: string } } = await fetcher(
-        `${API_URL}/api/users/activate`,
+        `${process.env.VUE_APP_API_URL}/api/users/activate`,
         "POST",
         {
           token,
@@ -179,7 +196,7 @@ export const useUser = () => {
     setLoading(true);
     try {
       const { data }: { data: { message: string } } = await fetcher(
-        `${API_URL}/api/users/admins`,
+        `${process.env.VUE_APP_API_URL}/api/users/admins`,
         "POST",
       );
       setModal("success", data.message);
@@ -195,7 +212,7 @@ export const useUser = () => {
     setLoading(true);
     try {
       const { data }: { data: User[] } = await fetcher(
-        `${API_URL}/api/users/admins`,
+        `${process.env.VUE_APP_API_URL}/api/users/admins`,
         "GET",
       );
       state.adminRequests = data;
@@ -210,7 +227,9 @@ export const useUser = () => {
   const acceptAdminRequest = async (id: number) => {
     setLoading(true);
     try {
-      await fetcher(`${API_URL}/api/users/admins`, "PUT", { id });
+      await fetcher(`${process.env.VUE_APP_API_URL}/api/users/admins`, "PUT", {
+        id,
+      });
     } catch (e) {
       state.error = e?.message;
       setModal("warning", e?.message);
@@ -222,7 +241,11 @@ export const useUser = () => {
   const rejectAdminRequest = async (id: number) => {
     setLoading(true);
     try {
-      await fetcher(`${API_URL}/api/users/admins`, "DELETE", { id });
+      await fetcher(
+        `${process.env.VUE_APP_API_URL}/api/users/admins`,
+        "DELETE",
+        { id },
+      );
     } catch (e) {
       state.error = e?.message;
       setModal("warning", e?.message);

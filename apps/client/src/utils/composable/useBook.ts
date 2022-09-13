@@ -1,7 +1,6 @@
 import { toRefs, reactive } from "vue";
 import type { Book } from "@book-searcher/types";
 import { fetcher } from "../fetcher";
-import { API_URL } from "../consts";
 import { useLoading } from "./useLoading";
 import { useModal } from "./useModal";
 
@@ -19,7 +18,7 @@ export const useBook = () => {
     setLoading(true);
     try {
       const { data }: { data: Book } = await fetcher(
-        `${API_URL}/api/books/${slug}`,
+        `${process.env.VUE_APP_API_URL}/api/books/${slug}`,
         "GET",
       );
       await checkIfBookIsInUserLibrary(data.id);
@@ -36,7 +35,7 @@ export const useBook = () => {
     setLoading(true);
     try {
       const { data }: Record<string, string> = await fetcher(
-        `${API_URL}/api/users/books/${id}`,
+        `${process.env.VUE_APP_API_URL}/api/users/books/${id}`,
         "GET",
       );
       state.error = "";
@@ -60,7 +59,11 @@ export const useBook = () => {
         data,
       }: {
         data: { message: string };
-      } = await fetcher(`${API_URL}/api/users/books`, "POST", { id });
+      } = await fetcher(
+        `${process.env.VUE_APP_API_URL}/api/users/books`,
+        "POST",
+        { id },
+      );
       state.error = "";
       state.isBookInUserLibrary = true;
       setModal("success", data.message);
@@ -76,7 +79,7 @@ export const useBook = () => {
     setLoading(true);
     try {
       const { data }: { data: { message: string } } = await fetcher(
-        `${API_URL}/api/users/books/${id}`,
+        `${process.env.VUE_APP_API_URL}/api/users/books/${id}`,
         "DELETE",
       );
       state.error = "";
@@ -97,10 +100,14 @@ export const useBook = () => {
         data,
       }: {
         data: { message: string };
-      } = await fetcher(`${API_URL}/api/books/rate`, "POST", {
-        id: bookId,
-        rate,
-      });
+      } = await fetcher(
+        `${process.env.VUE_APP_API_URL}/api/books/rate`,
+        "POST",
+        {
+          id: bookId,
+          rate,
+        },
+      );
       setModal("success", data.message);
     } catch (e) {
       state.error = e?.message;
@@ -117,7 +124,7 @@ export const useBook = () => {
   }) => {
     setLoading(true);
     try {
-      await fetcher(`${API_URL}/api/books`, "PUT", data);
+      await fetcher(`${process.env.VUE_APP_API_URL}/api/books`, "PUT", data);
       state.error = "";
       setModal("success", "Zmieniono położenie książki!");
     } catch (e) {
@@ -131,7 +138,7 @@ export const useBook = () => {
   const createBook = async (book: FormData) => {
     setLoading(true);
     try {
-      await fetcher(`${API_URL}/api/books`, "POST", book);
+      await fetcher(`${process.env.VUE_APP_API_URL}/api/books`, "POST", book);
       state.error = "";
       setModal("success", "Dodano książkę!");
     } catch (e) {

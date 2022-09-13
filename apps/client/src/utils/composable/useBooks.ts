@@ -1,7 +1,6 @@
 import { toRefs, reactive, ref } from "vue";
 import type { Book } from "@book-searcher/types";
 import { fetcher } from "../fetcher";
-import { API_URL } from "../consts";
 
 const lastBookApiCallAddress = ref("/api/books");
 const results = ref<Book[]>([]);
@@ -18,7 +17,7 @@ export const useBooks = () => {
 
   const getBooks = async (url: string) => {
     state.loading = true;
-    const fullUrl = `${API_URL}/api/books` + url;
+    const fullUrl = `${process.env.VUE_APP_API_URL}/api/books` + url;
     try {
       const { data }: { data: Book[] } = await fetcher(fullUrl, "GET");
       results.value = data;
@@ -33,7 +32,7 @@ export const useBooks = () => {
 
   const getUserBooks = async () => {
     state.loading = true;
-    const fullUrl = `${API_URL}/api/users/books`;
+    const fullUrl = `${process.env.VUE_APP_API_URL}/api/users/books`;
     try {
       const { data } = await fetcher(fullUrl, "GET");
       results.value = data;
